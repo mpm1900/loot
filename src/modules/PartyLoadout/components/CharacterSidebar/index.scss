@@ -1,0 +1,33 @@
+.CharacterSidebar {
+    flex: 1;
+    overflow-y: auto;
+
+    .CharacterCard {
+        min-height: unset;
+        height: auto;
+        margin-bottom: 1px;
+        width: calc(100% - 3px);
+        border-bottom-left-radius: 0;
+
+        &__body__contents {
+            justify-content: space-between;
+        }
+
+        &__body__contents--foil {
+            display: none;
+        }
+
+        &__body__image {
+            position: absolute;
+        }
+
+        &__body__stats {
+            min-height: 48px;
+        }
+
+        &__body__skills {
+            position: relative;
+            flex: unset;
+        }
+    }
+}

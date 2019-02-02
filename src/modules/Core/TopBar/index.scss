@@ -1,0 +1,11 @@
+.TopBar {
+    padding: 0 16px;
+    height: 56px;
+    max-height: 56px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    background: white;
+}

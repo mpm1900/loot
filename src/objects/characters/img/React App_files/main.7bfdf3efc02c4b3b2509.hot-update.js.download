@@ -1,0 +1,23 @@
+webpackHotUpdate("main",{
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./src/modules/PartyLoadout/components/CharacterSelectSidebar/components/CharacterAvatar/index.scss":
+/*!************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-oneOf-5-1!./node_modules/postcss-loader/src??postcss!./node_modules/sass-loader/lib/loader.js??ref--6-oneOf-5-3!./src/modules/PartyLoadout/components/CharacterSelectSidebar/components/CharacterAvatar/index.scss ***!
+  \************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".CharacterAvatar {\n  position: relative;\n  width: 100%;\n  margin: 0 0 4px 0;\n  cursor: pointer;\n  border: 1px solid white;\n  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.89);\n  border-radius: 28px; }\n  .CharacterAvatar:after {\n    content: '';\n    display: block;\n    padding-bottom: 100%; }\n  .CharacterAvatar__content {\n    position: absolute;\n    width: 100%;\n    height: 100%; }\n", ""]);
+
+// exports
+
+
+/***/ })
+
+})
+//# sourceMappingURL=main.7bfdf3efc02c4b3b2509.hot-update.js.map

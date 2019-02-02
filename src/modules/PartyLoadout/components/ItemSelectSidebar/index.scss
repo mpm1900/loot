@@ -1,0 +1,41 @@
+.ItemSelectSidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    & > div > button {
+        padding: 4px;
+        min-height: calc(100% / 7);
+        width: calc(100% / 7);
+        border: none;
+        background-color: white;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    
+        
+        &:disabled {
+            * {
+                opacity: 0.5;
+            }
+        }
+
+        &.active {
+            background: #ddd;
+            color: white;
+            fill: white
+        }
+
+        & > div {
+            border-radius: 50%;
+        }
+    }
+
+    .Pack_Item {
+        & > div {
+            width: 100%;
+        }
+    }
+}

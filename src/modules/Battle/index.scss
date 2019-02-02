@@ -1,0 +1,32 @@
+.Battle {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    &__body {
+        display: flex;
+        flex: 1;
+        height: 100%;
+    }
+
+    .Room__search {
+        height: 46px;
+        line-height: 48px;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-right: none;
+        width: 290px;
+        padding-left: 8px;
+    }
+
+    &__sidebar {
+        display: flex;
+        flex-direction: column;
+        width: 407px;
+        height: 100%;
+        overflow-y: auto;
+        border-left: 1px solid rgba(0,0,0,0.12);
+
+        &__body {
+            height: calc(100% - 56px);
+        }
+    }
+}

@@ -1,0 +1,19 @@
+.BattleCharacter {
+    //background: #444;
+    // width: 370px; 
+    font-family: 'Roboto', sans-serif;
+    margin-top: 8px;
+
+    &__avatar {
+        width: 120px;
+    }
+
+    .CharacterAvatar {
+        border: none !important;
+        margin: 0;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 1px 0px 3px rgba(0,0,0,0.64);
+        z-index: 2;
+    }
+}

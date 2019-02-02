@@ -1,0 +1,32 @@
+.CharacterSelectSidebar {
+    //background-color: #333;
+    background-color: rgba(255,255,255,0.99);
+    border-right: 1px solid rgba(0,0,0,0.12);
+    color: white;
+    min-height: calc(100% - 0px);
+    width: 100px;
+    min-width: 100px;
+    // padding: 4px;
+    display: flex;
+    flex-direction: column;
+
+    &__dot {
+        height: 8px;
+        width: 8px;
+        background-color: white;
+        border-radius: 9999px;
+    }
+
+    .CharacterAvatar {
+        box-shadow: none;
+        margin-bottom: 4px;
+    }
+
+    &__maxedOut {
+        color: rgba(0,0,0,0.54);
+        font-weight: bolder;
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        text-align: center;
+    }
+}

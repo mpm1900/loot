@@ -1,0 +1,44 @@
+.RoomChat {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__body {
+        background: #f3f3f3;
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    &__message {
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
+        //margin-bottom: 8px;
+
+        &__message {
+            display: flex;
+            & > div {
+                margin-right: 4px;
+            }
+        }
+    }
+
+    &__input {
+        display: flex;
+        textarea {
+            flex: 1;
+            min-height: 48px;
+            max-height: 48px;
+            transition: min-height 0.2s, max-height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 8px;
+            border: none;
+            border-top: 1px solid rgba(0,0,0,0.24);
+
+            &:focus {
+                min-height: 72px;
+                max-height: 72px;
+                outline: none;
+            }
+        }
+    }
+}

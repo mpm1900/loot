@@ -1,0 +1,32 @@
+.PackCharacterItemList {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    & > div {
+        width:  100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        justify-content: stretch;
+
+        & > div {
+            width: 50%;
+
+            @media(max-width: 1286px) {
+                width: 100%;
+            }
+
+
+            & > div {
+                display: flex;
+                width: 100%;
+            }
+        }
+
+        &:first-child > div {
+            width: 100%;
+        }
+    }
+}

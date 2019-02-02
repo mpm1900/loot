@@ -1,0 +1,29 @@
+.ZeroGuage {
+    height: 52px;
+    margin: 2px 0 0 0;
+    width: calc(100% - 10px);
+    // border: 1px solid black;
+    //box-shadow: -1px 1px 3px rgba(0,0,0,1);
+    border-left: none;
+    background: rgba(0,0,0,0.3);
+    position: relative;
+    pointer-events: none;
+
+    &__fill {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: green;
+    }
+
+    &__content {
+        z-index: 2;
+        position: relative;
+        text-align: center;
+        font-size: 24px;
+        color: white;
+        font-family: 'Roboto', 'sans-serif';
+        font-weight: 900;
+    }
+}
