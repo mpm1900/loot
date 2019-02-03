@@ -14,6 +14,7 @@ import { Footwear } from '../../objects/footwear'
 import { Gloves } from '../../objects/gloves'
 import { CharacterModifier } from './character.modifier'
 import { SkillPowerUp } from '../../objects/modifiers/skill.mod';
+import { MasterworkWeapon } from '../../objects/weapons/masterwork';
 
 export enum CharacterRarity {
     Default = 'Default'
@@ -333,7 +334,6 @@ export class Character extends AppRecord implements iCharacter {
     }
 
     equipItem(item: Item): Character {
-        if (!item) throw Error('Item cannot be null')
         if (item.type === ItemType.Equipable) {
             let _this = this.with({})
             if (item.subType === ItemSubType.Weapon) _this = this.equipWeapon(item)
@@ -386,7 +386,10 @@ export class Character extends AppRecord implements iCharacter {
     withStaticModifiers(): Character {
         let _this = this.with({})
         if (_this.hasStaticModifiersApplied) return _this;
-        this.staticModifiers.forEach(mod => _this = _this.applyModifier(mod))
+        this.staticModifiers.forEach(mod => {
+            console.log(mod)
+            _this = _this.applyModifier(mod)
+        })
         if (_this.strength < 0) _this = _this.with({ ..._this, strength: 0 })
         if (_this.special < 0) _this = _this.with({ ..._this, special: 0 })
         if (_this.speed < 0) _this = _this.with({ ..._this, speed: 0 })
@@ -402,14 +405,13 @@ export class Character extends AppRecord implements iCharacter {
     }
 
     withRandomItems() {
-        return this.with({
-            weapon: Weapon(100),
-            charm: Charm(100),
-            ring: Ring(100),
-            head: Head(100),
-            body: Body(100),
-            footwear: Footwear(100),
-            gloves: Gloves(100),
-        })
+        return this
+            .equipWeapon(MasterworkWeapon(100))
+            .equipCharm(Charm(100))
+            .equipRing(Ring(100))
+            .equipHead(Head(100))
+            .equipBody(Body(100))
+            .equipFootwear(Footwear(100))
+            .equipGloves(Gloves(100))
     }
 }

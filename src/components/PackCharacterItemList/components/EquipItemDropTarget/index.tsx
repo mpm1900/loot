@@ -14,14 +14,12 @@ export const handleExistingItem = (props, item) => {
 
 export const updateCharacter = (props: EquipItemDropTargetProps, item: Item) => {
     const { character } = props
-    console.log(character.equipItem(item).serialize())
     props.partyUpdateCharacter(character.equipItem(item))
 }
 
 const equipItemDropTargetTarget = {
     canDrop(props, monitor) {
         const item: Item = monitor.getItem().item
-        console.log(item);
         if (props.itemType) {
             return (
                 props.itemType === item.subType &&

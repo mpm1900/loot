@@ -31,7 +31,6 @@ export class CharacterCard extends React.Component {
 
     render() {
         let { character } = this.props
-        character = character.withStaticModifiers()
         return (
             <EquipItemDropTarget character={character}>
                 <div className='CharacterCard'>
@@ -43,28 +42,28 @@ export class CharacterCard extends React.Component {
                             <div className='CharacterCard__body__stats'>
                                 <div className='CharacterCard__body__stats__stat'>
                                     <div className='CharacterCard__body__stats__stat--icon'><Icon icon='heart-beats' fill={'white'} /></div>
-                                    <div className="CharacterCard__body__stats__stat--bar">{character.maxHealth}</div>
+                                    <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().maxHealth}</div>
                                 </div>
                                 <div className='CharacterCard__body__stats__stat'>
                                     <div className='CharacterCard__body__stats__stat--icon'><Icon icon='biceps' fill={'white'} /></div>
-                                    <div className="CharacterCard__body__stats__stat--bar">{character.strength}</div>
+                                    <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().strength}</div>
                                 </div>
                                 <div className='CharacterCard__body__stats__stat'>
                                     <div className='CharacterCard__body__stats__stat--icon'><Icon icon='burning-eye' fill={'white'} /></div>
-                                    <div className="CharacterCard__body__stats__stat--bar">{character.special}</div>
+                                    <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().special}</div>
                                 </div>
                                 <div className='CharacterCard__body__stats__stat'>
                                     <div className='CharacterCard__body__stats__stat--icon'><Icon icon='barefoot' fill={'white'} /></div>
-                                    <div className="CharacterCard__body__stats__stat--bar">{character.speed}</div>
+                                    <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().speed}</div>
                                 </div>
                                 <div className='CharacterCard__body__stats__stat'>
                                     <div className='CharacterCard__body__stats__stat--icon'><Icon icon='shield' fill={'white'} /></div>
-                                    <div className="CharacterCard__body__stats__stat--bar">{character.getArmor()}</div>
+                                    <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().getArmor()}</div>
                                 </div>
                             </div>
-                            <div className='CharacterCard__body__image' style={{backgroundImage: `url(${character.image})`}}></div>
+                            <div className='CharacterCard__body__image' style={{backgroundImage: `url(${character.withStaticModifiers().image})`}}></div>
                             <div className='CharacterCard__body__skills'>
-                                {character.skills.map(skill => (
+                                {character.withStaticModifiers().skills.map(skill => (
                                     <div key={skill.name} className='CharacterCard__body__skills__skill'>
                                         <strong>{skill.name}</strong>
                                         <div className='CharacterCard__body__skills__skill--description'>{skill.text.split(' ').map((word, index) => {
@@ -88,7 +87,7 @@ export class CharacterCard extends React.Component {
                         <div className="CharacterCard__sidebar--chip" style={{ marginBottom: 16 }}>
                             <Icon icon="abstract-031" size={24} fill={'white'} />
                         </div>
-                        {character.elementTypes.map(type => (
+                        {character.withStaticModifiers().elementTypes.map(type => (
                             <div key={type} className="CharacterCard__sidebar--chip">
                                 <TypeChip typeString={type} size={32} fill={'white'} />
                             </div>

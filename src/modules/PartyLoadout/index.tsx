@@ -35,6 +35,9 @@ class PartyLoadout extends React.Component {
 
     render() {
         const { session, initializeState, partyUpdateActiveCharacterId, partyAddItem, isModal = false } = this.props
+        console.log('static mods')
+        console.log(session.party.activeCharacter ? session.party.activeCharacter.toJS() : null)
+        const character = session.party.activeCharacter ? session.party.activeCharacter : null
         return (
             <div style={{height: 'calc(100% - 57px)'}}>
                 <TopBar>
@@ -54,10 +57,10 @@ class PartyLoadout extends React.Component {
                         {session.party.activeCharacter ? 
                             <div style={{display: 'flex', alignItems: 'stretch', height: '100%'}}>
                                 <div style={{display: 'flex', flexDirection: 'column'}}>
-                                    <CharacterCard character={session.party.activeCharacter} />
+                                    <CharacterCard character={character} />
                                 </div>
                                 <div style={{margin: '0', flex: 1, maxHeight: '100%', overflowY: 'auto'}}>
-                                    <PackCharacterItemList character={session.party.activeCharacter} />
+                                    <PackCharacterItemList character={character} />
                                 </div>
                             </div>
                         : null }

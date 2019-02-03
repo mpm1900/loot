@@ -14,15 +14,10 @@ export class PackCharacterItemList extends React.Component {
 
     constructor(props) {
         super(props)
-
-        this.state = {
-            character: props.character.withStaticModifiers()
-        }
     }
 
     render() {
-        const { character } = this.props
-        // const character = this.state.character
+        const character = this.props.character
         return (
             <div className='PackCharacterItemList'>
                 <div>

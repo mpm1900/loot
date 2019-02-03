@@ -57,22 +57,22 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
     }
     const mario = Mario(100)
     store.dispatch(addCharacter(session.id, mario))
-    store.dispatch(partyAddCharacter(session.id, mario.withRandomItems()))
+    store.dispatch(partyAddCharacter(session.id, mario))
     store.dispatch(partyUpdateActiveCharacterId(session.id, mario.__uuid))
     const shrek = Shrek(100)
     store.dispatch(addCharacter(session.id, shrek))
-    store.dispatch(partyAddCharacter(session.id, shrek.withRandomItems()))
-    const dd =  DonaldDuck(100).withRandomItems()
+    store.dispatch(partyAddCharacter(session.id, shrek))
+    const dd =  DonaldDuck(100)
     store.dispatch(addCharacter(session.id, dd))
-    store.dispatch(partyAddCharacter(session.id, dd.withRandomItems()))
+    store.dispatch(partyAddCharacter(session.id, dd))
     const animelady = AnimeLady(100)
     store.dispatch(addCharacter(session.id, animelady))
-    store.dispatch(partyAddCharacter(session.id, animelady.withRandomItems()))
+    store.dispatch(partyAddCharacter(session.id, animelady))
     const pika = Pikachu(100)
     store.dispatch(addCharacter(session.id, pika))
-    store.dispatch(partyAddCharacter(session.id, pika.withRandomItems()))
+    store.dispatch(partyAddCharacter(session.id, pika))
 
-    const itemCount = 30
+    const itemCount = 70
     for (let i = 0; i < itemCount; i++) {
         const item = EquipItem(100)
         store.dispatch(addItem(session.id, item))
