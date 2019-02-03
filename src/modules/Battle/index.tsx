@@ -102,7 +102,7 @@ export class Battle extends React.Component {
                         }
                     }}  
                     >
-                        <PartyLoadout  />
+                        <PartyLoadout isModal={true} onClose={() => this.setState({ sessionModalOpen: false })}  />
                     </Modal>
             </div> : null
         )

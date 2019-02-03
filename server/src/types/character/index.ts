@@ -402,14 +402,13 @@ export class Character extends AppRecord implements iCharacter {
     }
 
     withRandomItems() {
-        return this.with({
-            weapon: MasterworkWeapon(100),
-            charm: Charm(100),
-            ring: Ring(100),
-            head: Head(100),
-            body: Body(100),
-            footwear: Footwear(100),
-            gloves: Gloves(100),
-        })
+        return this
+            .equipWeapon(MasterworkWeapon(100))
+            .equipCharm(Charm(100))
+            .equipRing(Ring(100))
+            .equipHead(Head(100))
+            .equipBody(Body(100))
+            .equipFootwear(Footwear(100))
+            .equipGloves(Gloves(100))
     }
 }

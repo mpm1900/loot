@@ -15,7 +15,8 @@ import { DonaldDuck } from '../../objects/characters/duck.character';
 import { Pikachu } from '../../objects/characters/pikachu.character';
 import { Character } from '../../types/character';
 import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage } from './state/actions/rooms.actions';
-import { SocketRoomsState, SocketRoom } from './state/reducers/rooms.state';
+import { SocketRoom } from './state/reducers/rooms.state'
+import { SocketErrors } from './types'
 
 const authorizeConnection = async (io: SocketServer, args: any, socket: Socket, store: Store) => {
     let user = await UserModel.findOne({ username: args.username, password: args.password })
@@ -25,10 +26,10 @@ const authorizeConnection = async (io: SocketServer, args: any, socket: Socket, 
             user = await UserModelUtils.updateUserSocketId(user.id, socket.id)
             startConnection(io, socket, store, user)
         } else {
-            console.log('user already logged in', user.username)
+            socket.emit('request-error', { error: SocketErrors.UserLoggedIn })
         }
     } else {
-        console.log('user not found', args)
+        socket.emit('request-error', { error: SocketErrors.UserNotFound })
     }
 }
 
@@ -148,13 +149,18 @@ const registerRoomSocketActions = async (io: SocketServer, socket: Socket, store
 
     socket.on('room__request-join-room', ({ sessionId, roomId }) => {
         console.log('join room', roomId, sessionId)
-        const session = Utils.findSessionById(store.getState().sessions, sessionId)
-        handleLeaveRooms(io, store, session.userId)
-        store.dispatch(joinRoom(roomId, session.userId, session.id))
-        socket.join(roomId)
-        const room = Utils.findRoomById(store.getState().rooms, roomId)
-        const state = Utils.serializeRoom(Utils.populateRoom({...room}, store.getState().sessions));
-        io.in(room.id).emit('initialize-state__room', { state })
+        let room = Utils.findRoomById(store.getState().rooms, roomId)
+        if (room) {
+            const session = Utils.findSessionById(store.getState().sessions, sessionId)
+            handleLeaveRooms(io, store, session.userId)
+            store.dispatch(joinRoom(roomId, session.userId, session.id))
+            socket.join(roomId)
+            room = Utils.findRoomById(store.getState().rooms, roomId)
+            const state = Utils.serializeRoom(Utils.populateRoom({...room}, store.getState().sessions));
+            io.in(room.id).emit('initialize-state__room', { state })
+        } else {
+            socket.emit('request-error', SocketErrors.RoomNotFound)
+        }
     })
 
     socket.on('room__request-leave-room', ({ sessionId, roomId }) => {
@@ -163,14 +169,12 @@ const registerRoomSocketActions = async (io: SocketServer, socket: Socket, store
     })
 
     socket.on('room__request-send-message', ({ message, userId, roomId }) => {
-        console.log(message, userId, roomId)
+        console.log('send message', message, userId, roomId)
         if (message && userId && roomId) {
             const _room = Utils.findRoomById(store.getState().rooms, roomId);
-            console.log(_room);
             store.dispatch(sendMessage(message, userId, roomId))
             const room = Utils.findRoomById(store.getState().rooms, roomId)
             const state = Utils.serializeRoom(Utils.populateRoom(room, store.getState().sessions));
-            console.log(state.userIds)
             io.in(room.id).emit('initialize-state__room', { state })
         }
     })

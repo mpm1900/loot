@@ -21,8 +21,13 @@ export const updateCharacter = (props: EquipItemDropTargetProps, item: Item) => 
 const equipItemDropTargetTarget = {
     canDrop(props, monitor) {
         const item: Item = monitor.getItem().item
-        if (props.itemType)
-            return props.itemType === item.subType  
+        console.log(item);
+        if (props.itemType) {
+            return (
+                props.itemType === item.subType &&
+                props.character.__uuid !== item.parentId
+            )
+        }
         return item.type === ItemType.Equipable
     },
 

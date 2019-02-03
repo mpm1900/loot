@@ -20,6 +20,9 @@
     .CharacterAvatar {
         box-shadow: none;
         margin-bottom: 4px;
+        width: calc(100% - 2px);
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 8px;
     }
 
     &__maxedOut {

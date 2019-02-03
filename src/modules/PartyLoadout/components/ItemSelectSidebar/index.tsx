@@ -54,7 +54,11 @@ export class ItemSelectSidebar extends React.Component {
         filters.forEach(filter => {
             list = list.filter(item => item[filter.key] === filter.value)
         })
-        return list
+        return list.sort((a, b) => {
+            const av = a.stats.armor || a.stats.power
+            const bv = b.stats.armor || b.stats.power
+            return bv - av
+        })
     }
 
     resetFilters() {

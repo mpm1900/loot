@@ -51,8 +51,10 @@ socket.on('connect', (data) => {
     console.log('connection!')
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
-    console.log(username, password)
     socket.emit('connection-auth', { username, password })
+})
+socket.on('request-error', (error) => {
+    alert(JSON.stringify(error))
 })
 socket.on('initialize-state__session', ({ state }) => {
     console.log('set session state!')
@@ -63,7 +65,6 @@ socket.on('initialize-state__session', ({ state }) => {
     action.socket = true
     store.dispatch(action)
 })
-
 socket.on('initialize-state__room', ({ state }) => {
     console.log('set room state!')
     const room = deserializeRoom(state)

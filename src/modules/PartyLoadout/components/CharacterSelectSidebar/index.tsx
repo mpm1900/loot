@@ -14,6 +14,7 @@ interface CharacterSelectSidebarPropTypes {
     activeCharacterId: string, 
     partyUpdateActiveCharacterId: any,
     history: any,
+    isModal: boolean,
 }
 
 const rarityColors = {
@@ -58,9 +59,9 @@ const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
                     MAX
                 </div> : null }
             </div>
-            <div style={{padding: 8}}>
+            { !props.isModal ? <div style={{padding: 8}}>
                 <Button onClick={goBattle}>Ready!</Button>
-            </div>
+            </div> : null }
         </div>
         )
 }

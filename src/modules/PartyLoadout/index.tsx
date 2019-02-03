@@ -16,6 +16,7 @@ import { BattleCharacter } from '../Battle/components/BattleCharacter';
 import { ClientSessionState } from '../../state/reducers/session.state';
 import SessionSidebar from './components/SessionSidebar';
 import { TopBar } from '../Core/TopBar';
+import { Icon } from '../../components/Icon';
 
 
 
@@ -24,22 +25,30 @@ interface PartyLoadoutPropTypes {
     activeCharacterId: string,
     partyAddItem: any,
     initializeState: any,
-    partyUpdateActiveCharacterId: any
+    partyUpdateActiveCharacterId: any,
+    isModal: boolean,
+    onClose?: any,
 }
 
 class PartyLoadout extends React.Component {
     props: PartyLoadoutPropTypes
 
     render() {
-        const { session, initializeState, partyUpdateActiveCharacterId, partyAddItem,  } = this.props
+        const { session, initializeState, partyUpdateActiveCharacterId, partyAddItem, isModal = false } = this.props
         return (
             <div style={{height: 'calc(100% - 57px)'}}>
-                <TopBar>sdflk</TopBar>
+                <TopBar>
+                    <strong>Session Party Loadout</strong>
+                    {isModal ? <Icon icon='split-cross' size={36} fill={'rgba(0,0,0,0.54)'} style={{
+                        cursor: 'pointer'
+                    }} onClick={() => this.props.onClose() }/> : null }
+                </TopBar>
                 <div className='PartyLoadout'>
                     <CharacterSelectSidebar 
                         characters={session.party.characters} 
                         activeCharacterId={session.party.activeCharacterId}
                         partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
+                        isModal={isModal}
                     />
                     <div className='PartyLoadout__main'>
                         {session.party.activeCharacter ? 
