@@ -53,7 +53,7 @@ export const GrassIcon = (fill, size) => <Icon icon="linden-leaf" fill={fill} si
 export const ThunderIcon = (fill, size) => <Icon icon="lightning-helix" fill={fill} size={size} />
 export const EarthIcon = (fill, size) => <Icon icon="mountaintop" fill={fill} size={size} />
 export const IceIcon = (fill, size) => <Icon icon="snowflake-2" fill={fill} size={size} />
-export const DragonIcon = (fill, size) => <Icon icon="dragon-head" fill={fill} size={size} />
+export const DragonIcon = (fill, size) => <Icon icon="pick-of-destiny" fill={fill} size={size} />
 export const LightIcon = (fill, size) => <Icon icon="lantern" fill={fill} size={size} />
 export const DarkIcon = (fill, size) => <Icon icon="crowned-skull" fill={fill} size={size} />
 

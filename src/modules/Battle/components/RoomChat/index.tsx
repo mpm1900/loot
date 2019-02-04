@@ -46,7 +46,7 @@ export class RoomChat extends React.Component {
                         <strong>{message.userId}</strong>
                         <span className='RoomChat__message__message'>{message.message.split(' ').map((word: string, index: number) => {
                             if (word.charAt(0) === ':' && word.charAt(word.length - 1) === ':') {
-                                return <div key={index}><Icon icon={word} /></div>
+                                return <div key={index}><Icon icon={word.substr(1, word.length - 2)} fill='white' size={16} /></div>
                             }
                             return <div key={index}>{word + ' '}</div>
                         })}</span>

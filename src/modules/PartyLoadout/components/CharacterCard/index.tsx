@@ -45,6 +45,10 @@ export class CharacterCard extends React.Component {
                                     <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().maxHealth}</div>
                                 </div>
                                 <div className='CharacterCard__body__stats__stat'>
+                                    <div className='CharacterCard__body__stats__stat--icon'><Icon icon='shield' fill={'white'} /></div>
+                                    <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().getArmor()}</div>
+                                </div>
+                                <div className='CharacterCard__body__stats__stat'>
                                     <div className='CharacterCard__body__stats__stat--icon'><Icon icon='biceps' fill={'white'} /></div>
                                     <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().strength}</div>
                                 </div>
@@ -55,10 +59,6 @@ export class CharacterCard extends React.Component {
                                 <div className='CharacterCard__body__stats__stat'>
                                     <div className='CharacterCard__body__stats__stat--icon'><Icon icon='barefoot' fill={'white'} /></div>
                                     <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().speed}</div>
-                                </div>
-                                <div className='CharacterCard__body__stats__stat'>
-                                    <div className='CharacterCard__body__stats__stat--icon'><Icon icon='shield' fill={'white'} /></div>
-                                    <div className="CharacterCard__body__stats__stat--bar">{character.withStaticModifiers().getArmor()}</div>
                                 </div>
                             </div>
                             <div className='CharacterCard__body__image' style={{backgroundImage: `url(${character.withStaticModifiers().image})`}}></div>

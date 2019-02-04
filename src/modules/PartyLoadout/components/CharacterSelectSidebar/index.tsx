@@ -48,13 +48,7 @@ const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
                     </div> */}
                 </div>
             ))}</div>
-            <div style={{flex: 1, 
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',}}>
-                {characters.size === 5 ? <div className='CharacterSelectSidebar__maxedOut'>
-                    MAX
-                </div> : null }
+            <div style={{ flex: 1 }}>
             </div>
         </div>
         )

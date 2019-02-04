@@ -78,7 +78,7 @@ export class ItemSelectSidebar extends React.Component {
         return this.props.connectDropTarget(
             <div className='ItemSelectSidebar'>
                 <div style={{display: 'flex', flexWrap: 'wrap', padding: '8px 0'}}>
-                    <button onClick={() => this.resetFilters()}><Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.72)'} /></button>
+                    <button onClick={() => this.resetFilters()}><Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} /></button>
                     {ItemRarities.map(rarity => 
                         <button key={rarity} className={this.state.filters.map(f => f.value).contains(rarity) ? 'active' : ''} disabled={items.filter(item => item.rarity === rarity).size === 0} onClick={() => this.addFilter('rarity', rarity)}>
                             <div style={{margin: '0 auto', height: iconSize - 2, width: iconSize - 2, border: '1px solid black', background: ItemRarityColor[rarity]}}></div>
@@ -86,7 +86,7 @@ export class ItemSelectSidebar extends React.Component {
                     )}
                     {ItemSubTypes.map(type => 
                         <button key={type} className={this.state.filters.map(f => f.value).contains(type) ? 'active' : ''} disabled={(items.filter(item => item.subType === type).size === 0)} onClick={() => this.addFilter('subType', type)}>
-                            <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.72)'} />
+                            <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.54)'} />
                         </button>
                     )}
                 </div>

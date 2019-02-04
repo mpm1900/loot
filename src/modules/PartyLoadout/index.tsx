@@ -48,9 +48,9 @@ class PartyLoadout extends React.Component {
             <div style={{height: 'calc(100% - 57px)'}}>
                 <TopBar style={{ paddingRight: 0 }}>
                     <strong>Session Party Loadout</strong>
-                    { !isModal ? <div style={{ padding: 8 }}>
+                    { !isModal ?
                         <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => this.goBattle()}>Ready!</Button>
-                    </div> : null }
+                    : null }
                     {isModal ? <Icon icon='split-cross' size={36} fill={'rgba(255,255,255,0.54)'} style={{
                         cursor: 'pointer',
                         marginRight: 8,
@@ -66,7 +66,7 @@ class PartyLoadout extends React.Component {
                     <div className='PartyLoadout__main'>
                         {session.party.activeCharacter ? 
                             <div style={{display: 'flex', alignItems: 'stretch', height: '100%'}}>
-                                <div style={{display: 'flex', flexDirection: 'column'}}>
+                                <div style={{display: 'flex', flexDirection: 'column', minWidth: 370, width: '33%'}}>
                                     <CharacterCard character={character} />
                                 </div>
                                 <div style={{margin: '0', flex: 1, maxHeight: '100%', overflowY: 'auto'}}>
