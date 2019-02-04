@@ -77,9 +77,9 @@ export class Battle extends React.Component {
                     </div>
                     <div className='Battle__sidebar'>
                         <TopBar style={{ justifyContent: 'space-around'}}>
-                            <a href='#' onClick={() => this.setState({ sidebarKey: SidebarKey.Users })}><Icon size={32} icon='two-shadows' /></a>
-                            <a href='#' onClick={() => this.setState({ sidebarKey: SidebarKey.Chat })}><Icon size={32} icon='talk' /></a>
-                            <a href='#' onClick={() => this.setState({ sidebarKey: SidebarKey.Battlelog })}><Icon size={32} icon='audio-cassette' /></a>
+                            <a href='#' onClick={() => this.setState({ sidebarKey: SidebarKey.Users })}><Icon size={32} icon='two-shadows' fill='rgba(255,255,255,0.54)' /></a>
+                            <a href='#' onClick={() => this.setState({ sidebarKey: SidebarKey.Chat })}><Icon size={32} icon='talk' fill='rgba(255,255,255,0.54)' /></a>
+                            <a href='#' onClick={() => this.setState({ sidebarKey: SidebarKey.Battlelog })}><Icon size={32} icon='audio-cassette' fill='rgba(255,255,255,0.54)' /></a>
                         </TopBar>
                         <div className='Battle__sidebar__body'>
                             {this.getSidebarComponent(this.state.sidebarKey, this.props)}

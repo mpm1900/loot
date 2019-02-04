@@ -2,9 +2,11 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    font-family: 'Roboto', 'sans-serif';
 
     &__body {
-        background: #f3f3f3;
+        background: rgba(0,0,0,0.72);
+        color: white;
         flex: 1;
         overflow-y: auto;
     }
@@ -25,6 +27,8 @@
 
     &__input {
         display: flex;
+        background: rgba(0,0,0,0.72);
+        padding: 8px;
         textarea {
             flex: 1;
             min-height: 48px;
@@ -32,7 +36,13 @@
             transition: min-height 0.2s, max-height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             padding: 8px;
             border: none;
-            border-top: 1px solid rgba(0,0,0,0.24);
+            color: white;
+            //border-top: 1px solid rgba(0,0,0,0.36);
+            background: rgba(255,255,255,0.24);
+            border-radius: 8px;
+            &::placeholder {
+                color: white;
+            }
 
             &:focus {
                 min-height: 72px;

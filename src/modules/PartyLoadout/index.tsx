@@ -51,8 +51,9 @@ class PartyLoadout extends React.Component {
                     { !isModal ? <div style={{ padding: 8 }}>
                         <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => this.goBattle()}>Ready!</Button>
                     </div> : null }
-                    {isModal ? <Icon icon='split-cross' size={36} fill={'rgba(0,0,0,0.54)'} style={{
-                        cursor: 'pointer'
+                    {isModal ? <Icon icon='split-cross' size={36} fill={'rgba(255,255,255,0.54)'} style={{
+                        cursor: 'pointer',
+                        marginRight: 8,
                     }} onClick={() => this.props.onClose() }/> : null }
                 </TopBar>
                 <div className='PartyLoadout'>
