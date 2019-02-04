@@ -27,6 +27,7 @@ export type sCharacter = {
     rarity: CharacterRarity,
     edition: string,
     image: string,
+    avatar: string,
     health: number,
     maxHealth: number,
     armor: number,
@@ -56,6 +57,7 @@ export type iCharacter = {
     rarity?: CharacterRarity,
     edition?: string,
     image?: string,
+    avatar?: string,
     // character stats
     health?: number,
     maxHealth?: number,
@@ -84,6 +86,7 @@ export const defaultCharacter: iCharacter = {
     rarity: CharacterRarity.Default,
     edition: 'alpha',
     image: '',
+    avatar: '',
 
     health: 0,
     maxHealth: 0,
@@ -115,6 +118,7 @@ export class Character extends AppRecord implements iCharacter {
     public readonly rarity: CharacterRarity
     public readonly edition: string
     public readonly image: string
+    public readonly avatar: string
 
     public readonly health: number
     public readonly maxHealth: number
@@ -153,9 +157,15 @@ export class Character extends AppRecord implements iCharacter {
     }
 
     get items(): List<Item> {
-        return List.of<Item>(
-            this.weapon, this.charm, this.ring, this.head, this.body, this.footwear, this.gloves
-        )
+        let returnValue = List<Item>()
+        if (this.weapon) returnValue = returnValue.push(this.weapon)
+        if (this.charm) returnValue = returnValue.push(this.charm)
+        if (this.ring) returnValue = returnValue.push(this.ring)
+        if (this.head) returnValue = returnValue.push(this.head)
+        if (this.body) returnValue = returnValue.push(this.body)
+        if (this.footwear) returnValue = returnValue.push(this.footwear)
+        if (this.gloves) returnValue = returnValue.push(this.gloves)
+        return returnValue
     }
 
     constructor(args?: iCharacter) {
@@ -177,6 +187,7 @@ export class Character extends AppRecord implements iCharacter {
             rarity: this.rarity,
             edition: this.edition,
             image: this.image,
+            avatar: this.avatar,
             health: this.health,
             maxHealth: this.maxHealth,
             armor: this.armor,
@@ -208,6 +219,7 @@ export class Character extends AppRecord implements iCharacter {
             rarity: sCharacter.rarity,
             edition: sCharacter.edition,
             image: sCharacter.image,
+            avatar: sCharacter.avatar,
             health: sCharacter.health,
             maxHealth: sCharacter.maxHealth,
             armor: sCharacter.armor,
@@ -386,10 +398,7 @@ export class Character extends AppRecord implements iCharacter {
     withStaticModifiers(): Character {
         let _this = this.with({})
         if (_this.hasStaticModifiersApplied) return _this;
-        this.staticModifiers.forEach(mod => {
-            console.log(mod)
-            _this = _this.applyModifier(mod)
-        })
+        this.staticModifiers.forEach(mod => _this = _this.applyModifier(mod))
         if (_this.strength < 0) _this = _this.with({ ..._this, strength: 0 })
         if (_this.special < 0) _this = _this.with({ ..._this, special: 0 })
         if (_this.speed < 0) _this = _this.with({ ..._this, speed: 0 })

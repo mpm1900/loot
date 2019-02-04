@@ -90,6 +90,11 @@ export const partyUpdateCharacter = (state: SocketSessionsState, action: SocketR
         })
     }))
 }
+
+
+
+
+
 export const partyUpdateActiveCharacterId = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     const index = state.map(session => session.id).indexOf(action.payload.sessionId)
     return state.update(index, session => ({
@@ -97,19 +102,5 @@ export const partyUpdateActiveCharacterId = (state: SocketSessionsState, action:
         party: session.party.with({
             activeCharacterId: action.payload.characterId,
         })
-    }))
-}
-export const partyAddItem = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
-    const index = state.map(session => session.id).indexOf(action.payload.sessionId)
-    return state.update(index, session => ({
-        ...session,
-        party: session.party.addItem(action.payload.item)
-    }))
-}
-export const partyDeleteItem = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
-    const index = state.map(session => session.id).indexOf(action.payload.sessionId)
-    return state.update(index, session => ({
-        ...session,
-        party: session.party.removeItem(action.payload.itemId)
     }))
 }

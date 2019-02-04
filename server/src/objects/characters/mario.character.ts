@@ -13,7 +13,7 @@ const LevelRange = (level: number) => RandInt(level / 2, level)
 export const Mario = (level = 50) => new Character({
     name: 'Mario, Destroyer of Worlds',
     level: level,
-    // image: marioImage,
+    image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549223067/characters-full/destroyer1.png',
     elementTypes: List.of(ElementType.Dragon, ElementType.Fire),
     maxHealth: RandInt(300, 400),
     strength: LevelRange(level),
@@ -27,7 +27,8 @@ export const Mario = (level = 50) => new Character({
 export const AnimeLady = (level = 50) => new Character({
     name: 'Big Tiddie Anime Lady',
     level: level,
-    // image: animeTiddies,
+    image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549226888/characters-full/dark_priest3.png',
+    avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549222309/characters-full/dark_priest2.png',
     elementTypes: List.of(ElementType.Dark, ElementType.Water),
     maxHealth: RandInt(300, 400),
     strength: LevelRange(level),

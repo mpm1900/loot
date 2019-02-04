@@ -12,10 +12,7 @@ const itemSelectSidebarTarget = {
         return !(item.parentId == null)
     },
 
-    // props is the target!!! not this component
     drop(props, monitor, component) {
-        const item = monitor.getItem().item
-        props.partyAddItem(item.__uuid)
     }
 }
 
@@ -54,11 +51,15 @@ export class ItemSelectSidebar extends React.Component {
         filters.forEach(filter => {
             list = list.filter(item => item[filter.key] === filter.value)
         })
-        return list.sort((a, b) => {
-            const av = a.stats.armor || a.stats.power
-            const bv = b.stats.armor || b.stats.power
-            return bv - av
-        })
+        return list
+            .filter(item => {
+                return (!this.props.party.characterItems.map(i => i.__uuid).contains(item.__uuid))
+            })
+            .sort((a, b) => {
+                const av = a.stats.armor || a.stats.power
+                const bv = b.stats.armor || b.stats.power
+                return bv - av
+            })
     }
 
     resetFilters() {
@@ -72,12 +73,12 @@ export class ItemSelectSidebar extends React.Component {
     }
 
     render() { 
-        const { items, connectDropTarget = (a) => a } = this.props
+        const { items } = this.props
         const iconSize = 35
-        return connectDropTarget(
+        return this.props.connectDropTarget(
             <div className='ItemSelectSidebar'>
                 <div style={{display: 'flex', flexWrap: 'wrap', padding: '8px 0'}}>
-                    <button onClick={() => this.resetFilters()}><Icon style={{margin: '0 auto'}} icon='duration' size={42} /></button>
+                    <button onClick={() => this.resetFilters()}><Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.72)'} /></button>
                     {ItemRarities.map(rarity => 
                         <button key={rarity} className={this.state.filters.map(f => f.value).contains(rarity) ? 'active' : ''} disabled={items.filter(item => item.rarity === rarity).size === 0} onClick={() => this.addFilter('rarity', rarity)}>
                             <div style={{margin: '0 auto', height: iconSize - 2, width: iconSize - 2, border: '1px solid black', background: ItemRarityColor[rarity]}}></div>
@@ -85,7 +86,7 @@ export class ItemSelectSidebar extends React.Component {
                     )}
                     {ItemSubTypes.map(type => 
                         <button key={type} className={this.state.filters.map(f => f.value).contains(type) ? 'active' : ''} disabled={(items.filter(item => item.subType === type).size === 0)} onClick={() => this.addFilter('subType', type)}>
-                            <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} />
+                            <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.72)'} />
                         </button>
                     )}
                 </div>

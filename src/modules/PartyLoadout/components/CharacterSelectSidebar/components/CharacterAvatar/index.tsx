@@ -21,10 +21,10 @@ export class CharacterAvatar extends Component {
         return (
             <div className='CharacterAvatar' onClick={() => partyUpdateActiveCharacterId && activeCharacterId !== character.__uuid ? partyUpdateActiveCharacterId(character.__uuid) : null} style={{
                 background: getTypeGradientCSS(character),
-                opacity: (activeCharacterId === character.__uuid) ? 1 : 0.5,
+                opacity: (activeCharacterId === character.__uuid) ? 1 : 0.4,
             }}>
                 <div className='CharacterAvatar__content' style={{
-                    backgroundImage: `url(${character.image})`, 
+                    backgroundImage: `url(${character.avatar || character.image})`, 
                     backgroundSize: 'cover', 
                     backgroundPositionX: 'center',
                     zIndex: 3

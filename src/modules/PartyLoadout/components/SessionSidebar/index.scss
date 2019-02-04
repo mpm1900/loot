@@ -1,11 +1,11 @@
 .SessionSidebar {
-    border-left: 1px solid rgba(0,0,0,0.12);
+    border-left: 1px solid rgba(0,0,0,0.84);
     max-width: 407px;
     min-width: 407px;
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: white;
+    background: rgba(0,0,0,0.84);
     font-family: 'Roboto', sans-serif;
 
     &__option {
@@ -15,10 +15,10 @@
         line-height: 56px;
         cursor: pointer;
         font-weight: bold;
-        color: rgba(0,0,0,0.72);
+        color: rgba(255,255,255,255.72);
 
         &.active {
-            border-bottom: 8px solid rgba(0,0,0,0.72);
+            border-bottom: 8px solid rgba(255,255,255,0.54);
             height: calc(100% - 8px)
         }
     }

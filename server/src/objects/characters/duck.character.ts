@@ -26,7 +26,8 @@ export const HydroPump = (level: number) => new Skill({
 export const DonaldDuck = (level = 50) => new Character({
     name: 'Donald \'Shoot yo Ass\' Duck',
     level: level,
-    // image: duckImage,
+    image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549226888/characters-full/dark_priest3.png',
+    avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549222309/characters-full/dark_priest2.png',
     elementTypes: List.of<ElementType>(ElementType.Dragon, ElementType.Water),
     maxHealth: RandInt(300, 400),
     strength: RandInt(level, level * 3.5),

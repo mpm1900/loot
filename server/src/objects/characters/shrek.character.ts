@@ -25,7 +25,7 @@ export const OgresRage = (level: number) => new Skill({
 export const Shrek = (level = 50) => new Character({
     name: 'Shrek, Ogre of the Swamp',
     level: level,
-    // image: shrekImage,
+    image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
     elementTypes: List.of(ElementType.Dragon, ElementType.Thunder),
     maxHealth: RandInt(300, 400),
     strength: RandInt(level, level * 3.5),

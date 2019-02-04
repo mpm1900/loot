@@ -42,18 +42,6 @@ export const SessionReducer = (state: ClientSessionState = INITIAL_STATE, action
     // console.log('SESSION -', action.type)
     switch (action.type) {
         case Actions.SET_STATE: return Core.setState(state, action)
-        case Actions.ADD_PACK: return Core.addPack(state, action)
-        case Actions.DELETE_PACK: return Core.deletePack(state, action)
-        case Actions.ADD_CHARACTER: return Core.addCharacter(state, action)
-        case Actions.DELETE_CHARACTER: return Core.deleteCharacter(state, action)
-        case Actions.ADD_ITEM: return Core.addItem(state, action)
-        case Actions.DELETE_ITEM: return Core.deleteItem(state, action)
-        case Actions.PARTY_ADD_CHARACTER: return Core.partyAddCharacter(state, action)
-        case Actions.PARTY_DELETE_CHARACTER: return Core.partyDeleteCharacter(state, action)
-        case Actions.PARTY_UPDATE_CHARACTER: return Core.partyUpdateCharacter(state, action)
-        case Actions.PARTY_UPDATE_ACTIVE_CHARACTER_ID: return Core.partyUpdateActiveCharacterId(state, action)
-        case Actions.PARTY_ADD_ITEM: return Core.partyAddItem(state, action)
-        case Actions.PARTY_DELETE_ITEM: return Core.partyDeleteItem(state, action)
         default: return state
     }
 }

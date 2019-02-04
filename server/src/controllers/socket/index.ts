@@ -5,7 +5,7 @@ import * as Utils from './util';
 import { Store } from 'redux';
 import { UserModel, IUserModel } from '../../models/user';
 import * as UserModelUtils from '../../models/user/user.util'
-import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyAddItem, partyDeleteItem, partyUpdateActiveCharacterId } from './state/actions/sessions.actions';
+import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId } from './state/actions/sessions.actions';
 import { BasicCharacterPack } from '../../objects/packs';
 import { EquipItem } from '../../objects/equipItem';
 import { Mario, AnimeLady } from '../../objects/characters/mario.character';
@@ -65,18 +65,17 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
     const dd =  DonaldDuck(100)
     store.dispatch(addCharacter(session.id, dd))
     store.dispatch(partyAddCharacter(session.id, dd))
-    const animelady = AnimeLady(100)
-    store.dispatch(addCharacter(session.id, animelady))
-    store.dispatch(partyAddCharacter(session.id, animelady))
     const pika = Pikachu(100)
     store.dispatch(addCharacter(session.id, pika))
     store.dispatch(partyAddCharacter(session.id, pika))
+    const animelady = AnimeLady(100)
+    store.dispatch(addCharacter(session.id, animelady))
+    store.dispatch(partyAddCharacter(session.id, animelady))
 
     const itemCount = 70
     for (let i = 0; i < itemCount; i++) {
         const item = EquipItem(100)
         store.dispatch(addItem(session.id, item))
-        store.dispatch(partyAddItem(session.id, item))
     }
     session = Utils.findSessionByUser(store.getState().sessions, session.userId)
     socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
@@ -95,18 +94,8 @@ const registerSessionSocketActions = async (io: SocketServer, socket: Socket, st
         socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
     })
 
-    socket.on('session__party__add-item', ({ sessionId, itemId }) => {
-        let session = Utils.findSessionById(store.getState().sessions, sessionId)
-        const item = session.items.find(item => item.__uuid === itemId)
-        store.dispatch(partyAddItem(sessionId, item))
-        session = Utils.findSessionById(store.getState().sessions, sessionId)
-        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
-    })
-
-    socket.on('session__party__delete-item', ({ sessionId, itemId }) => {
-        store.dispatch(partyDeleteItem(sessionId, itemId))
-        const session = Utils.findSessionById(store.getState().sessions, sessionId)
-        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+    socket.on('session__party__equip-item', ({ sessionId, characterId, itemId, }) => {
+        console.log(sessionId, characterId, itemId)
     })
 }
 

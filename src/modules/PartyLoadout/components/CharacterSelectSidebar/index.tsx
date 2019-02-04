@@ -29,15 +29,12 @@ const rarityColors = {
 
 const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
     const { characters, activeCharacterId, partyUpdateActiveCharacterId } = props
-    const goBattle = () => {
-        props.history.push('/battle')
-    }
     return (
         <div className='CharacterSelectSidebar'>
             <div style={{padding: 4 }}>{characters.map(character => (
                 <div key={character.__uuid} style={{display: 'flex', flexDirection: 'column', marginBottom: 0}}>
                     <EquipItemDropTarget character={character}>
-                        <div style={{display: 'flex', width: '100%', backgroundColor: 'rgba(255,255,255,0.5)'}}><CharacterAvatar key={character.__uuid} character={character} activeCharacterId={activeCharacterId} partyUpdateActiveCharacterId={partyUpdateActiveCharacterId} /></div>
+                        <div style={{display: 'flex', width: '100%'}}><CharacterAvatar key={character.__uuid} character={character} activeCharacterId={activeCharacterId} partyUpdateActiveCharacterId={partyUpdateActiveCharacterId} /></div>
                     </EquipItemDropTarget>
                     {/*
                     <div style={{display: 'flex', justifyContent: 'space-around'}}>
@@ -59,9 +56,6 @@ const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
                     MAX
                 </div> : null }
             </div>
-            { !props.isModal ? <div style={{padding: 8}}>
-                <Button onClick={goBattle}>Ready!</Button>
-            </div> : null }
         </div>
         )
 }

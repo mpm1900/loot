@@ -24,7 +24,7 @@ export const Thunderbolt = (level: number) => new Skill({
 export const Pikachu = (level = 50) => new Character({
     name: 'Pikachu',
     level: level,
-    // image: pikaImage,
+    image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
     elementTypes: List.of<ElementType>(ElementType.Light, ElementType.Thunder),
     maxHealth: RandInt(300, 400),
     strength: RandInt(level, level * 3.5),

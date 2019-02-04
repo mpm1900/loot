@@ -10,6 +10,7 @@
         flex-wrap: wrap;
         align-items: stretch;
         justify-content: stretch;
+        min-height: 120px;
 
         & > div {
             width: 50%;

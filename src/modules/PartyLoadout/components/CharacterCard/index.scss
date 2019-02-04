@@ -29,7 +29,7 @@
             font-weight: bold;
             text-align: left;
             text-shadow: 1px 0px 1px rgba(0,0,0,0.7);
-            padding-left: 24px;
+            padding-left: 16px;
         }
 
         &__contents {
@@ -61,6 +61,7 @@
                 bottom: 0;
                 left: 0;
                 opacity: 0.25;
+                z-index: 4;
                 // border-radius: 8px;
 
                 background:
@@ -86,6 +87,9 @@
             font-weight: 700;
             line-height: 24px;
             padding: 12px 0 12px 0;
+            position: absolute;
+            width: 100%;
+            z-index: 6;
             &__stat {
                 display: flex;
                 flex-direction: column;
@@ -112,7 +116,7 @@
             bottom: 1px;
             left: 1px;
             flex: 1;
-            z-index: 4;
+            z-index: 6;
             width: calc(100% - 4px);
             background-color: rgba(255,255,255,0.78);
             font-weight: bold; 

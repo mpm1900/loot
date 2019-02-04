@@ -27,8 +27,8 @@ export class SessionSidebar extends React.Component {
         switch (this.state.activeKey) {
             case 'items': return (
                 <ItemSelectSidebar
-                    items={this.props.session.party.items}
-                    partyAddItem={this.props.partyAddItem}
+                    party={this.props.session.party}
+                    items={this.props.session.items}
                 />
             )
             case 'characters': return (
@@ -43,7 +43,7 @@ export class SessionSidebar extends React.Component {
         if (!this.props.session) return <div></div>
         return (
             <div className='SessionSidebar'>
-                <TopBar style={{padding: '0 2px'}}>
+                <TopBar style={{padding: '0 0px', background: 'transparent'}}>
                     <div onClick={() => this.setState({ activeKey: 'items' })} className={'SessionSidebar__option' + (this.state.activeKey === 'items' ? ' active' : '')}>Items</div>
                     <div onClick={() => this.setState({ activeKey: 'characters' })} className={'SessionSidebar__option' + (this.state.activeKey === 'characters' ? ' active' : '')}>Characters</div>
                     <div onClick={() => this.setState({ activeKey: 'packs' })} className={'SessionSidebar__option' + (this.state.activeKey === 'packs' ? ' active' : '')}>Packs</div>

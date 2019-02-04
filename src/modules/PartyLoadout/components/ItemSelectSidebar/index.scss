@@ -8,7 +8,7 @@
         min-height: calc(100% / 7);
         width: calc(100% / 7);
         border: none;
-        background-color: white;
+        background-color: transparent;
         cursor: pointer;
 
         &:focus {
@@ -23,9 +23,8 @@
         }
 
         &.active {
-            background: #ddd;
             color: white;
-            fill: white
+            svg { fill: white !important; }
         }
 
         & > div {
