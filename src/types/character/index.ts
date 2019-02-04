@@ -5,16 +5,7 @@ import { Item, ItemType, ItemSubType, sItem } from '../item';
 import { Skill, sSkill } from '../skill';
 import { Modifier } from '../modifier';
 import { ElementType } from '../element';
-import { Weapon } from '../../objects/weapons'
-import { Charm } from '../../objects/charms'
-import { Ring } from '../../objects/rings'
-import { Head } from '../../objects/head'
-import { Body } from '../../objects/body'
-import { Footwear } from '../../objects/footwear'
-import { Gloves } from '../../objects/gloves'
 import { CharacterModifier } from './character.modifier'
-import { SkillPowerUp } from '../../objects/modifiers/skill.mod';
-import { MasterworkWeapon } from '../../objects/weapons/masterwork';
 
 export enum CharacterRarity {
     Default = 'Default'
@@ -146,7 +137,7 @@ export class Character extends AppRecord implements iCharacter {
 
     get staticModifiers(): List<Modifier> {
         return List<Modifier>()
-            .push(SkillPowerUp(this.special, null))
+            // .push(SkillPowerUp(this.special, null))
             .concat(this.weapon ? this.weapon.modifiers : null)
             .concat(this.charm ? this.charm.modifiers : null)
             .concat(this.ring ? this.ring.modifiers : null)
@@ -411,16 +402,5 @@ export class Character extends AppRecord implements iCharacter {
             armor += item ? item.stats.armor : 0
         })
         return armor
-    }
-
-    withRandomItems() {
-        return this
-            .equipWeapon(MasterworkWeapon(100))
-            .equipCharm(Charm(100))
-            .equipRing(Ring(100))
-            .equipHead(Head(100))
-            .equipBody(Body(100))
-            .equipFootwear(Footwear(100))
-            .equipGloves(Gloves(100))
     }
 }

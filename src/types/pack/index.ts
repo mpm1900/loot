@@ -2,8 +2,6 @@ import { AppRecord } from '..'
 import { Character, CharacterRarity } from '../character'
 import { Item, ItemRarity } from '../item'
 import { List } from 'immutable'
-import { CharacterFactory } from '../../objects/characters'
-import { EquipItem, CommonEquipItem, UncommonEquipItem, RareEquipItem, MasterworkEquipItem, UniqueEquipItem, BlackMarketEquipItem } from '../../objects/equipItem'
 
 export enum PackContentsType {
     Character = 'Character',
@@ -18,30 +16,6 @@ export enum PackType {
     Default = 'Default',
 }
 
-const getObjectFromContents = (contents: PackContents): (Character | Item) => {
-    switch (contents.type) {
-        case PackContentsType.Character: return getCharacter(contents.rarity as CharacterRarity, contents.level)
-        case PackContentsType.Item: return getItem(contents.rarity as ItemRarity, contents.level)
-    }
-}
-
-const getItem = (rarity: ItemRarity, level: number): Item => {
-    switch (rarity) {
-        case ItemRarity.Common: return CommonEquipItem(level)
-        case ItemRarity.Uncommon: return UncommonEquipItem(level)
-        case ItemRarity.Rare: return RareEquipItem(level)
-        case ItemRarity.Masterwork: return MasterworkEquipItem(level)
-        case ItemRarity.Unique: return UniqueEquipItem(level)
-        case ItemRarity.BlackMarket: return BlackMarketEquipItem(level)
-        default: return EquipItem(level)
-    }
-}
-
-const getCharacter = (rarity: CharacterRarity, level: number): Character => {
-    switch (rarity) {
-        default: return CharacterFactory(level)
-    }
-}
 export type sPack = {
     __uuid: string,
     type: PackType,
@@ -68,10 +42,6 @@ export class Pack extends AppRecord implements iPack {
 
     with(values: iPack): Pack {
         return super.with(values) as Pack
-    }
-
-    open(): List<Character | Item> {
-        return this.contents.map(content => getObjectFromContents(content))
     }
 
     serialize(): sPack {

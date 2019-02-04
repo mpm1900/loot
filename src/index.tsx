@@ -9,11 +9,7 @@ import { DragDropContextProvider } from "react-dnd"
 import { makeStore } from './state/store';
 import { Provider } from 'react-redux'
 import { Character } from './types/character';
-import { ItemType, ItemSubType, Item } from './types/item';
-import { Mario } from './objects/characters/mario.character';
-import { Shrek } from './objects/characters/shrek.character';
-import { DonaldDuck } from './objects/characters/duck.character';
-import { Pikachu } from './objects/characters/pikachu.character';
+import { Item } from './types/item';
 import io from 'socket.io-client'
 import { List } from 'immutable';
 import { Party } from './types/party';

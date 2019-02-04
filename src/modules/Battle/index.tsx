@@ -67,6 +67,7 @@ export class Battle extends React.Component {
                         <input className='Room__search' placeholder={'enter room id'} value={this.state.roomId} onChange={event => this.handleRoomInputChange(event)} />
                         <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => this.joinRoom()}>Join Room</Button>
                         <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => this.setState({ sessionModalOpen: true })}>Edit Session</Button>
+                        <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => this.setState({ sessionModalOpen: true })}>Leave Room</Button>
                     </div>
                 </TopBar>
                 <div className='Battle__body'>

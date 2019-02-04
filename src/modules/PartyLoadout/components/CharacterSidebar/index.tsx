@@ -12,7 +12,7 @@ export class CharacterSidebar extends React.Component {
     }
 
     get characters() {
-        const partyCharacters = List() //this.props.party.characters.map(c => c.__uuid)
+        const partyCharacters = this.props.party.characters.map(c => c.__uuid)
         return this.props.characters.filter(c => !partyCharacters.contains(c.__uuid))
     }
 
