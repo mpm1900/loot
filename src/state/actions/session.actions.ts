@@ -16,9 +16,8 @@ export const DELETE_ITEM = PREFIX + '_DELETE_ITEM'
 export const PARTY_ADD_CHARACTER = PREFIX + '_PARTY_ADD_CHARACTER'
 export const PARTY_DELETE_CHARACTER = PREFIX + '_PARTY_DELETE_CHARACTER'
 export const PARTY_UPDATE_CHARACTER = PREFIX + '_PARTY_UPDATE_CHARACTER'
+export const PARTY_SWAP_CHARACTERS = PREFIX + '_PARTY_SWAP_CHARACTERS'
 export const PARTY_UPDATE_ACTIVE_CHARACTER_ID = PREFIX + '_PARTY_UPDATE_ACTIVE_CHARACTER_ID'
-export const PARTY_ADD_ITEM = PREFIX + '_PARTY_ADD_ITEM'
-export const PARTY_DELETE_ITEM = PREFIX + '_PARTY_DELETE_ITEM'
 
 export const setState = (state: ClientSessionState): ClientReduxAction => ({
     type: SET_STATE,
@@ -49,25 +48,19 @@ export const partyUpdateCharacter = (character: Character): ClientReduxAction =>
         character,
     }
 })
+export const partySwapCharacters = (aIndex: number, bIndex: number): ClientReduxAction => ({
+    type: PARTY_SWAP_CHARACTERS,
+    socket: false,
+    payload: {
+        aIndex,
+        bIndex,
+    }
+})
 export const partyUpdateActiveCharacterId = (characterId: string): ClientReduxAction => ({
     type: PARTY_UPDATE_ACTIVE_CHARACTER_ID,
     socket: false,
     payload: {
         characterId,
-    }
-})
-export const partyAddItem = (itemId: Item): ClientReduxAction => ({
-    type: PARTY_ADD_ITEM,
-    socket: false,
-    payload: {
-        itemId,
-    }
-})
-export const partyDeleteItem = (itemId: string): ClientReduxAction => ({
-    type: PARTY_DELETE_ITEM,
-    socket: false,
-    payload: {
-        itemId,
     }
 })
 

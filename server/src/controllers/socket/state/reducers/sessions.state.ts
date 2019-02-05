@@ -51,6 +51,7 @@ export default (state: SocketSessionsState = INITIAL_STATE, action: SocketReduxA
         case Actions.PARTY_ADD_CHARACTER: return Core.partyAddCharacter(state, action)
         case Actions.PARTY_DELETE_CHARACTER: return Core.partyDeleteCharacter(state, action)
         case Actions.PARTY_UPDATE_CHARACTER: return Core.partyUpdateCharacter(state, action)
+        case Actions.PARTY_SWAP_CHARACTERS: return Core.partySwapCharacters(state, action)
         case Actions.PARTY_UPDATE_ACTIVE_CHARACTER_ID: return Core.partyUpdateActiveCharacterId(state, action)
         default: return state
     }

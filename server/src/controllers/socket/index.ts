@@ -5,7 +5,7 @@ import * as Utils from './util';
 import { Store } from 'redux';
 import { UserModel, IUserModel } from '../../models/user';
 import * as UserModelUtils from '../../models/user/user.util'
-import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId } from './state/actions/sessions.actions';
+import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId, partySwapCharacters } from './state/actions/sessions.actions';
 import { BasicCharacterPack } from '../../objects/packs';
 import { EquipItem } from '../../objects/equipItem';
 import { Mario, AnimeLady } from '../../objects/characters/mario.character';
@@ -90,6 +90,12 @@ const registerSessionSocketActions = async (io: SocketServer, socket: Socket, st
 
     socket.on('session__party__update-character', ({ sessionId, character }) => {
         store.dispatch(partyUpdateCharacter(sessionId, Character.deserialize(character)))
+        const session = Utils.findSessionById(store.getState().sessions, sessionId)
+        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+    })
+
+    socket.on('session__party__swap-characters', ({ sessionId, aIndex, bIndex }) => {
+        store.dispatch(partySwapCharacters(sessionId, aIndex, bIndex))
         const session = Utils.findSessionById(store.getState().sessions, sessionId)
         socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
     })

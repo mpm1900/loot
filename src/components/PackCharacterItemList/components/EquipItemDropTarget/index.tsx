@@ -5,7 +5,7 @@ import { Item, ItemType } from '../../../../types/item';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ClientSessionState } from '../../../../state/reducers/session.state';
-import { partyUpdateCharacter, partyAddItem } from '../../../../state/actions/session.actions';
+import { partyUpdateCharacter } from '../../../../state/actions/session.actions';
 
 export const handleExistingItem = (props, item) => {
     const _item = props.character.getItem(item.subType)
@@ -68,7 +68,6 @@ export class _EquipItemDropTarget extends React.Component {
 const mapStateToProps = (state) => ({ ...state, })
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        partyAddItem,
         partyUpdateCharacter
     }, dispatch)
 }

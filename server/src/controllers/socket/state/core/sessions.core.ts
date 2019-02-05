@@ -70,6 +70,7 @@ export const partyAddCharacter = (state: SocketSessionsState, action: SocketRedu
         party: session.party.addCharacter(action.payload.character)
     }))
 }
+
 export const partyDeleteCharacter = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     const index = state.map(session => session.id).indexOf(action.payload.sessionId)
     return state.update(index, session => ({
@@ -77,6 +78,7 @@ export const partyDeleteCharacter = (state: SocketSessionsState, action: SocketR
         party: session.party.removeCharacter(action.payload.characterId)
     }))
 }
+
 export const partyUpdateCharacter = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     const index = state.map(session => session.id).indexOf(action.payload.sessionId)
     return state.update(index, session => ({
@@ -91,10 +93,6 @@ export const partyUpdateCharacter = (state: SocketSessionsState, action: SocketR
     }))
 }
 
-
-
-
-
 export const partyUpdateActiveCharacterId = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     const index = state.map(session => session.id).indexOf(action.payload.sessionId)
     return state.update(index, session => ({
@@ -103,4 +101,21 @@ export const partyUpdateActiveCharacterId = (state: SocketSessionsState, action:
             activeCharacterId: action.payload.characterId,
         })
     }))
+}
+
+export const partySwapCharacters = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
+    const index = state.map(session => session.id).indexOf(action.payload.sessionId)
+    return state.update(index, session => {
+        let characters = session.party.characters
+        const characterA = characters.get(action.payload.aIndex)
+        const characterB = characters.get(action.payload.bIndex)
+        characters = characters.set(action.payload.aIndex, characterB).set(action.payload.bIndex, characterA)
+        return {
+            ...session,
+            party: session.party.with({
+                ...session.party,
+                characters
+            })
+        }
+    })
 }

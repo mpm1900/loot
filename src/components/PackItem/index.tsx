@@ -6,9 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux'
 import { ItemSubType, ItemWeaponType, ItemRarity } from '../../types/item';
 import { TypeChip } from '../TypeChip';
-import { partyDeleteItem, partyUpdateCharacter } from '../../state/actions/session.actions';
-
-
+import { partyUpdateCharacter } from '../../state/actions/session.actions';
 
 const TypeIconTable = {
     [ItemSubType.Charm]: 'gem-pendant',
@@ -41,10 +39,7 @@ const packItemSource = {
         if (monitor.didDrop()) {
             const item = monitor.getItem().item
             if (props.source) {
-                console.log('endDrag', props)
                 props.partyUpdateCharacter(props.source.removeItem(item.subType))
-            } else {
-                props.partyDeleteItem(item.__uuid)
             }
         }
     }
@@ -107,8 +102,7 @@ export class _PackItem extends React.Component {
 
 const mapStateToProps = (state) => ({})
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ 
-        partyDeleteItem,
+    return bindActionCreators({
         partyUpdateCharacter
     }, dispatch)
 }

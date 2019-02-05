@@ -10,24 +10,18 @@ const handleSessionAction = (state, action, socket) => {
             })
             break
         }
+        case SessionActions.PARTY_SWAP_CHARACTERS: {
+            socket.emit('session__party__swap-characters', {
+                sessionId: state.session.sessionId,
+                aIndex: action.payload.aIndex,
+                bIndex: action.payload.bIndex,
+            })
+            break
+        }
         case SessionActions.PARTY_UPDATE_CHARACTER: {
             socket.emit('session__party__update-character', {
                 sessionId: state.session.sessionId,
                 character: action.payload.character.serialize()
-            })
-            break
-        }
-        case SessionActions.PARTY_ADD_ITEM: {
-            socket.emit('session__party__add-item', {
-                sessionId: state.session.sessionId,
-                itemId: action.payload.itemId,
-            })
-            break
-        }
-        case SessionActions.PARTY_DELETE_ITEM: {
-            socket.emit('session__party__delete-item', {
-                sessionId: state.session.sessionId,
-                itemId: action.payload.itemId
             })
             break
         }

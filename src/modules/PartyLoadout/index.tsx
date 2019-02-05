@@ -27,6 +27,7 @@ interface PartyLoadoutPropTypes {
     partyAddItem: any,
     initializeState: any,
     partyUpdateActiveCharacterId: any,
+    partySwapCharacters: any,
     isModal: boolean,
     onClose?: any,
     history: any,
@@ -40,7 +41,7 @@ class PartyLoadout extends React.Component {
     }
 
     render() {
-        const { session, initializeState, partyUpdateActiveCharacterId, partyAddItem, isModal = false } = this.props
+        const { session, partyUpdateActiveCharacterId, partySwapCharacters, isModal = false } = this.props
         console.log('static mods')
         console.log(session.party.activeCharacter ? session.party.activeCharacter.toJS() : null)
         const character = session.party.activeCharacter ? session.party.activeCharacter : null
@@ -61,7 +62,7 @@ class PartyLoadout extends React.Component {
                         characters={session.party.characters} 
                         activeCharacterId={session.party.activeCharacterId}
                         partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
-                        isModal={isModal}
+                        partySwapCharacters={partySwapCharacters}
                     />
                     <div className='PartyLoadout__main'>
                         {session.party.activeCharacter ? 
@@ -82,14 +83,12 @@ class PartyLoadout extends React.Component {
     }
 }
 
-
 const mapStateToProps = (state) => ({ ...state })
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     partyAddCharacter: SessionActions.partyAddCharacter,
     partyDeleteCharacter: SessionActions.partyDeleteCharacter,
     partyUpdateCharacter: SessionActions.partyUpdateCharacter,
     partyUpdateActiveCharacterId: SessionActions.partyUpdateActiveCharacterId,
-    partyAddItem: SessionActions.partyAddItem,
-    partyDeleteItem: SessionActions.partyDeleteItem
+    partySwapCharacters: SessionActions.partySwapCharacters,
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(PartyLoadout)

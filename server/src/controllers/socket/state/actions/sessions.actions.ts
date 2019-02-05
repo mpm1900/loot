@@ -17,9 +17,8 @@ export const DELETE_ITEM = PREFIX + '_DELETE_ITEM'
 export const PARTY_ADD_CHARACTER = PREFIX + '_PARTY_ADD_CHARACTER'
 export const PARTY_DELETE_CHARACTER = PREFIX + '_PARTY_DELETE_CHARACTER'
 export const PARTY_UPDATE_CHARACTER = PREFIX + '_PARTY_UPDATE_CHARACTER'
+export const PARTY_SWAP_CHARACTERS = PREFIX + '_PARTY_SWAP_CHARACTERS'
 export const PARTY_UPDATE_ACTIVE_CHARACTER_ID = PREFIX + '_PARTY_UPDATE_ACTIVE_CHARACTER_ID'
-export const PARTY_ADD_ITEM = PREFIX + '_PARTY_ADD_ITEM'
-export const PARTY_DELETE_ITEM = PREFIX + '_PARTY_DELETE_ITEM'
 
 export const partyAddCharacter = (sessionId: string, character: Character): SocketReduxAction => ({
     type: PARTY_ADD_CHARACTER,
@@ -42,25 +41,21 @@ export const partyUpdateCharacter = (sessionId: string, character: Character): S
         character,
     }
 })
+
+export const partySwapCharacters = (sessionId: string, aIndex: number, bIndex: number): SocketReduxAction => ({
+    type: PARTY_SWAP_CHARACTERS,
+    payload: {
+        sessionId,
+        aIndex,
+        bIndex,
+    }
+})
+
 export const partyUpdateActiveCharacterId = (sessionId: string, characterId: string): SocketReduxAction => ({
     type: PARTY_UPDATE_ACTIVE_CHARACTER_ID,
     payload: {
         sessionId,
         characterId,
-    }
-})
-export const partyAddItem = (sessionId: string, item: Item): SocketReduxAction => ({
-    type: PARTY_ADD_ITEM,
-    payload: {
-        sessionId,
-        item,
-    }
-})
-export const partyDeleteItem = (sessionId: string, itemId: string): SocketReduxAction => ({
-    type: PARTY_DELETE_ITEM,
-    payload: {
-        sessionId,
-        itemId,
     }
 })
 

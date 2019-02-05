@@ -60,7 +60,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     partyDeleteCharacter: SessionActions.partyDeleteCharacter,
     partyUpdateCharacter: SessionActions.partyUpdateCharacter,
     partyUpdateActiveCharacterId: SessionActions.partyUpdateActiveCharacterId,
-    partyAddItem: SessionActions.partyAddItem,
-    partyDeleteItem: SessionActions.partyDeleteItem
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(SessionSidebar)
