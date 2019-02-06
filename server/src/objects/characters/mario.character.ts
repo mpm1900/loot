@@ -14,6 +14,7 @@ export const Mario = (level = 50) => new Character({
     name: 'Mario, Destroyer of Worlds',
     level: level,
     image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549223067/characters-full/destroyer1.png',
+    avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549334259/characters-full/destroyer2.png',
     elementTypes: List.of(ElementType.Dragon, ElementType.Fire),
     maxHealth: RandInt(300, 400),
     strength: LevelRange(level),

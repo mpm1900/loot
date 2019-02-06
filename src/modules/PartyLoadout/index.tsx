@@ -58,23 +58,23 @@ class PartyLoadout extends React.Component {
                     }} onClick={() => this.props.onClose() }/> : null }
                 </TopBar>
                 <div className='PartyLoadout'>
-                    <CharacterSelectSidebar 
-                        characters={session.party.characters} 
-                        activeCharacterId={session.party.activeCharacterId}
-                        partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
-                        partySwapCharacters={partySwapCharacters}
-                    />
                     <div className='PartyLoadout__main'>
-                        {session.party.activeCharacter ? 
+                        <CharacterSelectSidebar 
+                            characters={session.party.characters} 
+                            activeCharacterId={session.party.activeCharacterId}
+                            partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
+                            partySwapCharacters={partySwapCharacters}
+                        />
+                        <div style={{padding: 8, overflowY: 'auto', height: '100%'}}>{session.party.activeCharacter ? 
                             <div style={{display: 'flex', alignItems: 'stretch', height: '100%'}}>
-                                <div style={{display: 'flex', flexDirection: 'column', minWidth: 370, width: '33%'}}>
+                                <div style={{display: 'flex', flexDirection: 'column', minWidth: 407, width: '33%'}}>
                                     <CharacterCard character={character} />
                                 </div>
                                 <div style={{margin: '0', flex: 1, maxHeight: '100%', overflowY: 'auto'}}>
                                     <PackCharacterItemList character={character} />
                                 </div>
                             </div>
-                        : null }
+                        : null }</div>
                     </div>
                     <SessionSidebar />
                 </div>

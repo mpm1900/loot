@@ -78,7 +78,6 @@ export const populateRoom = (room: SocketRoom, sessions: List<SocketSession>): P
 }
 
 export const serializeRoom = (room: PopulatedSocketRoom): any => {
-    console.log('room users', room.playerSessions.map(ps => ps.userId).toJS())
     return {
         id: room.id,
         playerSessions: room.playerSessions.map(session => serializeSession(session)).toArray(),

@@ -7,10 +7,6 @@ import { connect } from 'react-redux';
 import { ClientSessionState } from '../../../../state/reducers/session.state';
 import { partyUpdateCharacter } from '../../../../state/actions/session.actions';
 
-export const handleExistingItem = (props, item) => {
-    const _item = props.character.getItem(item.subType)
-    if (_item) props.partyAddItem(_item.__uuid)
-}
 
 export const updateCharacter = (props: EquipItemDropTargetProps, item: Item) => {
     const { character } = props
@@ -32,7 +28,6 @@ const equipItemDropTargetTarget = {
     drop(props: EquipItemDropTargetProps, monitor, component) {
         const item = monitor.getItem().item
         const _item = props.session.items.find(i => i.__uuid === item.__uuid)
-        handleExistingItem(props, item)
         updateCharacter(props, _item)
     }
 }

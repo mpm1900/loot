@@ -8,14 +8,16 @@
 
     &__main {
         flex: 1;
-        padding: 8px;
+        display: flex;
+        flex-direction: column;
         height: 100%;
 
-        background: rgba(0,0,0,0.12);
+        background: rgba(0,0,0,0.24);
         border-top: 1px solid rgba(0,0,0,1);
 
         .CharacterCard {
             width: 100%;
+            height: 100%;
         }
     }
 }

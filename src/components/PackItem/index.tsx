@@ -87,6 +87,7 @@ export class _PackItem extends React.Component {
                         <span style={{marginLeft: 4, fontSize: 18}}>{Math.round(item.stats.criticalRatio * 100)}%</span>
                     </div>
                 </div> : null }
+                <div style={{flex: 1}}></div>
                 { item.modifiers && item.modifiers.size > 0 ? 
                     <div className="PackItem__modifiers">
                         { item.modifiers.map(mod => (

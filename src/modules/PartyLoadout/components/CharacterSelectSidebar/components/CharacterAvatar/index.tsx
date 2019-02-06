@@ -16,6 +16,7 @@ interface CharacterAvatarPropTypes {
     partyMoveCharacter?: any,
     connectDropTarget?: any,
     connectDragSource?: any,
+    size?: number,
 }
 export class CharacterAvatar extends Component {
     props: CharacterAvatarPropTypes

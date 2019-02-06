@@ -2,14 +2,12 @@
     //background-color: #333;
     background-color: rgba(255,255,255,0.99);
     background-color: rgba(0,0,0,0.84);
-    border-right: 1px solid rgba(0,0,0,1);
+    border-bottom: 1px solid rgba(0,0,0,1);
     color: white;
-    min-height: calc(100% - 0px);
-    width: 100px;
-    min-width: 120px;
+    width: 100%;
+    min-height: 120px;
     // padding: 4px;
     display: flex;
-    flex-direction: column;
 
     &__dot {
         height: 8px;
@@ -20,10 +18,10 @@
 
     .CharacterAvatar {
         box-shadow: none;
-        margin-bottom: 4px;
-        width: calc(100% - 0px);
+        // margin: 2px;
         // border: 1px solid rgba(0,0,0,0.12);
         // border-radius: 8px;
+        border-left: 1px solid black;
         overflow: hidden;
     }
 

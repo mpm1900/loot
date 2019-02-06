@@ -33,28 +33,26 @@ const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
     const onMove = (...args) => {
         console.log(args)
     }
+    const size = 120
     return (
         <div className='CharacterSelectSidebar'>
             <CharacterDropTarget>
-                <div style={{padding: 4 }}>{characters.map((character, i) => (
-                    <div key={character.__uuid} style={{display: 'flex', flexDirection: 'column', marginBottom: 0}}>
-                        <EquipItemDropTarget character={character}>
-                            <div style={{display: 'flex', width: '100%'}}>
-                                <CharacterAvatar 
-                                    key={character.__uuid} 
-                                    index={i}
-                                    character={character}
-                                    activeCharacterId={activeCharacterId} 
-                                    partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
-                                    partySwapCharacters={partySwapCharacters}
-                                />
-                            </div>
-                        </EquipItemDropTarget>
-                    </div>
+                <div style={{padding: 0, width: '100%', height: 'calc(100% - 8px)', display: 'flex' }}>{characters.map((character, i) => (
+                    <EquipItemDropTarget key={character.__uuid} character={character}>
+                        <div style={{display: 'flex', height: size, width: '20%'}}>
+                            <CharacterAvatar 
+                                key={character.__uuid} 
+                                size={size}
+                                index={i}
+                                character={character}
+                                activeCharacterId={activeCharacterId} 
+                                partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
+                                partySwapCharacters={partySwapCharacters}
+                            />
+                        </div>
+                    </EquipItemDropTarget>
                 ))}</div>
             </CharacterDropTarget>
-            <div style={{ flex: 1 }}>
-            </div>
         </div>
         )
 }

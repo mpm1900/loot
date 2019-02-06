@@ -43,7 +43,7 @@ export class SessionSidebar extends React.Component {
         if (!this.props.session) return <div></div>
         return (
             <div className='SessionSidebar'>
-                <TopBar style={{padding: '0 0px', background: 'transparent'}}>
+                <TopBar style={{padding: '0 0px', background: 'rgba(0,0,0,0.4)'}}>
                     <div onClick={() => this.setState({ activeKey: 'items' })} className={'SessionSidebar__option' + (this.state.activeKey === 'items' ? ' active' : '')}>Items</div>
                     <div onClick={() => this.setState({ activeKey: 'characters' })} className={'SessionSidebar__option' + (this.state.activeKey === 'characters' ? ' active' : '')}>Characters</div>
                     <div onClick={() => this.setState({ activeKey: 'packs' })} className={'SessionSidebar__option' + (this.state.activeKey === 'packs' ? ' active' : '')}>Packs</div>

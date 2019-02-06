@@ -38,13 +38,9 @@ const startConnection = async (io: SocketServer, socket: Socket, store: Store, u
     const session = Utils.findSessionByUser(store.getState().sessions, user.id)
     UserModelUtils.updateUserSessionId(user.id, session.id)
     socket.on('disconnect', () => {
-        console.log('disconnecting user')
-        // this is finding the original room, that was not removed
-        // because when joining this room, the other room was not "left" and cleaned up
-        handleLeaveRooms(io, store, session.userId)
+        handleLeaveRooms(socket, store, session.userId)
         store.dispatch(deleteSessionByUser(user.id))
         UserModelUtils.resetSocketState(user.id)
-        console.log('connected users', store.getState().sessions.size)
     })
     initializeSessionState(socket, store, session)
     registerSocketActions(io, socket, store)
@@ -55,7 +51,7 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
     for (let i = 0; i < packCount; i++) {
         store.dispatch(addPack(session.id, BasicCharacterPack(100)))
     }
-    const mario = Mario(100)
+    let mario = Mario(100)
     store.dispatch(addCharacter(session.id, mario))
     store.dispatch(partyAddCharacter(session.id, mario))
     store.dispatch(partyUpdateActiveCharacterId(session.id, mario.__uuid))
@@ -71,114 +67,126 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
     const animelady = AnimeLady(100)
     store.dispatch(addCharacter(session.id, animelady))
     store.dispatch(partyAddCharacter(session.id, animelady))
+    mario = Mario(100)
+    store.dispatch(addCharacter(session.id, mario))
+    store.dispatch(partyAddCharacter(session.id, mario))
 
     const itemCount = 70
     for (let i = 0; i < itemCount; i++) {
         const item = EquipItem(100)
         store.dispatch(addItem(session.id, item))
     }
-    session = Utils.findSessionByUser(store.getState().sessions, session.userId)
-    socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+    blastSession(session.id, socket, store)
 }
 
-const registerSessionSocketActions = async (io: SocketServer, socket: Socket, store: Store) => {
+const blastSession = (sessionId: string, socket: Socket, store: Store, blastToRooms = true) => {
+    const session = Utils.findSessionById(store.getState().sessions, sessionId)
+    if (session) {
+        const rooms = Utils.findRoomsByUser(store.getState().rooms, session.userId)
+        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+        if (rooms && rooms.size > 0 && blastToRooms) {
+            const sessions = store.getState().sessions
+            rooms.forEach(r => {
+                if (r) {
+                    socket.emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(r, sessions)) })
+                    socket.to(r.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(r, sessions)) })
+                }
+            })
+        }
+    }
+}
+
+const blastRoom = (roomId: string, socket: Socket, store: Store) => {
+    const room = store.getState().rooms.filter((r: SocketRoom) => r.id === roomId).first()
+    if (room) {
+        const state = Utils.serializeRoom(Utils.populateRoom(room, store.getState().sessions))
+        socket.emit('initialize-state__room', { state })
+        socket.to(room.id).emit('initialize-state__room', { state })
+    }
+}
+
+const registerSessionSocketActions = async (socket: Socket, store: Store) => {
     socket.on('session__party__update-active-character-id', ({ sessionId, characterId }) => {
         store.dispatch(partyUpdateActiveCharacterId(sessionId, characterId))
-        const session = Utils.findSessionById(store.getState().sessions, sessionId)
-        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+        blastSession(sessionId, socket, store, false)
     })
 
     socket.on('session__party__update-character', ({ sessionId, character }) => {
         store.dispatch(partyUpdateCharacter(sessionId, Character.deserialize(character)))
-        const session = Utils.findSessionById(store.getState().sessions, sessionId)
-        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+        blastSession(sessionId, socket, store)
     })
 
     socket.on('session__party__swap-characters', ({ sessionId, aIndex, bIndex }) => {
         store.dispatch(partySwapCharacters(sessionId, aIndex, bIndex))
-        const session = Utils.findSessionById(store.getState().sessions, sessionId)
-        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+        blastSession(sessionId, socket, store)
     })
 
-    socket.on('session__party__equip-item', ({ sessionId, characterId, itemId, }) => {
+    socket.on('session__party__equip-item', ({ sessionId, characterId, itemId }) => {
         console.log(sessionId, characterId, itemId)
     })
 }
 
-const handleLeaveRooms = (io: SocketServer, store: Store, userId: string) => {
+const handleLeaveRooms = (socket: Socket, store: Store, userId: string) => {
     let rooms = Utils.findRoomsByUser(store.getState().rooms, userId)
     store.dispatch(leaveRooms(userId))
     store.dispatch(removeEmptyRooms())
-    const sessionId = Utils.findSessionIdByUser(store.getState().sessions, userId)
-    store.dispatch(removeSessionFromRooms(sessionId))
+    store.dispatch(removeSessionFromRooms(Utils.findSessionIdByUser(store.getState().sessions, userId)))
     const sessions = store.getState().sessions
-    rooms = rooms.map(room => Utils.findRoomById(store.getState().rooms, room.id)).filter(r => r)
+    rooms = rooms.map(room => Utils.findRoomById(store.getState().rooms, room.id))
     rooms.forEach(r => {
-        io.in(r.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(r, sessions)) })
+        if (r) socket.to(r.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(r, sessions)) })
     })
 }
 
-const handleLeaveRoom = (io: SocketServer, socket: Socket, store: Store, sessionId: string, roomId: string) => {
+const handleLeaveRoom = (socket: Socket, store: Store, sessionId: string, roomId: string) => {
     const session = Utils.findSessionById(store.getState().sessions, sessionId)
     if (session) {
         socket.leave(roomId)
         store.dispatch(leaveRooms(session.userId))
         store.dispatch(removeEmptyRooms())
         store.dispatch(removeSessionFromRooms(sessionId))
-        const room = Utils.findRoomById(store.getState().rooms, roomId)
-        if (room) io.in(room.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(room, store.getState().sessions)) })
+        blastRoom(roomId, socket, store)
     }
 }
 
-const registerRoomSocketActions = async (io: SocketServer, socket: Socket, store: Store) => {
+const registerRoomSocketActions = async (socket: Socket, store: Store) => {
     socket.on('room__request-create-room', ({ sessionId }) => {
         store.dispatch(createRoom())
-        let room = store.getState().rooms.filter((r: SocketRoom) => r.playerSessionIds.size === 0).first()
+        const room = store.getState().rooms.filter((r: SocketRoom) => r.playerSessionIds.size === 0).first()
         const session = Utils.findSessionById(store.getState().sessions, sessionId)
         store.dispatch(joinRoom(room.id, session.userId, session.id))
         socket.join(room.id)
-        room = store.getState().rooms.filter((r: SocketRoom) => r.id === room.id).first()
-        const state = Utils.serializeRoom(Utils.populateRoom(room, store.getState().sessions))
-        io.in(room.id).emit('initialize-state__room', { state })
+        blastRoom(room.id, socket, store)
     })
 
     socket.on('room__request-join-room', ({ sessionId, roomId }) => {
-        console.log('join room', roomId, sessionId)
-        let room = Utils.findRoomById(store.getState().rooms, roomId)
+        const room = Utils.findRoomById(store.getState().rooms, roomId)
         if (room) {
             const session = Utils.findSessionById(store.getState().sessions, sessionId)
-            handleLeaveRooms(io, store, session.userId)
+            handleLeaveRooms(socket, store, session.userId)
             store.dispatch(joinRoom(roomId, session.userId, session.id))
             socket.join(roomId)
-            room = Utils.findRoomById(store.getState().rooms, roomId)
-            const state = Utils.serializeRoom(Utils.populateRoom({...room}, store.getState().sessions));
-            io.in(room.id).emit('initialize-state__room', { state })
+            blastRoom(roomId, socket, store)
         } else {
             socket.emit('request-error', SocketErrors.RoomNotFound)
         }
     })
 
     socket.on('room__request-leave-room', ({ sessionId, roomId }) => {
-        console.log('request leave room', sessionId)
-        handleLeaveRoom(io, socket, store, sessionId, roomId)
+        handleLeaveRoom(socket, store, sessionId, roomId)
     })
 
     socket.on('room__request-send-message', ({ message, userId, roomId }) => {
-        console.log('send message', message, userId, roomId)
         if (message && userId && roomId) {
-            const _room = Utils.findRoomById(store.getState().rooms, roomId);
             store.dispatch(sendMessage(message, userId, roomId))
-            const room = Utils.findRoomById(store.getState().rooms, roomId)
-            const state = Utils.serializeRoom(Utils.populateRoom(room, store.getState().sessions));
-            io.in(room.id).emit('initialize-state__room', { state })
+            blastRoom(roomId, socket, store)
         }
     })
-
 }
 
 const registerSocketActions = async (io: SocketServer, socket: Socket, store: Store) => {
-    registerSessionSocketActions(io, socket, store)
-    registerRoomSocketActions(io, socket, store)
+    registerSessionSocketActions(socket, store)
+    registerRoomSocketActions(socket, store)
 }
 
 export default (server: Server) => {

@@ -77,7 +77,7 @@ export class ItemSelectSidebar extends React.Component {
         const iconSize = 35
         return this.props.connectDropTarget(
             <div className='ItemSelectSidebar'>
-                <div style={{display: 'flex', flexWrap: 'wrap', padding: '8px 0'}}>
+                <div style={{display: 'flex', flexWrap: 'wrap', padding: '8px 0', borderBottom: '1px solid black'}}>
                     <button onClick={() => this.resetFilters()}><Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} /></button>
                     {ItemRarities.map(rarity => 
                         <button key={rarity} className={this.state.filters.map(f => f.value).contains(rarity) ? 'active' : ''} disabled={items.filter(item => item.rarity === rarity).size === 0} onClick={() => this.addFilter('rarity', rarity)}>
@@ -90,7 +90,7 @@ export class ItemSelectSidebar extends React.Component {
                         </button>
                     )}
                 </div>
-                <div style={{display: 'flex', flexDirection: 'column', width: '100%', flex: 1, overflowY: 'auto', maxHeight: '100%' }}>
+                <div style={{display: 'flex', flexDirection: 'column', width: '100%', flex: 1, overflowY: 'auto', maxHeight: '100%', background: 'rgba(255,255,255,0.12)' }}>
                     {this.applyFilters(items, this.state.filters).map(w => (
                         <div key={w.__uuid} className='Pack_Item'>
                             <PackItem item={w} />
