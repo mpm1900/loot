@@ -23,17 +23,21 @@ export const HydroPump = (level: number) => new Skill({
     elementTypes: List.of<ElementType>(ElementType.Grass),
 })
 
-export const DonaldDuck = (level = 50) => new Character({
-    name: 'Donald \'Shoot yo Ass\' Duck',
-    level: level,
-    image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549226888/characters-full/dark_priest3.png',
-    avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549222309/characters-full/dark_priest2.png',
-    elementTypes: List.of<ElementType>(ElementType.Dragon, ElementType.Water),
-    maxHealth: RandInt(300, 400),
-    strength: RandInt(level, level * 3.5),
-    special: RandInt(0, level / 2),
-    speed: LevelRange(level),
-    luck: LevelRange(level),
-    memory: LevelRange(level),
-    skills: List.of<Skill>(FLOODSpray(level), HydroPump(level)),
-})
+export const DonaldDuck = (level = 50) => {
+    const health = RandInt(300, 400)
+    return new Character({
+        name: 'Donald \'Shoot yo Ass\' Duck',
+        level: level,
+        image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549226888/characters-full/dark_priest3.png',
+        avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549222309/characters-full/dark_priest2.png',
+        elementTypes: List.of<ElementType>(ElementType.Dragon, ElementType.Water),
+        maxHealth: health,
+        health,
+        strength: RandInt(level, level * 3.5),
+        special: RandInt(0, level / 2),
+        speed: LevelRange(level),
+        luck: LevelRange(level),
+        memory: LevelRange(level),
+        skills: List.of<Skill>(FLOODSpray(level), HydroPump(level)),
+    })
+}

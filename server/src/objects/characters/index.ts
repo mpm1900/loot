@@ -6,9 +6,11 @@ import { Shrek } from './shrek.character';
 import { DonaldDuck } from './duck.character';
 import { Pikachu } from './pikachu.character';
 
-export const CharacterFactory = (level: number): Character => {
+export const RandomCharacterFactory = (level: number): Character => {
     return Choose(
-        List.of<Character>(Mario(100), Shrek(100), DonaldDuck(100), Pikachu(100), AnimeLady(100)),
+        AllCharacters.map(cf => cf(level)),
         1
     ).first()
 }
+
+export const AllCharacters = List.of<Function>(Mario, Shrek, DonaldDuck, Pikachu, AnimeLady)

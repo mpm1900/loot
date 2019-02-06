@@ -21,16 +21,20 @@ export const Thunderbolt = (level: number) => new Skill({
     elementTypes: List.of<ElementType>(ElementType.Thunder),
 })
 
-export const Pikachu = (level = 50) => new Character({
-    name: 'Pikachu',
-    level: level,
-    image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
-    elementTypes: List.of<ElementType>(ElementType.Light, ElementType.Thunder),
-    maxHealth: RandInt(300, 400),
-    strength: RandInt(level, level * 3.5),
-    special: RandInt(0, level / 2),
-    speed: LevelRange(level),
-    luck: LevelRange(level),
-    memory: LevelRange(level),
-    skills: List.of<Skill>(Thunderbolt(level)),
-})
+export const Pikachu = (level = 50) => {
+    const health = RandInt(300, 400)
+    return new Character({
+        name: 'Pikachu',
+        level: level,
+        image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
+        elementTypes: List.of<ElementType>(ElementType.Light, ElementType.Thunder),
+        maxHealth: health,
+        health,
+        strength: RandInt(level, level * 3.5),
+        special: RandInt(0, level / 2),
+        speed: LevelRange(level),
+        luck: LevelRange(level),
+        memory: LevelRange(level),
+        skills: List.of<Skill>(Thunderbolt(level)),
+    })
+}
