@@ -1,57 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as SessionActions from '../../../../state/actions/session.actions'
 import './index.scss' 
 import ItemSelectSidebar from '../ItemSelectSidebar';
 import { TopBar } from '../../../Core/TopBar';
-import { Button } from '../../../../components/Button';
 import CharacterSidebar from '../CharacterSidebar';
 
 interface iSessionSidebarProps {
     session?: any
     partyAddItem?: any
 } 
-export class SessionSidebar extends React.Component {
-    props: iSessionSidebarProps;
-    state: any;
 
-    constructor(props: iSessionSidebarProps) {
-        super(props),
-        this.state = {
-            activeKey: 'items'
-        }
-    }
+enum SessionSidebarKey {
+    Items = 'Items',
+    Characters = 'Characters',
+    Packs = 'Packs',
+}
 
-    getActiveComponent() {
-        switch (this.state.activeKey) {
-            case 'items': return (
+const SessionSidebar = (props: iSessionSidebarProps) => {
+    const [ activeKey, setActiveKey ] = useState(SessionSidebarKey.Items)
+    const { session } = props
+
+    const getActiveComponent = (key: SessionSidebarKey, props) => {
+        switch (key) {
+            case SessionSidebarKey.Items: return (
                 <ItemSelectSidebar
-                    party={this.props.session.party}
-                    items={this.props.session.items}
+                    party={props.session.party}
+                    items={props.session.items}
                 />
             )
-            case 'characters': return (
-                <CharacterSidebar party={this.props.session.party} characters={this.props.session.characters} />
+            case SessionSidebarKey.Characters: return (
+                <CharacterSidebar
+                    party={props.session.party} 
+                    characters={props.session.characters} 
+                />
             )
-            case 'packs': return <div>packs</div>
+            case SessionSidebarKey.Packs: return (
+                <div>packs</div>
+            )
             default: return <div></div>
         }
     }
 
-    render() {
-        if (!this.props.session) return <div></div>
-        return (
-            <div className='SessionSidebar'>
-                <TopBar style={{padding: '0 0px', background: 'rgba(0,0,0,0.4)'}}>
-                    <div onClick={() => this.setState({ activeKey: 'items' })} className={'SessionSidebar__option' + (this.state.activeKey === 'items' ? ' active' : '')}>Items</div>
-                    <div onClick={() => this.setState({ activeKey: 'characters' })} className={'SessionSidebar__option' + (this.state.activeKey === 'characters' ? ' active' : '')}>Characters</div>
-                    <div onClick={() => this.setState({ activeKey: 'packs' })} className={'SessionSidebar__option' + (this.state.activeKey === 'packs' ? ' active' : '')}>Packs</div>
-                </TopBar>
-                {this.getActiveComponent()}
-            </div>
-        )
-    }
+    const isActive = (key: SessionSidebarKey): boolean => key === activeKey
+
+    if (!session) return <div></div>
+    return (
+        <div className='SessionSidebar'>
+            <TopBar>
+                <div onClick={() => setActiveKey(SessionSidebarKey.Items)} className={isActive(SessionSidebarKey.Items) ? 'active' : ''}>
+                    {SessionSidebarKey.Items}
+                </div>
+                <div onClick={() => setActiveKey(SessionSidebarKey.Characters)} className={isActive(SessionSidebarKey.Characters) ? 'active' : ''}>
+                    {SessionSidebarKey.Characters}
+                </div>
+                <div onClick={() => setActiveKey(SessionSidebarKey.Packs)} className={isActive(SessionSidebarKey.Packs) ? 'active' : ''}>
+                    {SessionSidebarKey.Packs}
+                </div>
+            </TopBar>
+            {getActiveComponent(activeKey, props)}
+        </div>
+    )
 }
 
 const mapStateToProps = (state) => ({ ...state })

@@ -1,68 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import './index.scss'
 import { bindActionCreators } from 'redux';
 import { sendMessage } from '../../../../state/actions/room.actions';
 import { Icon } from '../../../../components/Icon';
+import './index.scss'
 
-export class RoomChat extends React.Component {
-    props: any
-    state: any
+const RoomChatMessage = (message: any) => (
+    <div className='RoomChat__message'>
+        <strong>{message.userId}</strong>
+        <span className='RoomChat__message__message'>{message.message.split(' ').map((word: string, index: number) => {
+            if (word.charAt(0) === ':' && word.charAt(word.length - 1) === ':') {
+                return <div key={index}><Icon icon={word.substr(1, word.length - 2)} fill='white' size={16} /></div>
+            }
+            return <div key={index}>{word + ' '}</div>
+        })}</span>
+    </div>
+)
 
-    constructor(props: any) {
-        super(props)
-        this.state = {
-            message: '',
-        }
-    }
+const RoomChat = (props: any) => {
+    const [ userMessage, setUserMessage ] = useState('')
+    const { messages, sendMessage } = props
 
-    updateCurrentMessage(event) {
-        this.setState({
-            message: event.target.value
-        })
-    }
-
-    checkEnter(event) {
+    const checkEnter = (event: any) => {
         if (event.key === 'Enter' && !event.shiftKey) {
-            this.sendMessage()
+            sendMessage(userMessage)
+            setUserMessage('')
         }
-    }    
-
-    sendMessage() {
-        this.props.sendMessage(this.state.message)
-        setTimeout(() => {
-            this.setState({ message: '' })
-        }, 200);
     }
 
-    
-
-
-    render() {
-        return (
-            <div className='RoomChat'>
-                <div className='RoomChat__body'>
-                    {this.props.messages.map((message, index) => <div key={index} className='RoomChat__message'>
-                        <strong>{message.userId}</strong>
-                        <span className='RoomChat__message__message'>{message.message.split(' ').map((word: string, index: number) => {
-                            if (word.charAt(0) === ':' && word.charAt(word.length - 1) === ':') {
-                                return <div key={index}><Icon icon={word.substr(1, word.length - 2)} fill='white' size={16} /></div>
-                            }
-                            return <div key={index}>{word + ' '}</div>
-                        })}</span>
-                    </div>)}
-                </div>
-                <div className='RoomChat__input'>
-                    <textarea 
-                        value={this.state.message}
-                        placeholder='// Say Something'
-                        onChange={(event) => this.updateCurrentMessage(event)}
-                        onKeyDown={(event) => this.checkEnter(event)}>
-                    </textarea>
-                </div>
+    return (
+        <div className='RoomChat'>
+            <div className='RoomChat__body'>
+                {messages.map((message, index) => <RoomChatMessage {...message} key={index} />)}
             </div>
-        )
-    }
+            <div className='RoomChat__input'>
+                <textarea 
+                    value={userMessage}
+                    placeholder='// Say Something'
+                    onChange={(event) => setUserMessage(event.target.value)}
+                    onKeyUp={(event) => checkEnter(event)}>
+                </textarea>
+            </div>
+        </div>
+    )
 }
 
 const mapStateToProps = (state: any) => ({

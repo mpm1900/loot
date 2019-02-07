@@ -1,13 +1,11 @@
 import React from 'react'
-import './index.scss'
 import CharacterAvatar from './components/CharacterAvatar'
-import { List } from 'immutable';
-import { Character } from '../../../../types/character';
-import { ItemRarity } from '../../../../types/item';
+import { List } from 'immutable'
+import { Character } from '../../../../types/character'
 import { withRouter } from 'react-router-dom'
-import { EquipItemDropTarget } from '../../../../components/PackCharacterItemList/components/EquipItemDropTarget';
-import { Button } from '../../../../components/Button';
+import { EquipItemDropTarget } from '../../../../components/PackCharacterItemList/components/EquipItemDropTarget'
 import CharacterDropTarget from './drop-target'
+import './index.scss'
 
 interface CharacterSelectSidebarPropTypes {
     characters: List<Character>, 
@@ -18,21 +16,8 @@ interface CharacterSelectSidebarPropTypes {
     isModal: boolean,
 }
 
-const rarityColors = {
-    [ItemRarity.Default]:'white',
-    [ItemRarity.Common]: 'white',
-    [ItemRarity.Uncommon]: 'white',
-    [ItemRarity.Rare]: 'white',
-    [ItemRarity.Masterwork]: 'white',
-    [ItemRarity.Unique]: 'white',
-    [ItemRarity.BlackMarket]: 'white'
-}
-
 const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
     const { characters, activeCharacterId, partyUpdateActiveCharacterId, partySwapCharacters } = props
-    const onMove = (...args) => {
-        console.log(args)
-    }
     const size = 120
     return (
         <div className='CharacterSelectSidebar'>

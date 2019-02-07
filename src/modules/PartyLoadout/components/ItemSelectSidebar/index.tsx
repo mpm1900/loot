@@ -10,9 +10,6 @@ const itemSelectSidebarTarget = {
     canDrop(props, monitor) {
         const item = monitor.getItem().item
         return !(item.parentId == null)
-    },
-
-    drop(props, monitor, component) {
     }
 }
 
@@ -102,4 +99,4 @@ export class ItemSelectSidebar extends React.Component {
     }
 }
 
-export default (DropTarget('PackItem', itemSelectSidebarTarget, collect)(ItemSelectSidebar))
+export default DropTarget('PackItem', itemSelectSidebarTarget, collect)(ItemSelectSidebar)
