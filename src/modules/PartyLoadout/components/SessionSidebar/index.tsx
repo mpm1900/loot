@@ -19,7 +19,7 @@ enum SessionSidebarKey {
 }
 
 const SessionSidebar = (props: iSessionSidebarProps) => {
-    const [ activeKey, setActiveKey ] = useState(SessionSidebarKey.Items)
+    const [ activeKey, setActiveKey ] = useState(SessionSidebarKey.Characters)
     const { session } = props
 
     const getActiveComponent = (key: SessionSidebarKey, props) => {
@@ -32,8 +32,10 @@ const SessionSidebar = (props: iSessionSidebarProps) => {
             )
             case SessionSidebarKey.Characters: return (
                 <CharacterSidebar
-                    party={props.session.party} 
-                    characters={props.session.characters} 
+                    party={props.session.party}
+                    characters={props.session.characters}
+                    characterLimit={props.session.party.characterLimit}
+                    partyDeleteCharacter={props.partyDeleteCharacter}
                 />
             )
             case SessionSidebarKey.Packs: return (
@@ -49,15 +51,11 @@ const SessionSidebar = (props: iSessionSidebarProps) => {
     return (
         <div className='SessionSidebar'>
             <TopBar>
-                <div onClick={() => setActiveKey(SessionSidebarKey.Items)} className={isActive(SessionSidebarKey.Items) ? 'active' : ''}>
-                    {SessionSidebarKey.Items}
-                </div>
-                <div onClick={() => setActiveKey(SessionSidebarKey.Characters)} className={isActive(SessionSidebarKey.Characters) ? 'active' : ''}>
-                    {SessionSidebarKey.Characters}
-                </div>
-                <div onClick={() => setActiveKey(SessionSidebarKey.Packs)} className={isActive(SessionSidebarKey.Packs) ? 'active' : ''}>
-                    {SessionSidebarKey.Packs}
-                </div>
+                {[SessionSidebarKey.Characters, SessionSidebarKey.Items, SessionSidebarKey.Packs].map(key => (
+                    <div onClick={() => setActiveKey(key)} className={isActive(key) ? 'active' : ''}>
+                        {key}
+                    </div>
+                ))}
             </TopBar>
             {getActiveComponent(activeKey, props)}
         </div>

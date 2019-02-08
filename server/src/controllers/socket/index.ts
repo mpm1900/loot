@@ -5,7 +5,7 @@ import * as Utils from './util';
 import { Store } from 'redux';
 import { UserModel, IUserModel } from '../../models/user';
 import * as UserModelUtils from '../../models/user/user.util'
-import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId, partySwapCharacters } from './state/actions/sessions.actions';
+import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId, partySwapCharacters, partyDeleteCharacter } from './state/actions/sessions.actions';
 import { BasicCharacterPack } from '../../objects/packs';
 import { EquipItem } from '../../objects/equipItem';
 import { Mario, AnimeLady } from '../../objects/characters/mario.character';
@@ -18,13 +18,13 @@ import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRo
 import { SocketRoom } from './state/reducers/rooms.state'
 import { SocketErrors } from './types'
 
-const authorizeConnection = async (io: SocketServer, args: any, socket: Socket, store: Store) => {
+const authorizeConnection = async (args: any, socket: Socket, store: Store) => {
     let user = await UserModel.findOne({ username: args.username, password: args.password })
     if (user) {
         const session = Utils.findSessionByUser(store.getState().sessions, user.id)
         if (!session) {
             user = await UserModelUtils.updateUserSocketId(user.id, socket.id)
-            startConnection(io, socket, store, user)
+            startConnection(socket, store, user)
         } else {
             socket.emit('request-error', { error: SocketErrors.UserLoggedIn })
         }
@@ -33,7 +33,7 @@ const authorizeConnection = async (io: SocketServer, args: any, socket: Socket, 
     }
 }
 
-const startConnection = async (io: SocketServer, socket: Socket, store: Store, user: IUserModel) => {
+const startConnection = async (socket: Socket, store: Store, user: IUserModel) => {
     store.dispatch(createSession(user.id, socket.id))
     const session = Utils.findSessionByUser(store.getState().sessions, user.id)
     UserModelUtils.updateUserSessionId(user.id, session.id)
@@ -43,7 +43,7 @@ const startConnection = async (io: SocketServer, socket: Socket, store: Store, u
         UserModelUtils.resetSocketState(user.id)
     })
     initializeSessionState(socket, store, session)
-    registerSocketActions(io, socket, store)
+    registerSocketActions(socket, store)
 }
 
 const initializeSessionState = async (socket: Socket, store: Store, session: SocketSession) => {
@@ -51,25 +51,16 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
     for (let i = 0; i < packCount; i++) {
         store.dispatch(addPack(session.id, BasicCharacterPack(100)))
     }
-    let mario = Mario(100)
+    const mario = Mario(100)
     store.dispatch(addCharacter(session.id, mario))
-    store.dispatch(partyAddCharacter(session.id, mario))
-    store.dispatch(partyUpdateActiveCharacterId(session.id, mario.__uuid))
     const shrek = Shrek(100)
     store.dispatch(addCharacter(session.id, shrek))
-    store.dispatch(partyAddCharacter(session.id, shrek))
     const dd =  DonaldDuck(100)
     store.dispatch(addCharacter(session.id, dd))
-    store.dispatch(partyAddCharacter(session.id, dd))
     const pika = Pikachu(100)
     store.dispatch(addCharacter(session.id, pika))
-    store.dispatch(partyAddCharacter(session.id, pika))
     const animelady = AnimeLady(100)
     store.dispatch(addCharacter(session.id, animelady))
-    store.dispatch(partyAddCharacter(session.id, animelady))
-    mario = Mario(100)
-    store.dispatch(addCharacter(session.id, mario))
-    store.dispatch(partyAddCharacter(session.id, mario))
 
     const itemCount = 70
     for (let i = 0; i < itemCount; i++) {
@@ -86,10 +77,10 @@ const blastSession = (sessionId: string, socket: Socket, store: Store, blastToRo
         socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
         if (rooms && rooms.size > 0 && blastToRooms) {
             const sessions = store.getState().sessions
-            rooms.forEach(r => {
-                if (r) {
-                    socket.emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(r, sessions)) })
-                    socket.to(r.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(r, sessions)) })
+            rooms.forEach(room => {
+                if (room) {
+                    socket.emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(room, sessions)) })
+                    socket.to(room.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(room, sessions)) })
                 }
             })
         }
@@ -118,6 +109,16 @@ const registerSessionSocketActions = async (socket: Socket, store: Store) => {
 
     socket.on('session__party__swap-characters', ({ sessionId, aIndex, bIndex }) => {
         store.dispatch(partySwapCharacters(sessionId, aIndex, bIndex))
+        blastSession(sessionId, socket, store)
+    })
+
+    socket.on('session__party__delete-character', ({ sessionId, characterId }) => {
+        store.dispatch(partyDeleteCharacter(sessionId, characterId))
+        blastSession(sessionId, socket, store)
+    })
+
+    socket.on('session__party__add-character', ({ sessionId, characterId }) => {
+        store.dispatch(partyAddCharacter(sessionId, characterId))
         blastSession(sessionId, socket, store)
     })
 
@@ -184,7 +185,7 @@ const registerRoomSocketActions = async (socket: Socket, store: Store) => {
     })
 }
 
-const registerSocketActions = async (io: SocketServer, socket: Socket, store: Store) => {
+const registerSocketActions = async (socket: Socket, store: Store) => {
     registerSessionSocketActions(socket, store)
     registerRoomSocketActions(socket, store)
 }
@@ -195,7 +196,7 @@ export default (server: Server) => {
     io.on('connection', (socket: Socket) => {
         console.log('connection')
         socket.on('connection-auth', async ({ username, password }) => {
-            await authorizeConnection(io, { username, password }, socket, store)
+            await authorizeConnection({ username, password }, socket, store)
         })
     })
 }

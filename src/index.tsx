@@ -55,7 +55,7 @@ socket.on('request-error', (error) => {
 socket.on('initialize-state__session', ({ state }) => {
     console.log('set session state!')
     state.sessionId = state.id
-    if (!state.party.activeCharacterId) state.party.activeCharacterId = state.party.characters[0].__uuid
+    if (!state.party.activeCharacterId && state.party.characters[0]) state.party.activeCharacterId = state.party.characters[0].__uuid
     const session = deserializeSession(state)
     const action = setSessionState(session)
     action.socket = true

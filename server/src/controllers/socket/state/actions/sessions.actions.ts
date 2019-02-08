@@ -20,11 +20,11 @@ export const PARTY_UPDATE_CHARACTER = PREFIX + '_PARTY_UPDATE_CHARACTER'
 export const PARTY_SWAP_CHARACTERS = PREFIX + '_PARTY_SWAP_CHARACTERS'
 export const PARTY_UPDATE_ACTIVE_CHARACTER_ID = PREFIX + '_PARTY_UPDATE_ACTIVE_CHARACTER_ID'
 
-export const partyAddCharacter = (sessionId: string, character: Character): SocketReduxAction => ({
+export const partyAddCharacter = (sessionId: string, characterId: string): SocketReduxAction => ({
     type: PARTY_ADD_CHARACTER,
     payload: {
         sessionId,
-        character,
+        characterId,
     }
 })
 export const partyDeleteCharacter = (sessionId: string, characterId: string): SocketReduxAction => ({

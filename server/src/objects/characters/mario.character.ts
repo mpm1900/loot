@@ -13,7 +13,7 @@ const LevelRange = (level: number) => RandInt(level / 2, level)
 export const Mario = (level = 50) => {
     const health = RandInt(300, 400)
     return new Character({
-        name: 'Mario, Destroyer of Worlds',
+        name: 'Ikth, General of Chaos',
         level: level,
         image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549223067/characters-full/destroyer1.png',
         avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549334259/characters-full/destroyer2.png',

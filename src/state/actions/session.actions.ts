@@ -27,11 +27,11 @@ export const setState = (state: ClientSessionState): ClientReduxAction => ({
     }
 })
 
-export const partyAddCharacter = (character: Character): ClientReduxAction => ({
+export const partyAddCharacter = (characterId: string): ClientReduxAction => ({
     type: PARTY_ADD_CHARACTER,
     socket: false,
     payload: {
-        character,
+        characterId,
     }
 })
 export const partyDeleteCharacter = (characterId: string): ClientReduxAction => ({

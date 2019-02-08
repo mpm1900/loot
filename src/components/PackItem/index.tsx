@@ -1,12 +1,12 @@
 import React from 'react'
-import { DragSource } from 'react-dnd';
-import './index.scss'
-import { Icon } from '../Icon';
-import { bindActionCreators } from 'redux';
+import { DragSource } from 'react-dnd'
+import { Icon } from '../Icon'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { ItemSubType, ItemWeaponType, ItemRarity } from '../../types/item';
-import { TypeChip } from '../TypeChip';
-import { partyUpdateCharacter } from '../../state/actions/session.actions';
+import { ItemSubType, ItemWeaponType, ItemRarity } from '../../types/item'
+import { TypeChip } from '../TypeChip'
+import { partyUpdateCharacter } from '../../state/actions/session.actions'
+import './index.scss'
 
 const TypeIconTable = {
     [ItemSubType.Charm]: 'gem-pendant',
@@ -56,7 +56,7 @@ export class _PackItem extends React.Component {
 
     render() {
         const { item, source = null, isDragging, connectDragSource, showDescription = true } = this.props
-        return connectDragSource(
+        return connectDragSource(<div style={{border: '1px solid black', width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}>
             <div className={"PackItem PackItem__rarity--" + item.rarity} style={{opacity: isDragging ? 0.5 : 1}}>
                 <div style={{width: '100%', fontSize: '18px', height: '24px', textShadow: '1px 1px 1px rgba(0,0,0,0.4)' }}><strong>{item.name}</strong></div>
                 <div style={{display: 'flex'}}>
@@ -96,7 +96,7 @@ export class _PackItem extends React.Component {
                     </div>: null }
                 <div style={{flex: 1}}></div>
             </div>
-        )
+            </div>)
     }
 }
 

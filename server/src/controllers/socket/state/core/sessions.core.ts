@@ -63,20 +63,38 @@ export const deleteItem = (state: SocketSessionsState, action: SocketReduxAction
     }))
 }
 
+const handleNewActiveCharacter = (state: SocketSessionsState, index: number, sessionId: string): SocketSessionsState => {
+    if (!state.get(index).party.activeCharacter) {
+        const character = state.get(index).party.characters.get(0)
+        if (character) {
+            return partyUpdateActiveCharacterId(state, { type: null, payload: {
+                sessionId: sessionId,
+                characterId: state.get(index).party.characters.get(0).__uuid
+            }})
+        }
+        return state
+    }
+    return state
+}
+
 export const partyAddCharacter = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     const index = state.map(session => session.id).indexOf(action.payload.sessionId)
-    return state.update(index, session => ({
+    const character = state.get(index).characters.find(character => character.__uuid === action.payload.characterId)
+    if (!character) return state
+    const _state = state.update(index, session => ({
         ...session,
-        party: session.party.addCharacter(action.payload.character)
+        party: session.party.addCharacter(character)
     }))
+    return handleNewActiveCharacter(_state, index, action.payload.sessionId)
 }
 
 export const partyDeleteCharacter = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     const index = state.map(session => session.id).indexOf(action.payload.sessionId)
-    return state.update(index, session => ({
+    const _state = state.update(index, session => ({
         ...session,
         party: session.party.removeCharacter(action.payload.characterId)
     }))
+    return handleNewActiveCharacter(_state, index, action.payload.sessionId)
 }
 
 export const partyUpdateCharacter = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {

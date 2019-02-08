@@ -10,7 +10,9 @@ import SessionSidebar from './components/SessionSidebar'
 import { TopBar } from '../Core/TopBar'
 import { Icon } from '../../components/Icon'
 import { Button } from '../../components/Button'
+import { Character } from '../../types/character'
 import './index.scss'
+import { CharacterChip } from '../Core/CharacterChip';
 
 interface PartyLoadoutPropTypes {
     session: ClientSessionState
@@ -19,12 +21,14 @@ interface PartyLoadoutPropTypes {
     initializeState: any,
     partyUpdateActiveCharacterId: any,
     partySwapCharacters: any,
+    partyAddCharacter: any,
+    characterLimit: number,
     isModal: boolean,
     onClose?: any,
     history: any,
 }
 
-const SessionTopBar = (props) => {
+const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) => {
     const { isModal, history, onClose } = props
     const fill = 'rgba(255,255,255,0.54)'
     return (
@@ -36,14 +40,13 @@ const SessionTopBar = (props) => {
     )
 }
 
-const SessionActiveCharacter = (props) => {
+const SessionActiveCharacter = (props: { character: Character }) => {
     const { character } = props
     return (
-        <div style={{display: 'flex', alignItems: 'stretch', flex: 1, overflowY: 'auto', padding: 8}}>
-            <div style={{display: 'flex', flexDirection: 'column', minWidth: 407, width: '33%'}}>
-                <CharacterCard character={character} />
-            </div>
-            <div style={{margin: '0', flex: 1, maxHeight: '100%', overflowY: 'auto'}}>
+        <div style={{display: 'flex', flex: 1, padding: 8, maxHeight: 'calc(100% - 138px)', backgroundColor: 'rgba(0,0,0,0.72)' }}>
+            { /* <CharacterCard character={character} /> */ }
+            <CharacterChip character={character} showImage={true} />
+            <div style={{margin: '0', flex: 1, overflowY: 'auto'}}>
                 <PackCharacterItemList character={character} />
             </div>
         </div>
@@ -51,7 +54,7 @@ const SessionActiveCharacter = (props) => {
 }
 
 const Session = (props: PartyLoadoutPropTypes) => {
-    const { history, session: { party }, partyUpdateActiveCharacterId, partySwapCharacters, onClose, isModal } = props
+    const { history, session: { party }, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, onClose, isModal } = props
     const character = party.activeCharacter ? party.activeCharacter : null
 
     return (
@@ -64,6 +67,8 @@ const Session = (props: PartyLoadoutPropTypes) => {
                         activeCharacterId={party.activeCharacterId}
                         partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
                         partySwapCharacters={partySwapCharacters}
+                        partyAddCharacter={partyAddCharacter}
+                        characterLimit={party.characterLimit}
                     />
                     {party.activeCharacter ? 
                         <SessionActiveCharacter character={character} />:

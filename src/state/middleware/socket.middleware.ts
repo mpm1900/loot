@@ -25,6 +25,19 @@ const handleSessionAction = (state, action, socket) => {
             })
             break
         }
+        case SessionActions.PARTY_DELETE_CHARACTER: {
+            socket.emit('session__party__delete-character', {
+                sessionId: state.session.sessionId,
+                characterId: action.payload.characterId,
+            })
+            break
+        }
+        case SessionActions.PARTY_ADD_CHARACTER: {
+            socket.emit('session__party__add-character', {
+                sessionId: state.session.sessionId,
+                characterId: action.payload.characterId,
+            })
+        }
     }
 }
 
@@ -44,7 +57,6 @@ const handleRoomAction = (state, action, socket) => {
             break;
         }
         case RoomActions.REQUEST_LEAVE_ROOM: {
-            console.log('WTTTFFFFF', action)
             socket.emit('room__request-leave-room', {
                 sessionId: state.session.sessionId,
                 roomId: state.room.id,

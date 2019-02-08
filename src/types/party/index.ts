@@ -16,7 +16,7 @@ export type iParty = {
 const defaultParty: iParty = {
     characters: List<Character>(),
     activeCharacterId: '',
-    characterLimit: 5,
+    characterLimit: 6,
 }
 export class Party extends AppRecord implements iParty {
 

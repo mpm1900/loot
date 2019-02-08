@@ -2,24 +2,22 @@ import React from 'react'
 import { DropTarget } from 'react-dnd'
 import { render } from 'react-dom';
 
-class CharacterDropTarget extends React.Component {
-    props: any
-
-
-    render() {
-        return this.props.children
-    }
+const CharacterDropTarget = (props) => {
+    const { children, connectDropTarget } = props
+    return connectDropTarget(children)
 }
 
 const characterDropTargetTarget = {
+    canDrop(props) {
+        return props.characters.size < props.characterLimit
+    },
     drop(props, monitor, component) {
         const sourceObject = monitor.getItem()
-        console.log('source', sourceObject)
-        console.log('props', props)
+        props.partyAddCharacter(sourceObject.id)
     }
 }
 
-export default DropTarget('Character', characterDropTargetTarget, (connect, monitor) => ({
+export default DropTarget('CharacterChip', characterDropTargetTarget, (connect, monitor) => ({
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
     canDrop: monitor.canDrop()

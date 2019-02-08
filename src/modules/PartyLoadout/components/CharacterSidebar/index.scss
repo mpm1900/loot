@@ -1,8 +1,9 @@
 .CharacterSidebar {
     flex: 1;
     overflow-y: auto;
-    padding: 4px;
     color: rgba(255,255,255,0.54);
+    padding: 8px;
+    background: rgba(0,0,0,0.24);
 
     &__empty {
         width: 100%;
@@ -11,6 +12,7 @@
         line-height: 72px;
     }
 
+    /*
     .CharacterCard {
         min-height: unset;
         height: auto;
@@ -41,4 +43,5 @@
             flex: unset;
         }
     }
+    */
 }

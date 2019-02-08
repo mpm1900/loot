@@ -3,17 +3,14 @@
     width: 370px;
     height: 626px;
     background-color: #888;
-
-
     background-color: #111;
     background-image: url("https://www.transparenttextures.com/patterns/skulls.png");
-    border: 1px solid rgba(0,0,0,1);
+    // border: 1px solid rgba(0,0,0,1);
 
 
     // border-radius: 32px 0 0 32px;
     border-radius: 8px 0 0 8px;
     overflow: hidden;
-    border: 1px solid black;
     font-family: 'Roboto', sans-serif;
 
     &__body {
@@ -39,7 +36,7 @@
             background-color: white;
             margin: 0 0 16px 16px;
             position: relative;
-            border: 2px solid rgba(255,255,255,0.32);
+            border: 1px solid rgba(255,255,255,0.32);
             // border-radius: 8px 8px 8px 16px;
             overflow: hidden;
             
