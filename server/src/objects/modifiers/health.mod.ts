@@ -1,7 +1,7 @@
-import { Modifier, ModifierType } from "../../types/modifier";
-import { Character } from "../../types/character";
-import { HealthMod, iCharacterModifier } from "../../types/character/character.modifier";
-import { List } from "immutable";
+import { Modifier, ModifierType } from '../../types/modifier'
+import { Character } from '../../types/character'
+import { HealthMod, iCharacterModifier, HealMod } from '../../types/character/character.modifier'
+import { List } from 'immutable'
 
 export const HealthUp = (amount: number) => {
     return new Modifier({
@@ -20,3 +20,11 @@ export const HealthDown = (amount: number) => new Modifier({
     type: ModifierType.Static,
     mods: List.of<iCharacterModifier>(HealthMod(amount * -1))
 });
+
+export const Heal = (amount: number) => new Modifier({
+    name: 'Heal',
+    description: `Heal ${amount}`,
+    buff: amount > 0,
+    type: ModifierType.Mutation,
+    mods: List.of<iCharacterModifier>(HealMod(amount))
+})

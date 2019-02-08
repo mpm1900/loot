@@ -3,7 +3,7 @@ import { CharacterStatus, sCharacterStatus } from './character.status';
 import { AppRecord } from '..';
 import { Item, ItemType, ItemSubType, sItem } from '../item';
 import { Skill, sSkill } from '../skill';
-import { Modifier } from '../modifier';
+import { Modifier, sModifier } from '../modifier';
 import { ElementType } from '../element';
 import { Weapon } from '../../objects/weapons'
 import { Charm } from '../../objects/charms'
@@ -46,6 +46,7 @@ export type sCharacter = {
     body: sItem | null
     footwear: sItem | null
     gloves: sItem | null
+    selfStaticModifiers: sModifier[],
     hasStaticModifiersApplied: boolean,
 }
 export type iCharacter = {
@@ -77,6 +78,7 @@ export type iCharacter = {
     body?: Item | null
     footwear?: Item | null
     gloves?: Item | null
+    selfStaticModifiers?: List<Modifier>,
     hasStaticModifiersApplied?: boolean,
 }
 export const defaultCharacter: iCharacter = {
@@ -108,6 +110,7 @@ export const defaultCharacter: iCharacter = {
     footwear: null,
     gloves: null,
 
+    selfStaticModifiers: List<Modifier>(),
     hasStaticModifiersApplied: false,
 }
 
@@ -143,6 +146,7 @@ export class Character extends AppRecord implements iCharacter {
     public readonly gloves: Item | null
 
     public readonly hasStaticModifiersApplied: boolean
+    public readonly selfStaticModifiers: List<Modifier>
 
     get staticModifiers(): List<Modifier> {
         return List<Modifier>()
@@ -206,6 +210,7 @@ export class Character extends AppRecord implements iCharacter {
             body: this.body ? this.body.serialize() : null,
             footwear: this.footwear ? this.footwear.serialize() : null,
             gloves: this.gloves ? this.gloves.serialize() : null,
+            selfStaticModifiers: this.selfStaticModifiers.map(modifier => modifier.serialize()).toArray(),
             hasStaticModifiersApplied: this.hasStaticModifiersApplied,
         }
     }
@@ -238,6 +243,7 @@ export class Character extends AppRecord implements iCharacter {
             body: sCharacter.body ? Item.deserialize(sCharacter.body) : null,
             footwear: sCharacter.footwear ? Item.deserialize(sCharacter.footwear) : null,
             gloves: sCharacter.gloves ? Item.deserialize(sCharacter.gloves) : null,
+            selfStaticModifiers: List<Modifier>(sCharacter.selfStaticModifiers.map(sModifier => Modifier.deserialize(sModifier))),
             hasStaticModifiersApplied: sCharacter.hasStaticModifiersApplied,
         })
     }

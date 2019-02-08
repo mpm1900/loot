@@ -33,7 +33,7 @@
     "@types/uuid": "^3.4.4",
     "async": "^2.6.0",
     "bcrypt-nodejs": "^0.0.3",
-    "bluebird": "^3.5.1",
+    "bluebird": "^3.5.3",
     "body-parser": "^1.18.2",
     "chance": "^1.0.18",
     "compression": "^1.7.1",

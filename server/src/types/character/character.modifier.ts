@@ -16,6 +16,7 @@ export type iCharacterModifier = {
 export const CharacterModifier = (character: Character, modifier: iCharacterModifier) => {
     switch (modifier.type) {
         case healthModType: return HEALTH_MOD(character, modifier)
+        case healModType: return HEAL_MOD(character, modifier)
         case armorModType: return ARMOR_MOD(character, modifier)
         case strengthModType: return STRENGTH_MOD(character, modifier)
         case specialModType: return SPECIAL_MOD(character, modifier)
@@ -41,6 +42,15 @@ export const HealthMod = (amount: number, operation: CharacterModifierOperation 
 const HEALTH_MOD = (character: Character, modifier: iCharacterModifier): Character => character.setHealth(
     applyOperation(character.maxHealth, modifier.payload.amount, modifier.payload.operation),
     true
+)
+
+const healModType = 'HEAL_MOD'
+export const HealMod = (amount: number, operation: CharacterModifierOperation = CharacterModifierOperation.ADD) => ({
+    type: healModType,
+    payload: { amount, operation }
+})
+const HEAL_MOD = (character: Character, modifier: iCharacterModifier): Character => character.setHealth(
+    applyOperation(character.health, modifier.payload.amount, modifier.payload.operation)
 )
 
 const armorModType = 'ARMOR_MOD'

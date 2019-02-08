@@ -13,6 +13,7 @@ import expressValidator from 'express-validator';
 import bluebird from 'bluebird';
 import { MONGODB_URI, SESSION_SECRET } from './util/secrets';
 import { UserModel } from './models/user';
+import Bluebird from 'bluebird';
 
 const mongoDB = ''
 
@@ -35,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(lusca.xframe('SAMEORIGIN'));
 // app.use(lusca.xssProtection(true));
 
+mongoose.Promise = Bluebird
 mongoose.connect('mongodb://localhost/27017', {
     useMongoClient: true,
 })

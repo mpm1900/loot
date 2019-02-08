@@ -29,6 +29,7 @@ const authorizeConnection = async (args: any, socket: Socket, store: Store) => {
             socket.emit('request-error', { error: SocketErrors.UserLoggedIn })
         }
     } else {
+        // UserModel.create(args)
         socket.emit('request-error', { error: SocketErrors.UserNotFound })
     }
 }
@@ -197,6 +198,7 @@ export default (server: Server) => {
         console.log('connection')
         socket.on('connection-auth', async ({ username, password }) => {
             await authorizeConnection({ username, password }, socket, store)
+            console.log('connection done')
         })
     })
 }
