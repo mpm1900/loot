@@ -2,7 +2,7 @@
     flex: 1;
     overflow-y: auto;
     color: rgba(255,255,255,0.54);
-    padding: 8px;
+    padding: 0px;
     background: rgba(0,0,0,0.24);
 
     &__empty {
@@ -10,6 +10,10 @@
         text-align: center;
         height: 72px;
         line-height: 72px;
+    }
+
+    & > div > div {
+        border-right-width: 2px !important;
     }
 
     /*

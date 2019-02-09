@@ -6,14 +6,12 @@
 
     &__avatar {
         width: 120px;
+        & > div {
+            border: 1px solid black;
+        }
     }
 
     .CharacterAvatar {
-        border: none !important;
-        margin: 0;
-        width: 100%;
-        border-radius: 8px;
-        box-shadow: 1px 0px 3px rgba(0,0,0,0.64);
         z-index: 2;
     }
 }

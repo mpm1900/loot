@@ -4,6 +4,7 @@ import { List } from 'immutable';
 import { ItemStats, sItemStats } from './item.stats';
 import { RandFloat } from '../random';
 import { Element, sElement } from '../element';
+import { sTrigger, Trigger } from '../trigger';
 
 export enum ItemType {
     Default = 'Default',
@@ -92,6 +93,7 @@ export type sItem = {
     parentType: string | null,
     parentIndex: number | null,
     modifiers: sModifier[],
+    triggers: sTrigger[],
     stats: sItemStats,
     elements: sElement[]
 }
@@ -109,6 +111,7 @@ export type iItem = {
     parentType?: string | null,
     parentIndex?: number | null,
     modifiers?: List<Modifier>,
+    triggers?: List<Trigger>,
     stats?: ItemStats,
     elements?: List<Element>
 }
@@ -125,6 +128,7 @@ const defaultItem: iItem = {
     parentType: null,
     parentIndex: null,
     modifiers: List<Modifier>(),
+    triggers: List<Trigger>(),
     stats: new ItemStats(),
     elements: List<Element>(),
 }
@@ -141,6 +145,7 @@ export class Item extends AppRecord implements iItem {
     public readonly parentType: string
     public readonly parentIndex: number
     public readonly modifiers: List<Modifier>
+    public readonly triggers: List<Trigger>
     public readonly stats: ItemStats
     public readonly elements: List<Element>
 
@@ -152,6 +157,12 @@ export class Item extends AppRecord implements iItem {
 
     with(values: iItem): Item {
         return super.with(values) as Item
+    }
+
+    get effects(): List<Modifier | Trigger> {
+        return List<Modifier | Trigger>()
+            .concat(this.modifiers)
+            .concat(this.triggers)
     }
 
     serialize(): sItem {
@@ -170,6 +181,7 @@ export class Item extends AppRecord implements iItem {
             parentType: this.parentType,
             parentIndex: this.parentIndex,
             modifiers: this.modifiers.map(modifier => modifier.serialize()).toArray(),
+            triggers: this.triggers.map(trigger => trigger.serialize()).toArray(),
             stats: this.stats.serialize(),
             elements: this.elements.map(element => element.serialize()).toArray(),
         }
@@ -190,6 +202,7 @@ export class Item extends AppRecord implements iItem {
             parentType: sItem.parentType,
             parentIndex: sItem.parentIndex,
             modifiers: List<Modifier>(sItem.modifiers.map(sModifier => Modifier.deserialize(sModifier))),
+            triggers: List<Trigger>(sItem.triggers.map(sTrigger => Trigger.deserialize(sTrigger))),
             stats: ItemStats.deserialize(sItem.stats),
             elements: List<Element>(sItem.elements.map(sElement => Element.deserialize(sElement)))
         })

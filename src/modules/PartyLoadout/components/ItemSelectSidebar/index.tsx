@@ -87,7 +87,7 @@ export class ItemSelectSidebar extends React.Component {
                         </button>
                     )}
                 </div>
-                <div style={{display: 'flex', flexDirection: 'column', width: 'calc(100% - 16px)', flex: 1, padding: 8, overflowY: 'auto', maxHeight: '100%', background: 'rgba(0,0,0,0.24)' }}>
+                <div style={{display: 'flex', flexDirection: 'column', width: 'calc(100% - 0px)', flex: 1, padding: 0, overflowY: 'auto', maxHeight: '100%', background: 'rgba(0,0,0,0.24)' }}>
                     {this.applyFilters(items, this.state.filters).map(w => (
                         <div key={w.__uuid} className='Pack_Item'>
                             <PackItem item={w} />

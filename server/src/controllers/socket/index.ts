@@ -17,6 +17,7 @@ import { Character } from '../../types/character';
 import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage } from './state/actions/rooms.actions';
 import { SocketRoom } from './state/reducers/rooms.state'
 import { SocketErrors } from './types'
+import { PontiffSulyvahn } from '../../objects/characters/pontif.character';
 
 const authorizeConnection = async (args: any, socket: Socket, store: Store) => {
     let user = await UserModel.findOne({ username: args.username, password: args.password })
@@ -62,6 +63,8 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
     store.dispatch(addCharacter(session.id, pika))
     const animelady = AnimeLady(100)
     store.dispatch(addCharacter(session.id, animelady))
+    const ps = PontiffSulyvahn(100)
+    store.dispatch(addCharacter(session.id, ps))
 
     const itemCount = 70
     for (let i = 0; i < itemCount; i++) {

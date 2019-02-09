@@ -69,7 +69,7 @@ export const CharacterChip = (props: any) => {
         typeColors[character.elementTypes.get(0)]
 
     return connectDragSource(
-        <div style={{ background: getBodyBackground(character), border: '1px solid rgba(0,0,0,1)', marginBottom: 8 }}>
+        <div style={{ background: getBodyBackground(character), border: '1px solid rgba(0,0,0,1)', marginBottom: 0 }}>
             <div style={{ border: '1px solid rgba(255,255,255,0.24)', height: 'calc(100% - 2px)' }}>
                 <div className='CharacterChip' style={{ backgroundImage: showImage ? `url(${character.avatar})` : ''}}>
                     <div className='CharacterChip__top'>
