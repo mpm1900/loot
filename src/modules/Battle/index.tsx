@@ -65,12 +65,14 @@ export const Room = (props: any) => {
                 </div>
             </TopBar>
             <div className='Battle__body'>
-                <div style={{ display: 'flex', flex: 1, overflowY: 'auto', border: '1px solid black' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto', border: '1px solid black' }}>
+                    <TopBar condensed={true} style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
+                        {room.playerSessions.map((pSession, index) => <span className='Battle__user--name'>{room.users.find(u => u.id === pSession.userId).username}</span>)}
+                    </TopBar>
                     <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.24)' }}>
-                        {room.playerSessions.map(pSession => <div style={{width: '50%', padding: 8}}>
+                        {room.playerSessions.map((pSession, index) => <div style={{width: '50%', padding: 8}}>
                             <div className='Battle__user'>
-                                <span className='Battle__user--name'>{room.users.find(user => user.id === pSession.userId).username}</span>
-                                {pSession.party.characters.map(character => <BattleCharacter character={character} secret={pSession.userId !== session.userId} />)}
+                                {pSession.party.characters.map(character => <BattleCharacter reverse={index === 1} active={character.__uuid === (pSession.party.characters.get(0) || {}).__uuid} character={character} secret={pSession.userId !== session.userId} />)}
                             </div>
                         </div>)}
                     </div>

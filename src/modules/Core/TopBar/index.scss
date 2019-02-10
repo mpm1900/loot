@@ -20,4 +20,14 @@
         border: 1px solid rgba(255,255,255,0.12);
         flex: 1;
     }
+
+    &.condensed {
+        min-height: 36px;
+        max-height: 36px;
+
+        & > div {
+            min-height: 36px;
+            max-height: 36px;
+        }
+    }
 }

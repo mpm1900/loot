@@ -23,7 +23,7 @@ export const _MasterworkGloves = (level: number) => (
         level,
         rarity: ItemRarity.Masterwork,
         type: ItemType.Equipable,
-        subType: ItemSubType.Footwear,
+        subType: ItemSubType.Gloves,
         stats: new ItemStats({
             armor: RandInt(level, level + 75),
         }),

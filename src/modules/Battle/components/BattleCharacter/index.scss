@@ -2,9 +2,9 @@
     // width: 370px; 
     font-family: 'Roboto', sans-serif;
     margin-top: 4px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
 
     &__avatar {
-        width: 120px;
         & > div {
             border: 1px solid black;
         }
@@ -19,5 +19,14 @@
         &__content {
             border-left: none;
         }
+
+        &.reverse {
+            border-right: none;
+            border-left: 1px solid black;
+            .ZeroGuage__content {
+                border-right: none;
+                border-left: 1px solid rgba(255,255,255,0.24);
+            }
+        } 
     }
 }

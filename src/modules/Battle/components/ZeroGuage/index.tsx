@@ -22,9 +22,9 @@ export class ZeroGuage extends React.Component {
 
     }
     render() {
-        const { value, max, height = 40, children, fills } = this.props
+        const { value, max, height = 40, children, fills, className } = this.props
         return (
-            <div className="ZeroGuage" style={{ height }}>
+            <div className={"ZeroGuage " + className} style={{ height }}>
                 <div className="ZeroGuage__fill" style={{width: `${100 * value / max}%`, height: height - 2, backgroundColor: fills ? `rgb(${pickHex(fills[0], fills[1], value / max)})`:  `rgb(${getDefaultColor(value / max)})` }}></div>
                 <div className="ZeroGuage__content" style={{ height: height - 2, lineHeight: `${height}px` }}>
                     {children}
