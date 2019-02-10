@@ -9,6 +9,8 @@
         color: white;
         flex: 1;
         overflow-y: auto;
+        box-sizing: border-box;
+        border: 1px solid rgba(255,255,255,0.24);
     }
 
     &__message {
@@ -28,7 +30,10 @@
     &__input {
         display: flex;
         background: hsl(0,0,25%);
-        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid black;
+        border-left: none;
+        border-right: none;
         textarea {
             flex: 1;
             min-height: 48px;
@@ -37,11 +42,11 @@
             padding: 8px;
             border: none;
             color: white;
-            //border-top: 1px solid rgba(0,0,0,0.36);
+            border: 1px solid rgba(255,255,255,0.24);
             background: rgba(255,255,255,0.24);
-            border-radius: 8px;
+            //border-radius: 8px;
             &::placeholder {
-                color: white;
+                color: rgba(255,255,255,0.54);
             }
 
             &:focus {

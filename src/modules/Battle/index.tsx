@@ -15,7 +15,15 @@ import PartyLoadout from '../PartyLoadout';
 enum SidebarKey {
     Users = 'Users',
     Chat = 'Chat',
-    Battlelog = 'Battlelog'
+    Battlelog = 'Battlelog',
+    Settings = 'Settings',
+}
+
+const keyIcons = {
+    [SidebarKey.Users]: 'two-shadows',
+    [SidebarKey.Chat]: 'talk',
+    [SidebarKey.Battlelog]: 'audio-cassette',
+    [SidebarKey.Settings]: 'cog',
 }
 
 export const Room = (props: any) => {
@@ -40,6 +48,7 @@ export const Room = (props: any) => {
     }
 
     const joinRoom = (roomId) => roomId ? requestJoinRoom(roomId) : null
+    const isActive = (key) => key === sidebarKey
 
     return (
         room && room.playerSessions ? <div className='Battle'>
@@ -50,25 +59,34 @@ export const Room = (props: any) => {
                 <div style={{display: 'flex', alignItems: 'flex-end'}}>
                     <input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
                     <Button style={{ marginRight: 4 }} onClick={() => joinRoom(roomId)}>Join Room</Button>
-                    <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Leave Room</Button>
+                    <Button style={{ marginRight: 4 }} onClick={() => history.push('/')}>Leave Room</Button>
                     <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
                     <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Start Battle</Button>
                 </div>
             </TopBar>
             <div className='Battle__body'>
-                <div style={{ display: 'flex', flex: 1, overflowY: 'auto' }}>
-                    {room.playerSessions.map(session => <div style={{width: '50%', padding: 8}}>
-                        <div className='Battle__user'>
-                            <span className='Battle__user--name'>{room.users.find(user => user.id === session.userId).username}</span>
-                            {session.party.characters.map(character => <BattleCharacter character={character} />)}
-                        </div>
-                    </div>)}
+                <div style={{ display: 'flex', flex: 1, overflowY: 'auto', border: '1px solid black' }}>
+                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.24)' }}>
+                        {room.playerSessions.map(pSession => <div style={{width: '50%', padding: 8}}>
+                            <div className='Battle__user'>
+                                <span className='Battle__user--name'>{room.users.find(user => user.id === pSession.userId).username}</span>
+                                {pSession.party.characters.map(character => <BattleCharacter character={character} secret={pSession.userId !== session.userId} />)}
+                            </div>
+                        </div>)}
+                    </div>
                 </div>
                 <div className='Battle__sidebar'>
-                    <TopBar style={{ borderLeft: 'none' }}>
-                        <div style={{width: '33%' }} onClick={() => setSidebarKey(SidebarKey.Users)}><Icon size={32} icon='two-shadows' fill='rgba(255,255,255,0.54)' /></div>
-                        <div style={{width: '33%' }} onClick={() => setSidebarKey(SidebarKey.Chat)}><Icon size={32} icon='talk' fill='rgba(255,255,255,0.54)' /></div>
-                        <div style={{width: '33%' }} onClick={() => setSidebarKey(SidebarKey.Battlelog)}><Icon size={32} icon='audio-cassette' fill='rgba(255,255,255,0.54)' /></div>
+                    <TopBar style={{ borderLeft: 'none', borderRight: 'none' }}>
+                        {[SidebarKey.Users, SidebarKey.Chat, SidebarKey.Battlelog, SidebarKey.Settings].map(key => (
+                            <div style={{
+                                    width: '25%', 
+                                    display: 'flex', 
+                                    justifyContent: 'center'
+                                }} 
+                                onClick={() => setSidebarKey(key)}>
+                                    <Icon size={32} icon={keyIcons[key]} fill={isActive(key) ? 'rgba(255,255,255,0.84)' : 'rgba(255,255,255,0.54)'} />
+                            </div>
+                        ))}
                     </TopBar>
                     <div className='Battle__sidebar__body'>
                         {sidebar(sidebarKey, props)}
