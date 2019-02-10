@@ -36,7 +36,7 @@ export const deserializeRoom = (room: any): ClientRoomState => {
     return {
         id: room.id,
         playerSessions: List<any>(room.playerSessions.map((session: any) => deserializeSession(session))),
-        users: List(room.userIds),
+        users: List(room.users),
         spectators: List(room.spectatorIds),
         messages: List(room.messages),
         connected: room.connected,
@@ -62,7 +62,7 @@ socket.on('initialize-state__session', ({ state }) => {
     store.dispatch(action)
 })
 socket.on('initialize-state__room', ({ state }) => {
-    console.log('set room state!')
+    console.log('set room state!', state)
     const room = deserializeRoom(state)
     const action = setRoomState(room)
     action.socket = true

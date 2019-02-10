@@ -5,7 +5,7 @@ export const TopBar = (props) => {
     const { style, children } = props
     return (
         <div className='TopBar' style={{ ...(style || {}) }}>
-            {children}
+            <div>{children}</div>
         </div>
     )
 }

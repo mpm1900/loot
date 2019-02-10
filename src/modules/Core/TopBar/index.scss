@@ -1,12 +1,23 @@
 .TopBar {
-    padding: 0 16px;
     min-height: 56px;
     max-height: 56px;
     align-items: center;
     display: flex;
     justify-content: space-between;
     flex: 1;
-    // border-bottom: 1px solid rgba(255,255,255,0.24);
+    border: 1px solid black;
     background: hsl(0, 0%, 15%);
     color: white;
+
+    & > div {
+        padding: 0 16px;
+        min-height: 56px;
+        max-height: 56px;
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        border: 1px solid rgba(255,255,255,0.12);
+        flex: 1;
+    }
 }

@@ -1,0 +1,32 @@
+.Button2 {
+    display: flex;
+    text-align: center;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    z-index: 2;
+    box-sizing: border-box;
+
+    & > button {
+        cursor: pointer;
+        box-sizing: border-box;
+        flex: 1;
+        min-height: 42px;
+        display: flex;
+        font-family: 'Roboto', 'sans-serif';
+        align-items: center;
+        font-weight: bold;
+        justify-content: center;
+        justify-content: stretch;
+        padding: 0 16px;
+        color: rgba(255,255,255,0.84);
+        border: 1px solid rgba(255,255,255,0.24);
+        background-color:  hsl(106, 20%, 38%);
+        font-size: 16px;
+
+        &:active {
+            outline: none;
+        }
+    }
+}

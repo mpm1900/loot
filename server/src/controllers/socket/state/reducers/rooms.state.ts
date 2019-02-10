@@ -3,6 +3,7 @@ import * as Actions from '../actions/rooms.actions'
 import * as Core from '../core/rooms.core'
 import { SocketReduxAction } from '../actions'
 import { SocketSession } from './sessions.state';
+import { IUser } from '../../../../models/user';
 
 export interface SocketRoom {
     id: string
@@ -14,7 +15,7 @@ export interface SocketRoom {
 export interface PopulatedSocketRoom {
     id: string,
     playerSessions: List<SocketSession>,
-    userIds: List<string>, // make this a list of users
+    users: List<IUser>, // make this a list of users
     spectatorIds: List<string>,
     messages: List<any>,
 }

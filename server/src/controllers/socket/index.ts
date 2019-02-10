@@ -81,27 +81,27 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
     blastSession(session.id, socket, store)
 }
 
-const blastSession = (sessionId: string, socket: Socket, store: Store, blastToRooms = true) => {
+const blastSession = async (sessionId: string, socket: Socket, store: Store, blastToRooms = true) => {
     const session = Utils.findSessionById(store.getState().sessions, sessionId)
     if (session) {
         const rooms = Utils.findRoomsByUser(store.getState().rooms, session.userId)
         socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
         if (rooms && rooms.size > 0 && blastToRooms) {
             const sessions = store.getState().sessions
-            rooms.forEach(room => {
+            rooms.forEach(async room => {
                 if (room) {
-                    socket.emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(room, sessions)) })
-                    socket.to(room.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(room, sessions)) })
+                    socket.emit('initialize-state__room', { state: Utils.serializeRoom(await Utils.populateRoom(room, sessions)) })
+                    socket.to(room.id).emit('initialize-state__room', { state: Utils.serializeRoom(await Utils.populateRoom(room, sessions)) })
                 }
             })
         }
     }
 }
 
-const blastRoom = (roomId: string, socket: Socket, store: Store) => {
+const blastRoom = async (roomId: string, socket: Socket, store: Store) => {
     const room = store.getState().rooms.filter((r: SocketRoom) => r.id === roomId).first()
     if (room) {
-        const state = Utils.serializeRoom(Utils.populateRoom(room, store.getState().sessions))
+        const state = Utils.serializeRoom(await Utils.populateRoom(room, store.getState().sessions))
         socket.emit('initialize-state__room', { state })
         socket.to(room.id).emit('initialize-state__room', { state })
     }
@@ -138,67 +138,71 @@ const registerSessionSocketActions = async (socket: Socket, store: Store) => {
     })
 }
 
-const handleLeaveRooms = (socket: Socket, store: Store, userId: string) => {
+const handleLeaveRooms = async (socket: Socket, store: Store, userId: string) => {
     let rooms = Utils.findRoomsByUser(store.getState().rooms, userId)
     store.dispatch(leaveRooms(userId))
     store.dispatch(removeEmptyRooms())
     store.dispatch(removeSessionFromRooms(Utils.findSessionIdByUser(store.getState().sessions, userId)))
     const sessions = store.getState().sessions
     rooms = rooms.map(room => Utils.findRoomById(store.getState().rooms, room.id))
-    rooms.forEach(r => {
-        if (r) socket.to(r.id).emit('initialize-state__room', { state: Utils.serializeRoom(Utils.populateRoom(r, sessions)) })
+    rooms.forEach(async r => {
+        if (r) socket.to(r.id).emit('initialize-state__room', { state: Utils.serializeRoom(await Utils.populateRoom(r, sessions)) })
     })
 }
 
-const handleLeaveRoom = (socket: Socket, store: Store, sessionId: string, roomId: string) => {
+const handleLeaveRoom = async (socket: Socket, store: Store, sessionId: string, roomId: string) => {
     const session = Utils.findSessionById(store.getState().sessions, sessionId)
     if (session) {
         socket.leave(roomId)
         store.dispatch(leaveRooms(session.userId))
         store.dispatch(removeEmptyRooms())
         store.dispatch(removeSessionFromRooms(sessionId))
-        blastRoom(roomId, socket, store)
+        await blastRoom(roomId, socket, store)
     }
 }
 
 const registerRoomSocketActions = async (socket: Socket, store: Store) => {
-    socket.on('room__request-create-room', ({ sessionId }) => {
+    socket.on('room__request-create-room', async ({ sessionId }) => {
         store.dispatch(createRoom())
         const room = store.getState().rooms.filter((r: SocketRoom) => r.playerSessionIds.size === 0).first()
         const session = Utils.findSessionById(store.getState().sessions, sessionId)
         store.dispatch(joinRoom(room.id, session.userId, session.id))
         socket.join(room.id)
-        blastRoom(room.id, socket, store)
+        if (session.party.characters.size > 0) {
+            store.dispatch(partyUpdateActiveCharacterId(session.id, session.party.characters.get(0).__uuid))
+            blastSession(session.id, socket, store)
+        }
+        await blastRoom(room.id, socket, store)
     })
 
-    socket.on('room__request-join-room', ({ sessionId, roomId }) => {
+    socket.on('room__request-join-room', async ({ sessionId, roomId }) => {
         const room = Utils.findRoomById(store.getState().rooms, roomId)
         if (room) {
             const session = Utils.findSessionById(store.getState().sessions, sessionId)
             handleLeaveRooms(socket, store, session.userId)
             store.dispatch(joinRoom(roomId, session.userId, session.id))
             socket.join(roomId)
-            blastRoom(roomId, socket, store)
+            await blastRoom(roomId, socket, store)
         } else {
             socket.emit('request-error', SocketErrors.RoomNotFound)
         }
     })
 
-    socket.on('room__request-leave-room', ({ sessionId, roomId }) => {
-        handleLeaveRoom(socket, store, sessionId, roomId)
+    socket.on('room__request-leave-room', async ({ sessionId, roomId }) => {
+        await handleLeaveRoom(socket, store, sessionId, roomId)
     })
 
-    socket.on('room__request-send-message', ({ message, userId, roomId }) => {
+    socket.on('room__request-send-message', async ({ message, userId, roomId }) => {
         if (message && userId && roomId) {
             store.dispatch(sendMessage(message, userId, roomId))
-            blastRoom(roomId, socket, store)
+            await blastRoom(roomId, socket, store)
         }
     })
 }
 
 const registerSocketActions = async (socket: Socket, store: Store) => {
-    registerSessionSocketActions(socket, store)
-    registerRoomSocketActions(socket, store)
+    await registerSessionSocketActions(socket, store)
+    await registerRoomSocketActions(socket, store)
 }
 
 export default (server: Server) => {

@@ -106,7 +106,7 @@ export class _PackItem extends React.Component {
                     </div>: null */}
                     {<div style={{ display: 'flex' }}>
                         { item.modifiers && item.modifiers.size > 0 ? 
-                        <div className="PackItem__modifiers">
+                        <div className="PackItem__modifiers" style={{marginRight: 4}}>
                             { item.modifiers.map(mod => (
                                 <div key={mod.__uuid} className={"PackItem__modifier--" + (mod.buff ? 'buff' : 'debuff')}>{mod.description}</div>
                             )) }

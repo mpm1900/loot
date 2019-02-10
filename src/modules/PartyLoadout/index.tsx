@@ -9,7 +9,7 @@ import { ClientSessionState } from '../../state/reducers/session.state'
 import SessionSidebar from './components/SessionSidebar'
 import { TopBar } from '../Core/TopBar'
 import { Icon } from '../../components/Icon'
-import { Button } from '../../components/Button'
+import { Button } from '../Core/Button'
 import { Character } from '../../types/character'
 import './index.scss'
 import { CharacterChip } from '../Core/CharacterChip';
@@ -32,9 +32,9 @@ const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) 
     const { isModal, history, onClose } = props
     const fill = 'rgba(255,255,255,0.54)'
     return (
-        <TopBar style={{ paddingRight: 0 }}>
+        <TopBar style={{borderBottom: 'none'}}>
             <strong>Session Party Loadout</strong>
-            { !isModal ? <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => history.push('/battle')}>Ready!</Button> : null }
+            { !isModal ? <Button onClick={() => history.push('/battle')}>Ready!</Button> : null }
             { isModal ? <Icon icon='split-cross' size={36} fill={fill} style={{ cursor: 'pointer', marginRight: 8 }} onClick={onClose}/> : null }
         </TopBar>
     )
@@ -43,7 +43,7 @@ const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) 
 const SessionActiveCharacter = (props: { character: Character }) => {
     const { character } = props
     return (
-        <div style={{display: 'flex', flex: 1, padding: 4, maxHeight: 'calc(100% - 128px)', backgroundColor: 'rgba(0,0,0,0.72)' }}>
+        <div style={{display: 'flex', flex: 1, padding: 8, maxHeight: 'calc(100% - 136px)', backgroundColor: 'hsl(0, 0%, 25%)' }}>
             { /* <CharacterCard character={character} /> */ }
             <CharacterChip character={character} showImage={true} />
             <div style={{margin: '0', flex: 1, overflowY: 'auto'}}>

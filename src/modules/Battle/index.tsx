@@ -8,7 +8,7 @@ import { TopBar } from '../Core/TopBar';
 import { Icon } from '../../components/Icon';
 import RoomChat  from './components/RoomChat';
 import '../../components/Icon/icons.svg';
-import { Button } from '../../components/Button';
+import { Button } from '../Core/Button';
 import Modal, { Styles } from 'react-modal'
 import PartyLoadout from '../PartyLoadout';
 
@@ -22,7 +22,7 @@ export const Room = (props: any) => {
     const [ sidebarKey, setSidebarKey ] = useState(SidebarKey.Chat)
     const [ roomId, setRoomId ] = useState(null)
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
-    const { session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, room, } = props
+    const { session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, room, users, } = props
 
     useEffect(() => {
         if (!session || !session.sessionId) return history ? history.push('/') : null
@@ -49,22 +49,26 @@ export const Room = (props: any) => {
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-end'}}>
                     <input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
-                    <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => joinRoom(roomId)}>Join Room</Button>
-                    <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Edit Session</Button>
-                    <Button style={{padding: '0 16px', marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Leave Room</Button>
+                    <Button style={{ marginRight: 4 }} onClick={() => joinRoom(roomId)}>Join Room</Button>
+                    <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Leave Room</Button>
+                    <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
+                    <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Start Battle</Button>
                 </div>
             </TopBar>
             <div className='Battle__body'>
-                <div style={{ display: 'flex', flex: 1, padding: 16, overflowY: 'auto' }}>
+                <div style={{ display: 'flex', flex: 1, overflowY: 'auto' }}>
                     {room.playerSessions.map(session => <div style={{width: '50%', padding: 8}}>
-                        {session.party.characters.map(character => <BattleCharacter character={character} />)}
+                        <div className='Battle__user'>
+                            <span className='Battle__user--name'>{room.users.find(user => user.id === session.userId).username}</span>
+                            {session.party.characters.map(character => <BattleCharacter character={character} />)}
+                        </div>
                     </div>)}
                 </div>
                 <div className='Battle__sidebar'>
-                    <TopBar style={{ justifyContent: 'space-around'}}>
-                        <a href='#' onClick={() => setSidebarKey(SidebarKey.Users)}><Icon size={32} icon='two-shadows' fill='rgba(255,255,255,0.54)' /></a>
-                        <a href='#' onClick={() => setSidebarKey(SidebarKey.Chat)}><Icon size={32} icon='talk' fill='rgba(255,255,255,0.54)' /></a>
-                        <a href='#' onClick={() => setSidebarKey(SidebarKey.Battlelog)}><Icon size={32} icon='audio-cassette' fill='rgba(255,255,255,0.54)' /></a>
+                    <TopBar style={{ borderLeft: 'none' }}>
+                        <div style={{width: '33%' }} onClick={() => setSidebarKey(SidebarKey.Users)}><Icon size={32} icon='two-shadows' fill='rgba(255,255,255,0.54)' /></div>
+                        <div style={{width: '33%' }} onClick={() => setSidebarKey(SidebarKey.Chat)}><Icon size={32} icon='talk' fill='rgba(255,255,255,0.54)' /></div>
+                        <div style={{width: '33%' }} onClick={() => setSidebarKey(SidebarKey.Battlelog)}><Icon size={32} icon='audio-cassette' fill='rgba(255,255,255,0.54)' /></div>
                     </TopBar>
                     <div className='Battle__sidebar__body'>
                         {sidebar(sidebarKey, props)}
