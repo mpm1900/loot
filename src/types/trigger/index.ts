@@ -18,6 +18,7 @@ export type sTrigger = {
     name: string,
     description: string,
     chance: number,
+    buff: boolean,
     modifiers: sModifier[],
     targetModifiers: sModifier[],
 }
@@ -27,6 +28,7 @@ export type iTrigger = {
     name?: string,
     description?: string,
     chance?: number,
+    buff?: boolean,
     modifiers?: List<Modifier>,
     targetModifiers?: List<Modifier>
 }
@@ -36,6 +38,7 @@ export const defaultTrigger = {
     name: '',
     description: '',
     chance: 1,
+    buff: true,
     modifiers: List<Modifier>(),
     targetModifiers: List<Modifier>(),
 }
@@ -45,6 +48,7 @@ export class Trigger extends AppRecord implements iTrigger {
     public readonly name: string
     public readonly description: string
     public readonly chance: number
+    public readonly buff: boolean
     public readonly modifiers: List<Modifier>
     public readonly targetModifiers: List<Modifier>
 
@@ -64,6 +68,7 @@ export class Trigger extends AppRecord implements iTrigger {
             name: this.name,
             description: this.description,
             chance: this.chance,
+            buff: this.buff,
             modifiers: this.modifiers.map(modifier => modifier.serialize()).toArray(),
             targetModifiers: this.targetModifiers.map(modifier => modifier.serialize()).toArray()
         }
@@ -75,6 +80,7 @@ export class Trigger extends AppRecord implements iTrigger {
             name: sTrigger.name,
             description: sTrigger.description,
             chance: sTrigger.chance,
+            buff: sTrigger.buff,
             modifiers: List<Modifier>(sTrigger.modifiers.map(sModifier => Modifier.deserialize(sModifier))),
             targetModifiers: List<Modifier>(sTrigger.targetModifiers.map(sModifier => Modifier.deserialize(sModifier)))
         })

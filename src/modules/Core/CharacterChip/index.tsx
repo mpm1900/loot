@@ -46,7 +46,7 @@ const CharacterCardSkill = ({ skill }) => (
             return <div key={index}>{word}</div>
         })}</div>
         <div className="CharacterChip__skills__skill--cooldown">
-            <Icon icon={`inverted-dice-${skill.cooldown.max}`} size={16} fill={'black'}/>
+            <Icon style={{marginRight: 4}} icon={`duration`} size={16} fill={'black'}/> {skill.cooldown.max}
         </div>
     </div>
 )
@@ -69,7 +69,7 @@ export const CharacterChip = (props: any) => {
         typeColors[character.elementTypes.get(0)]
 
     return connectDragSource(
-        <div style={{ background: getBodyBackground(character), border: '1px solid rgba(0,0,0,1)', marginBottom: 0 }}>
+        <div className='CharacterChipBg' style={{ background: getBodyBackground(character), border: '1px solid rgba(0,0,0,1)', marginBottom: 0 }}>
             <div style={{ border: '1px solid rgba(255,255,255,0.24)', height: 'calc(100% - 2px)' }}>
                 <div className='CharacterChip' style={{ backgroundImage: showImage ? `url(${character.avatar})` : ''}}>
                     <div className='CharacterChip__top'>

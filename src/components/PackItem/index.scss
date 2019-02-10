@@ -13,6 +13,12 @@
     box-shadow: 0px 0px 2px rgba(0,0,0,1) inset;
     box-sizing: border-box;
     border: 1px solid rgba(255,255,255,0.24) !important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+
+    svg {
+        filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.4));
+    }
+
     // margin: 1px;
 
     .StatChip {
@@ -22,52 +28,82 @@
 }
     .PackItem__rarity--Common {
         background: #f0f0f0;
-        border-color: #ddd;
     }
     .PackItem__rarity--Uncommon {
-        border-color: #4a6741;
-        background-color:  #4a6741;
+        background-color:  hsl(106, 23%, 33%);
+        //transition: background-color 0.2s, background-position 0.2s ease-out;
         background:
-        linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
-        linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
-        linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
-        linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
-        #4a6741;
+            linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) -7px 15px,
+            linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
+            linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
+            linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 14px -30px,
+            hsl(106, 23%, 33%);
         color: white;
+
+        &:hover {
+            background-color:  hsl(106, 20%, 38%);
+            background:
+                linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) -7px 15px,
+                linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
+                linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
+                linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 14px -30px,
+                hsl(106, 20%, 38%);
+                background-position: 20% 20%
+        }
     }
     .PackItem__rarity--Rare {
-        border-color: #3A5894;
-        background-color: #3A5894;
+        background-color: hsl(220, 44%, 40%);
+        //transition: background-color 0.2s, background-position 0.2s ease-out;
         background:
         linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
         linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
         linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
         linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
-        #3A5894;
+        hsl(220, 44%, 40%);
         color: white;
+
+        &:hover {
+            background-color:  hsl(220, 40%, 45%);
+            background:
+                linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) -7px 15px,
+                linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
+                linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
+                linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 14px -30px,
+                hsl(220, 40%, 45%);
+                background-position: 20% 20%
+        }
     }
     .PackItem__rarity--Masterwork {
-        border-color: #380474;
-        background-color: #380474;
+        background-color: hsl(268, 85%, 24%);
+        //transition: background-color 0.2s, background-position 0.2s ease-out;
         background:
         linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
         linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
         linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
         linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
-        #380474;
-        
+        hsl(268, 85%, 24%);
         color: white;
+
+        &:hover {
+            background-color: hsl(268, 80%, 29%);
+            background:
+            linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
+            linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
+            linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
+            linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
+            hsl(268, 80%, 29%);
+            background-position: 20% 20%
+        }
     }
     .PackItem__rarity--Unique {
-        border-color: rgb(170, 112, 5);
         background-color: rgb(134, 90, 7);
         background:
-        linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
-        linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
-        linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
-        linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
-        rgb(179, 131, 0);
-        background-size: 15px 30px;
+            linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
+            linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
+            linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
+            linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
+            rgb(179, 131, 0);
+        //background-size: 15px 30px;
         color: white;
     }
     .PackItem__rarity--BlackMarket {
@@ -84,11 +120,16 @@
         background-color: #840b2a;
         color: white;
         */
-        background-color: #333;
+        background-color: hsl(0, 0%, 13%);
         color: white;
         background-image: url("https://www.transparenttextures.com/patterns/skulls.png");
         .PackItem__modifiers {
             background-color: rgba(0,0,0,0.54);
+        }
+
+        //transition: background-color 0.2s ease;
+        &:hover {
+            background-color: hsl(0, 0%, 18%);
         }
     }
     .PackItem__stats {
@@ -123,7 +164,8 @@
         padding: 8px;
         letter-spacing: 1px;
         margin-top: 8px;
-        border-radius: 8px;
+        // border-radius: 8px;
+        flex: 1;
 
         .PackItem__modifier--buff {
             color: greenyellow;

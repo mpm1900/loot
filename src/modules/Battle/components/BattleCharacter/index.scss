@@ -1,5 +1,4 @@
 .BattleCharacter {
-    //background: #444;
     // width: 370px; 
     font-family: 'Roboto', sans-serif;
     margin-top: 8px;
@@ -13,5 +12,12 @@
 
     .CharacterAvatar {
         z-index: 2;
+    }
+
+    .ZeroGuage {
+        border-left: none;
+        &__content {
+            border-left: none;
+        }
     }
 }

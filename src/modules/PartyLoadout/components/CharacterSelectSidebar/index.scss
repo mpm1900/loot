@@ -1,35 +1,18 @@
 .CharacterSelectSidebar {
-    //background-color: #333;
-    background-color: rgba(255,255,255,0.99);
-    background-color: rgba(0,0,0,0.84);
-    border-bottom: 1px solid rgba(0,0,0,1);
+    background-color: hsl(0, 0%, 15%);
+    border: 1px solid rgba(0,0,0,1);
+    border-right: none;
+    border-top: none;
     color: white;
     width: 100%;
+    box-sizing: border-box;
     min-height: 120px;
     max-height: 120px;
     // padding: 4px;
     display: flex;
 
-    &__dot {
-        height: 8px;
-        width: 8px;
-        background-color: white;
-        border-radius: 9999px;
-    }
-
     .CharacterAvatar {
         box-shadow: none;
-        // margin: 2px;
-        // border: 1px solid rgba(0,0,0,0.12);
-        // border-radius: 8px;
         overflow: hidden;
-    }
-
-    &__maxedOut {
-        color: rgba(255,255,255,0.44);
-        font-weight: bolder;
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-        text-align: center;
     }
 }

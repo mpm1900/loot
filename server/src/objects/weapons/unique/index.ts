@@ -9,14 +9,17 @@ import { HealthUp } from '../../modifiers/health.mod';
 import { WeaponPowerUp } from '../../modifiers/weapon.mod';
 import { SpeedUp, SpeedDown } from '../../modifiers/speed.mod';
 import { PoisonResistanceUp } from '../../modifiers/status.mod'
-import { FireElement, WaterElement, GrassElement, ThunderElement, EarthElement, IceElement, DragonElement, LightElement, DarkElement, Element } from '../../../types/element';
+import { FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement, Element } from '../../../types/element';
+import { Trigger } from '../../../types/trigger';
+import { HealOnHit } from '../../../objects/triggers';
 
-export const UniqueWeapon = (level) => Choose(List.of( 
-    ProfanedGreatsword(level)
+export const UniqueWeapon = (level: number) => Choose(List.of(
+    ProfanedGreatsword(level),
+    DarkSwordOfMarbas(level)
 ), 1).first();
 
 
-export const ProfanedGreatsword = (level) => new Item({
+export const ProfanedGreatsword = (level: number) => new Item({
     name: 'Profaned Greatsword',
     description: 'Praise the sun.',
     image: '-- IMAGE URL --',
@@ -26,25 +29,60 @@ export const ProfanedGreatsword = (level) => new Item({
     weaponType: ItemWeaponType.Greatsword,
     rarity: ItemRarity.Unique,
     stats: new ItemStats({
-        power: RandInt(level + 50, (level * 4) + 50),
+        power: RandInt(300, 500),
         range: 2,
         status: null,
         element: null,
-        accuracy: RandFloat(0.7, 0.85),
+        accuracy: RandFloat(0.6, 0.85),
         affinity: RandFloat(0, 0.3),
         criticalRatio: RandFloat(1.5, 3)
     }),
-    elements: List.of<Element>(FireElement(100)),
+    elements: List.of<Element>(FireElement(RandInt(15, 100))),
     modifiers: List<Modifier>()
-        .merge(
+        .concat(
             Choose(
                 List([
-                    ...RangeFuncChoose(1, level + 20, ArmorUp, 1).toJS(),
-                    ...RangeFuncChoose(1, level + 20, StrengthUp, 1).toJS(),
-                    ...RangeFuncChoose(5, level + 20, HealthUp, 1).toJS(),
-                    ...RangeFuncChoose(5, level + 20, WeaponPowerUp, 1).toJS()]),
+                    ArmorUp(RandInt(1, level + 20)),
+                    StrengthUp(RandInt(1, level + 20)),
+                    HealthUp(RandInt(5, level + 20)),
+                    WeaponPowerUp(RandInt(5, level + 20))
+                ]),
                 4
             )
         )
-        .concat(RangeFuncChoose(0, Math.floor(level / 2), SpeedDown, 1)) as List<Modifier>
+        .push(SpeedDown(RandInt(5, Math.floor(level / 2)))),
+})
+
+export const DarkSwordOfMarbas = (level: number) => new Item({
+    name: 'Dark Sword of Marbas',
+    description: 'He answers truly on hidden or secret things, causes and heals diseases, teaches medical arts, and changes men into other shapes',
+    image: '-- IMAGE URL --',
+    level,
+    type: ItemType.Equipable,
+    subType: ItemSubType.Weapon,
+    weaponType: ItemWeaponType.Longsword,
+    rarity: ItemRarity.Unique,
+    stats: new ItemStats({
+        power: RandInt(150, 240),
+        range: 2,
+        status: null,
+        element: null,
+        accuracy: RandFloat(0.9, 1),
+        affinity: RandFloat(0.3, 0.5),
+        criticalRatio: RandFloat(1, 2)
+    }),
+    elements: List.of<Element>(DarkElement(RandInt(12, 40))),
+    modifiers: List<Modifier>()
+        .concat(
+            Choose(
+                List([
+                    ArmorUp(RandInt(1, level + 20)),
+                    StrengthUp(RandInt(1, level + 20)),
+                    HealthUp(RandInt(5, level + 20)),
+                    WeaponPowerUp(RandInt(5, level + 20))
+                ]),
+                4
+            )
+        ),
+    triggers: List.of<Trigger>(HealOnHit(RandInt(1, 30)))
 })

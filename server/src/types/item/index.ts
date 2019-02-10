@@ -60,10 +60,10 @@ export const ItemRarities = [
 
 export const ItemRarities_Chance = {
     [ItemRarity.Common]: 52,
-    [ItemRarity.Uncommon]: 30,
-    [ItemRarity.Rare]: 10,
-    [ItemRarity.Masterwork]: 5,
-    [ItemRarity.Unique]: 2,
+    [ItemRarity.Uncommon]: 100,
+    [ItemRarity.Rare]: 50,
+    [ItemRarity.Masterwork]: 25,
+    [ItemRarity.Unique]: 12,
     [ItemRarity.BlackMarket]: 1
 }
 

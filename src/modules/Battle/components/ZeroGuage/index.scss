@@ -2,15 +2,15 @@
     height: 52px;
     margin: 2px 0 0 0;
     width: calc(100% - 10px);
-    // border: 1px solid black;
-    //box-shadow: -1px 1px 3px rgba(0,0,0,1);
     border-left: none;
     background: rgba(0,0,0,0.3);
     position: relative;
     pointer-events: none;
+    box-sizing: border-box;
+    border: 1px solid black;
 
     &__fill {
-        height: 100%;
+        height: calc(100% - 2px);
         position: absolute;
         top: 0;
         left: 0;
@@ -25,5 +25,7 @@
         color: white;
         font-family: 'Roboto', 'sans-serif';
         font-weight: 900;
+        box-sizing: border-box;
+        border: 1px solid rgba(255,255,255,0.36);
     }
 }

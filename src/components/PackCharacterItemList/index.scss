@@ -22,12 +22,12 @@
 
             & > div {
                 display: flex;
-                width: calc(100% - 2px);
             }
         }
 
         &:first-child > div {
             width: 100%;
         }
+
     }
 }

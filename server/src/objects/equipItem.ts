@@ -11,7 +11,7 @@ import { CommonWeapon } from './weapons/common';
 import { CommonCharm } from './charms/common';
 import { UncommonWeapon } from './weapons/uncommon';
 import { UncommonRing } from './rings/uncommon';
-import { UncommonHelmet } from './head/uncommon/helment.item';
+import { UncommonHelmet } from './head/uncommon/helmet.item';
 import { UncommonBody } from './body/uncommon';
 import { UncommonFootwear } from './footwear/uncommon';
 import { UncommonGloves } from './gloves/uncommon';

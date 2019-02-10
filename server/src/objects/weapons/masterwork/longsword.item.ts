@@ -19,11 +19,11 @@ const base = (level: number): iItem => ({
     level,
     type: ItemType.Equipable,
     subType: ItemSubType.Weapon,
-    weaponType: ItemWeaponType.Greatsword,
+    weaponType: ItemWeaponType.Longsword,
     elements: Choose(
-            List.of(FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement).map(f => f(20)),
-            RandInt(0, 3)
-        ),
+        List.of(FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement).map(f => f(20)),
+        RandInt(0, 3)
+    ),
     modifiers: List<Modifier>()
         .concat(
             Choose(
@@ -39,23 +39,21 @@ const base = (level: number): iItem => ({
                 RandInt(3, 5)
             )
         )
-        .concat(RangeFuncChoose(10, 50, SpeedDown, 1)) as List<Modifier>
 })
 
 const baseStats = (level: number) => ({
-    power: RandInt(level + 20, (level * 2) + 20),
+    power: RandInt(80, 150),
     range: 2,
-    accuracy: RandFloat(0.7, 0.85),
-    affinity: RandFloat(0, 0.2),
-    criticalRatio: RandFloat(1, 3)
+    accuracy: RandFloat(0.9, 1),
+    affinity: RandFloat(0, 0.5),
+    criticalRatio: RandFloat(1, 2)
 })
 
-export const MasterworkGreatword = (level: number) => new Item({
+export const MasterworkLongsword = (level: number) => new Item({
     ...base(level),
-    name: 'Masterwork Greatsword',
-    description: 'A brute sword, crafted by a master blacksmith',
+    name: 'Masterwork Longsword',
+    description: 'A long sword, ready for battle, crafted by a master blacksmith',
     stats: new ItemStats({
         ...baseStats(level),
-        accuracy: RandFloat(0.7, 0.85),
     }),
 })

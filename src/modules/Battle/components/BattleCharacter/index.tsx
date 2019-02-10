@@ -23,9 +23,9 @@ export class BattleCharacter extends React.Component {
                         <CharacterAvatar character={character} activeCharacterId={character.__uuid} />
                     </div>
                     <div style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-                        <div style={{fontWeight: 900, paddingLeft: 8}}>{character.name}</div>
+                        <div style={{fontWeight: 900, paddingLeft: 8, color: 'white'}}>{character.name}</div>
                         <ZeroGuage value={character.getArmor()} max={character.getArmor()} height={24} fills={[[63,177,162],[70, 130, 180]]}>
-                            <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <div style={{display: 'flex', height: 24, justifyContent: 'center', alignItems: 'center'}}>
                                 <Icon icon='shield' size={16} fill={'white'} />
                                 <div style={{marginLeft: 4, fontSize: 16, lineHeight: '25px'}}>{character.getArmor()} / {character.getArmor()}</div>
                             </div>

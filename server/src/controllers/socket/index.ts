@@ -20,24 +20,29 @@ import { SocketErrors } from './types'
 import { PontiffSulyvahn } from '../../objects/characters/pontif.character';
 
 const authorizeConnection = async (args: any, socket: Socket, store: Store) => {
+    console.log('authorizing connection...')
     let user = await UserModel.findOne({ username: args.username, password: args.password })
+    console.log('user found...')
     if (user) {
         const session = Utils.findSessionByUser(store.getState().sessions, user.id)
         if (!session) {
+            console.log('session found.')
+            console.log('updating user...')
             user = await UserModelUtils.updateUserSocketId(user.id, socket.id)
             startConnection(socket, store, user)
         } else {
             socket.emit('request-error', { error: SocketErrors.UserLoggedIn })
         }
     } else {
-        // UserModel.create(args)
         socket.emit('request-error', { error: SocketErrors.UserNotFound })
     }
 }
 
 const startConnection = async (socket: Socket, store: Store, user: IUserModel) => {
+    console.log('starting socket session...')
     store.dispatch(createSession(user.id, socket.id))
     const session = Utils.findSessionByUser(store.getState().sessions, user.id)
+    console.log('updating user...')
     UserModelUtils.updateUserSessionId(user.id, session.id)
     socket.on('disconnect', () => {
         handleLeaveRooms(socket, store, session.userId)
@@ -49,6 +54,7 @@ const startConnection = async (socket: Socket, store: Store, user: IUserModel) =
 }
 
 const initializeSessionState = async (socket: Socket, store: Store, session: SocketSession) => {
+    console.log('initializing state...')
     const packCount = 3
     for (let i = 0; i < packCount; i++) {
         store.dispatch(addPack(session.id, BasicCharacterPack(100)))
@@ -71,6 +77,7 @@ const initializeSessionState = async (socket: Socket, store: Store, session: Soc
         const item = EquipItem(100)
         store.dispatch(addItem(session.id, item))
     }
+    console.log('initial session blast...')
     blastSession(session.id, socket, store)
 }
 

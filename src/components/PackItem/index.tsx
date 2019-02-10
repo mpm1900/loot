@@ -88,12 +88,36 @@ export class _PackItem extends React.Component {
                     </div>
                 </div> : null }
                 <div style={{flex: 1}}></div>
-                { item.modifiers && item.modifiers.size > 0 ? 
+                {/* item.modifiers && item.modifiers.size > 0 ? 
                     <div className="PackItem__modifiers">
                         { item.modifiers.map(mod => (
                             <div key={mod.__uuid} className={"PackItem__modifier--" + (mod.buff ? 'buff' : 'debuff')}>{mod.description}</div>
                         )) }
-                    </div>: null }
+                        { item.triggers && item.triggers.size > 0 ? 
+                            <div style={{
+                                paddingTop: 8,
+                                marginTop: 8,
+                                borderTop: '1px solid rgba(0,0,0,0.36)'
+                            }}>{ item.triggers.map(trigger => (
+                                <div key={trigger.__uuid} className={"PackItem__modifier--" + (trigger.buff ? 'buff' : 'debuff')}>({(trigger.chance * 100).toFixed()}%) {trigger.description}</div>
+                            )) }</div>: 
+                            null 
+                        }
+                    </div>: null */}
+                    {<div style={{ display: 'flex' }}>
+                        { item.modifiers && item.modifiers.size > 0 ? 
+                        <div className="PackItem__modifiers">
+                            { item.modifiers.map(mod => (
+                                <div key={mod.__uuid} className={"PackItem__modifier--" + (mod.buff ? 'buff' : 'debuff')}>{mod.description}</div>
+                            )) }
+                        </div>: null }
+                        { item.triggers && item.triggers.size > 0 ? 
+                            <div className="PackItem__modifiers">{ item.triggers.map(trigger => (
+                                <div key={trigger.__uuid} className={"PackItem__modifier--" + (trigger.buff ? 'buff' : 'debuff')}>({(trigger.chance * 100).toFixed()}%) {trigger.description}</div>
+                            )) }</div>: 
+                            null 
+                        }
+                    </div>}
                 <div style={{flex: 1}}></div>
             </div>
             </div>)

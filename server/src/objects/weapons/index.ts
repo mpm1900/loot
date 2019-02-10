@@ -1,19 +1,19 @@
 
-import { CommonWeapon } from "./common";
-import { UncommonWeapon } from "./uncommon";
-import { RareWeapon } from "./rare";
-import { MasterworkWeapon } from "./masterwork";
-import { UniqueWeapon } from "./unique";
-import { BlackMarketWeapon } from "./blackmarket";
-import { ItemRarity, getRarity } from "../../types/item";
+import { CommonWeapon } from './common'
+import { UncommonWeapon } from './uncommon'
+import { RareWeapon } from './rare'
+import { MasterworkWeapon } from './masterwork'
+import { UniqueWeapon } from './unique'
+import { BlackMarketWeapon } from './blackmarket'
+import { ItemRarity, getRarity } from '../../types/item'
 
 
-export const Weapon = (level) => {
+export const Weapon = (level: number) => {
     let rarity;
     let returnValue;
-    while (returnValue == null) {
+    while (rarity == null) {
         rarity = getRarity();
-        // if (rarity === ItemRarity.Common) returnValue = CommonWeapon(level)
+        if (rarity === ItemRarity.Common) returnValue = CommonWeapon(level)
         if (rarity === ItemRarity.Uncommon) returnValue =  UncommonWeapon(level)
         if (rarity === ItemRarity.Rare) returnValue = RareWeapon(level)
         if (rarity === ItemRarity.Masterwork) returnValue = MasterworkWeapon(level)

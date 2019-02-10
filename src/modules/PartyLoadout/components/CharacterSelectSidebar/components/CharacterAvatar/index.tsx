@@ -26,7 +26,7 @@ export class CharacterAvatar extends Component {
     render() {
         const { character, activeCharacterId, partyUpdateActiveCharacterId, connectDragSource, connectDropTarget } = this.props
         return connectDragSource(connectDropTarget(
-            <div style={{borderLeft: '1px solid black', boxSizing: 'border-box', height: '100%', width: '100%', display: 'flex'}}>
+            <div className='CharacterAvavatarBorder' style={{border: '1px solid black', boxSizing: 'border-box', height: 'calc(100% - 1px)', width: '100%', display: 'flex'}}>
                 <div className='CharacterAvatar' onClick={() => partyUpdateActiveCharacterId && activeCharacterId !== character.__uuid ? partyUpdateActiveCharacterId(character.__uuid) : null} style={{
                     background: getTypeGradientCSS(character),
                     opacity: (activeCharacterId === character.__uuid) ? 1 : 0.4,

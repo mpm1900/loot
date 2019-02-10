@@ -1,4 +1,4 @@
-import { Choose, RangeFunc, RangeFuncChoose, RandInt } from '../../../types/random'
+import { Choose, RandInt } from '../../../types/random'
 import { List } from 'immutable'
 import { Item, ItemRarity, ItemType, ItemSubType } from '../../../types/item'
 import { ArmorUp } from '../../modifiers/armor.mod'
@@ -11,31 +11,32 @@ import { Modifier } from '../../../types/modifier'
 import { ItemStats } from '../../../types/item/item.stats'
 import { SpecialUp } from '../../modifiers/special.mod'
 
-export const MasterworkCharm = (level: number) => (Choose(List.of(
-    _MasterworkCharm(level)
+export const MasterworkHelmet = (level: number) => (Choose(List.of(
+    _MasterworkHelmet(level)
 ), 1)).first()
 
-export const _MasterworkCharm = (level: number) => (
+export const _MasterworkHelmet = (level: number) => (
     new Item({
-        name: 'Masterwork Charm',
-        description: 'A masterfully made charm.',
+        name: 'Masterwork Helmet',
+        description: 'A masterfully made helmet.',
         image: '-- IMAGE URL --',
         level,
         rarity: ItemRarity.Masterwork,
         type: ItemType.Equipable,
-        subType: ItemSubType.Charm,
+        subType: ItemSubType.Head,
         stats: new ItemStats({
             armor: RandInt(level, level + 75),
         }),
         modifiers: Choose(
-            List<Modifier>()
-                .concat(RangeFuncChoose(1, 40, ArmorUp, 1))
-                .concat(RangeFuncChoose(1, 40, SpeedUp, 1))
-                .concat(RangeFuncChoose(1, 40, HealthUp, 1))
-                .concat(RangeFuncChoose(1, 40, PoisonResistanceUp, 1))
-                .concat(RangeFuncChoose(1, 40, WeaponPowerUp, 1))
-                .concat(RangeFuncChoose(1, 40, SpecialUp, 1))
-                .concat(RangeFuncChoose(1, 40, StrengthUp, 1)) as List<Modifier>,
+            List.of<Modifier>(
+                    ArmorUp(RandInt(1, 4)),
+                    SpeedUp(RandInt(1, 40)),
+                    HealthUp(RandInt(1, 40)),
+                    PoisonResistanceUp(RandInt(1, 40)),
+                    WeaponPowerUp(RandInt(1, 40)),
+                    SpecialUp(RandInt(1, 40)),
+                    StrengthUp(RandInt(1, 40)),
+                ),
             3)
     })
 )
