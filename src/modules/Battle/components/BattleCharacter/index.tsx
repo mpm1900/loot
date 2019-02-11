@@ -33,6 +33,7 @@ export class BattleCharacter extends React.Component {
                                     alignItems: 'center',
                                     fontWeight: 'bold',
                                     color: 'rgba(255,255,255,0.36)',
+                                    userSelect: 'none',
                                 }}>?</div>
                             </div>:
                             <CharacterAvatar character={character} activeCharacterId={character.__uuid} />

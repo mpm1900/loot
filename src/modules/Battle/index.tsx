@@ -61,10 +61,10 @@ export const Room = (props: any) => {
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-end'}}>
                     <input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
-                    <Button style={{ marginRight: 4 }} onClick={() => joinRoom(roomId)}>Join Room</Button>
-                    <Button style={{ marginRight: 4 }} onClick={() => history.push('/')}>Leave Room</Button>
-                    <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
-                    <Button style={{ marginRight: 4 }} onClick={() => setSessionModalOpen(true)}>Start Battle</Button>
+                    <Button onClick={() => joinRoom(roomId)}>Join Room</Button>
+                    <Button onClick={() => history.push('/')}>Leave Room</Button>
+                    <Button onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
+                    <Button onClick={() => setSessionModalOpen(true)}>Start Battle</Button>
                 </div>
             </TopBar>
             <div className='Battle__body'>
@@ -82,7 +82,7 @@ export const Room = (props: any) => {
                 </div>
                 <div className='Battle__sidebar'>
                     <TopBar style={{ borderLeft: 'none', borderRight: 'none' }}>
-                        {[SidebarKey.Users, SidebarKey.Chat, SidebarKey.Battlelog, SidebarKey.Settings].map(key => (
+                        {[SidebarKey.Chat, SidebarKey.Battlelog, SidebarKey.Users, SidebarKey.Settings].map(key => (
                             <div style={{
                                     width: '25%', 
                                     display: 'flex', 
