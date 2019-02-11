@@ -1,9 +1,9 @@
 import React from 'react'
 import './index.scss'
-import { typeColors } from '../../PartyLoadout/components/CharacterCard'
+import { typeColors } from '../CharacterCard'
 import { Character } from '../../../types/character'
-import { TypeChip } from '../../../components/TypeChip'
-import { Icon } from '../../../components/Icon'
+import { TypeChip } from '../TypeChip'
+import { Icon } from '../Icon'
 import { ElementType } from '../../../types/element';
 import { DragSource } from 'react-dnd';
 import { func } from 'prop-types';

@@ -1,5 +1,21 @@
-import * as SessionActions from '../actions/session.actions';
-import * as RoomActions from '../actions/room.actions';
+import * as AuthActions from '../actions/auth.actions'
+import * as SessionActions from '../actions/session.actions'
+import * as RoomActions from '../actions/room.actions'
+
+const handleAuthAction = (state, action, socket) => {
+    switch (action.type) {
+        case AuthActions.LOGIN: {
+            console.log('LOGINNNNNN')
+            const username = action.payload.username
+            const password = action.payload.password
+            socket.emit('connection-auth', { username, password })
+            break;
+        }
+        case AuthActions.SIGNUP: {
+            break;
+        }
+    }
+}
 
 const handleSessionAction = (state, action, socket) => {
     switch (action.type) {
@@ -86,6 +102,7 @@ export default (socket) => {
     return ({ getState, dispatch }) => next => action => {
         console.log('SOCKET', action)
         const state: any = getState()
+        handleAuthAction(state, action, socket)
         handleSessionAction(state, action, socket)
         handleRoomAction(state, action, socket)
         if (action.socket) {

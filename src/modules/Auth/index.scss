@@ -1,0 +1,69 @@
+.Auth {
+    background-color: hsl(0,0,15%);
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', 'sans-serif';
+    
+    &__main {
+        color: white;
+        width: 407px;
+        max-width: 407px;
+        border: 1px solid black;
+        background-color: hsl(0,0,20%);
+
+        &--border {
+            border: 1px solid rgba(255,255,255,0.24);
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    &__header {
+        display: flex;
+        border: 1px solid black;
+        //border-bottom: none;
+
+        &__key {
+            height: 48px;
+            line-height: 48px;
+            display: flex;
+            padding: 0 16px;
+            font-weight: bold;
+            align-items: center;
+            cursor: pointer;
+            text-shadow: 0px 1px 1px rgba(0,0,0,0.7);
+            box-sizing: border-box;
+            user-select: none;
+            border: 1px solid rgba(255,255,255,0.24);
+
+            &.active {
+                background-color: hsl(0,0,30%);
+            }
+        }
+
+        &__divider {
+            height: 48px;
+            width: 1px;
+            background-color: black;
+        }
+    }
+
+    &__body {
+        flex: 1;
+        background-color: hsl(0,0,30%);
+        border: 1px solid black;
+
+        &--border {
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.24);
+            display: flex;
+            flex-direction: column;
+        }
+
+        & > div {
+            display: flex;
+        }
+    }
+}

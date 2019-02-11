@@ -9,6 +9,7 @@ import { ClientReduxAction } from '../actions';
 
 export type sClientSession = {
     id: string,
+    sessionId: string,
     socketId: string,
     userId: string,
     characters: sCharacter[],
@@ -17,7 +18,8 @@ export type sClientSession = {
     party: sParty,
 }
 export type iClientSession = {
-    id: string
+    id: string,
+    sessionId: string,
     userId: string,
     socketId: string,
     characters: List<Character>,
@@ -27,6 +29,7 @@ export type iClientSession = {
 }
 export const defaultClientSession: iClientSession = {
     id: '',
+    sessionId: '',
     userId: '',
     socketId: '',
     characters: List<Character>(),

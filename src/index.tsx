@@ -17,11 +17,13 @@ import { Pack } from './types/pack';
 import { setState as setSessionState } from './state/actions/session.actions';
 import { setState as setRoomState } from './state/actions/room.actions';
 import { ClientRoomState } from './state/reducers/room.state';
+import { loginSuccess } from './state/actions/auth.actions';
 const socket = io('http://localhost:3005')
 const store = makeStore(socket)
 
 export const deserializeSession = (sSession: any): any => {
     return {
+        id: sSession.id,
         sessionId: sSession.id,
         socketId: sSession.socketId,
         userId: sSession.userId,
@@ -45,9 +47,11 @@ export const deserializeRoom = (room: any): ClientRoomState => {
 
 socket.on('connect', (data) => {
     console.log('connection!')
+    /*
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
     socket.emit('connection-auth', { username, password })
+    */
 })
 socket.on('request-error', (error) => {
     alert(JSON.stringify(error))
@@ -60,6 +64,7 @@ socket.on('initialize-state__session', ({ state }) => {
     const action = setSessionState(session)
     action.socket = true
     store.dispatch(action)
+    store.dispatch(loginSuccess())
 })
 socket.on('initialize-state__room', ({ state }) => {
     console.log('set room state!', state)

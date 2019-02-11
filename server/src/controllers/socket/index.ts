@@ -25,14 +25,14 @@ const authorizeConnection = async (args: any, socket: Socket, store: Store) => {
     console.log('user found...')
     if (user) {
         const session = Utils.findSessionByUser(store.getState().sessions, user.id)
-        if (!session) {
+        // if (!session) {
             console.log('session found.')
             console.log('updating user...')
             user = await UserModelUtils.updateUserSocketId(user.id, socket.id)
             startConnection(socket, store, user)
-        } else {
-            socket.emit('request-error', { error: SocketErrors.UserLoggedIn })
-        }
+        // } else {
+        //    socket.emit('request-error', { error: SocketErrors.UserLoggedIn })
+        // }
     } else {
         socket.emit('request-error', { error: SocketErrors.UserNotFound })
     }
@@ -46,7 +46,7 @@ const startConnection = async (socket: Socket, store: Store, user: IUserModel) =
     UserModelUtils.updateUserSessionId(user.id, session.id)
     socket.on('disconnect', () => {
         handleLeaveRooms(socket, store, session.userId)
-        store.dispatch(deleteSessionByUser(user.id))
+        // store.dispatch(deleteSessionByUser(user.id))
         UserModelUtils.resetSocketState(user.id)
     })
     initializeSessionState(socket, store, session)
@@ -54,44 +54,55 @@ const startConnection = async (socket: Socket, store: Store, user: IUserModel) =
 }
 
 const initializeSessionState = async (socket: Socket, store: Store, session: SocketSession) => {
-    console.log('initializing state...')
-    const packCount = 3
-    for (let i = 0; i < packCount; i++) {
-        store.dispatch(addPack(session.id, BasicCharacterPack(100)))
-    }
-    const mario = Mario(100)
-    store.dispatch(addCharacter(session.id, mario))
-    const shrek = Shrek(100)
-    store.dispatch(addCharacter(session.id, shrek))
-    const dd =  DonaldDuck(100)
-    store.dispatch(addCharacter(session.id, dd))
-    const pika = Pikachu(100)
-    store.dispatch(addCharacter(session.id, pika))
-    const animelady = AnimeLady(100)
-    store.dispatch(addCharacter(session.id, animelady))
-    const ps = PontiffSulyvahn(100)
-    store.dispatch(addCharacter(session.id, ps))
+    if (session.items.size === 0) {
+        console.log('initializing state...')
+        const packCount = 3
+        for (let i = 0; i < packCount; i++) {
+            store.dispatch(addPack(session.id, BasicCharacterPack(100)))
+        }
+        const mario = Mario(100)
+        store.dispatch(addCharacter(session.id, mario))
+        const shrek = Shrek(100)
+        store.dispatch(addCharacter(session.id, shrek))
+        const dd =  DonaldDuck(100)
+        store.dispatch(addCharacter(session.id, dd))
+        const pika = Pikachu(100)
+        store.dispatch(addCharacter(session.id, pika))
+        const animelady = AnimeLady(100)
+        store.dispatch(addCharacter(session.id, animelady))
+        const ps = PontiffSulyvahn(100)
+        store.dispatch(addCharacter(session.id, ps))
 
-    const itemCount = 70
-    for (let i = 0; i < itemCount; i++) {
-        const item = EquipItem(100)
-        store.dispatch(addItem(session.id, item))
+        const itemCount = 70
+        for (let i = 0; i < itemCount; i++) {
+            const item = EquipItem(100)
+            store.dispatch(addItem(session.id, item))
+        }
     }
     console.log('initial session blast...')
-    blastSession(session.id, socket, store)
+    blastSession(session.id, socket, store, false, '/')
 }
 
-const blastSession = async (sessionId: string, socket: Socket, store: Store, blastToRooms = true) => {
+const blastSession = async (sessionId: string, socket: Socket, store: Store, blastToRooms = true, route: string = null) => {
     const session = Utils.findSessionById(store.getState().sessions, sessionId)
     if (session) {
         const rooms = Utils.findRoomsByUser(store.getState().rooms, session.userId)
-        socket.emit('initialize-state__session', { state: Utils.serializeSession(session) })
+        let sessionState: any = Utils.serializeSession(session);
+        console.log('route', route)
+        if (route !== null) {
+            sessionState = {
+                ...sessionState,
+                route,
+            }
+        }
+        socket.emit('initialize-state__session', { state: sessionState })
         if (rooms && rooms.size > 0 && blastToRooms) {
             const sessions = store.getState().sessions
             rooms.forEach(async room => {
                 if (room) {
-                    socket.emit('initialize-state__room', { state: Utils.serializeRoom(await Utils.populateRoom(room, sessions)) })
-                    socket.to(room.id).emit('initialize-state__room', { state: Utils.serializeRoom(await Utils.populateRoom(room, sessions)) })
+                    const state =  Utils.serializeRoom(await Utils.populateRoom(room, sessions))
+                    socket.emit('initialize-state__room', { state })
+                    socket.to(room.id).emit('initialize-state__room', { state })
                 }
             })
         }

@@ -1,0 +1,17 @@
+.Input {
+    flex: 1;
+    box-sizing: border-box;
+    border: 1px solid black;
+    height: 44px;
+
+    input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(255,255,255,0.72);
+        margin: 0;
+        font-size: 16px;
+        background-color: hsl(0,0,72%);
+        padding: 8px;
+    }
+}
