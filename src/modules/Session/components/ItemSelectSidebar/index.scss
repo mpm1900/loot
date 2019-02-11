@@ -5,32 +5,49 @@
     max-height: 100%;
     overflow: auto;
 
-    & > div > button {
-        padding: 4px;
-        min-height: calc(100% / 7);
-        width: calc(100% / 7);
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-
-        &:focus {
-            outline: none;
+    &__header {
+        & > div {
+            display: flex;
+            border: 1px solid black;
+            box-sizing: border-box;
+            justify-content: stretch;
+            align-items: stretch;
+            min-height: calc(100% / 7);
+            width: calc(100% / 7);
         }
     
-        
-        &:disabled {
-            * {
-                opacity: 0.5;
+        & > div >  button {
+            padding: 0;
+            flex: 1;
+            background-color: transparent;
+            cursor: pointer;
+            justify-content: stretch;
+            border: none;
+            align-items: stretch;
+            display: flex;
+    
+            &:focus {
+                outline: none;
             }
-        }
-
-        &.active {
-            color: white;
-            svg { fill: white !important; }
-        }
-
-        & > div {
-            border-radius: 50%;
+        
+            
+            &:disabled {
+                * {
+                    opacity: 0.5;
+                }
+            }
+    
+            &.active {
+                color: white;
+                svg { fill: white !important; }
+            }
+    
+            & > div {
+                border: 1px solid rgba(255,255,255,0.24);
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
         }
     }
 

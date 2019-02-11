@@ -74,18 +74,26 @@ export class ItemSelectSidebar extends React.Component {
         const iconSize = 35
         return this.props.connectDropTarget(
             <div className='ItemSelectSidebar'>
-                <div style={{display: 'flex', flexWrap: 'wrap', padding: '8px 0', borderBottom: '1px solid black'}}>
-                    <button onClick={() => this.resetFilters()}><Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} /></button>
-                    {ItemRarities.map(rarity => 
+                <div className='ItemSelectSidebar__header' style={{display: 'flex', flexWrap: 'wrap', borderBottom: '1px solid black'}}>
+                    <div>
+                        <button onClick={() => this.resetFilters()}>
+                            <div>
+                                <Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} />
+                            </div>
+                        </button>
+                    </div>
+                    {ItemRarities.map(rarity => <div>
                         <button key={rarity} className={this.state.filters.map(f => f.value).contains(rarity) ? 'active' : ''} disabled={items.filter(item => item.rarity === rarity).size === 0} onClick={() => this.addFilter('rarity', rarity)}>
-                            <div style={{margin: '0 auto', height: iconSize - 2, width: iconSize - 2, border: '1px solid black', background: ItemRarityColor[rarity]}}></div>
+                            <div style={{ background: ItemRarityColor[rarity]}}></div>
                         </button>
-                    )}
-                    {ItemSubTypes.map(type => 
+                    </div>)}
+                    {ItemSubTypes.map(type => <div>
                         <button key={type} className={this.state.filters.map(f => f.value).contains(type) ? 'active' : ''} disabled={(items.filter(item => item.subType === type).size === 0)} onClick={() => this.addFilter('subType', type)}>
-                            <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.54)'} />
+                            <div style={{ padding: '4px 0'}}>
+                                <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.54)'} />
+                            </div>
                         </button>
-                    )}
+                    </div>)}
                 </div>
                 <div style={{display: 'flex', flexDirection: 'column', width: 'calc(100% - 0px)', flex: 1, padding: 0, overflowY: 'auto', maxHeight: '100%', background: 'rgba(0,0,0,0.24)' }}>
                     {this.applyFilters(items, this.state.filters).map(w => (
