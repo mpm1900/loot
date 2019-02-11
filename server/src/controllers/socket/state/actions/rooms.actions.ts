@@ -7,8 +7,11 @@ export const REMOVE_SESSION_FROM_ROOMS = PREFIX + '_REMOVE_SESSION_FROM_ROOMS'
 export const REMOVE_EMPTY_ROOMS = PREFIX + '_REMOVE_EMPTY_ROOMS'
 export const SEND_MESSAGE = PREFIX + '_SEND_MESSAGE'
 
-export const createRoom = () => ({
+export const createRoom = (userId: string = null) => ({
     type: CREATE_ROOM,
+    payload: {
+        userId,
+    }
 })
 
 export const deleteRoom = (roomId: string) => ({

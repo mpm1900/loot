@@ -6,6 +6,7 @@ import shortid from 'shortid';
 export const createRoom = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
     return state.push({
         id: shortid.generate(),
+        creatorId: action.payload.userId,
         playerSessionIds: List<string>(),
         userIds: List<string>(),
         spectatorIds: List<string>(),

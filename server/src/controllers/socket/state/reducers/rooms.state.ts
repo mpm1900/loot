@@ -7,6 +7,7 @@ import { IUser } from '../../../../models/user';
 
 export interface SocketRoom {
     id: string
+    creatorId: string,
     playerSessionIds: List<string>,
     userIds: List<string>
     spectatorIds: List<string>,
@@ -14,6 +15,7 @@ export interface SocketRoom {
 }
 export interface PopulatedSocketRoom {
     id: string,
+    creatorId: string, // this can be a user if needed
     playerSessions: List<SocketSession>,
     users: List<IUser>, // make this a list of users
     spectatorIds: List<string>,

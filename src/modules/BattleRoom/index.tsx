@@ -31,10 +31,13 @@ export const Room = (props: any) => {
     const [ sidebarKey, setSidebarKey ] = useState(SidebarKey.Chat)
     const [ roomId, setRoomId ] = useState(null)
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
-    const { session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location, match } = props
+    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location } = props
 
     useEffect(() => {
-        if (!session || !session.sessionId) return history ? history.push('/') : null
+        if (!session || !session.sessionId || !auth.loggedIn) return history ? history.push('/') : null
+    }, [session, auth])
+
+    useEffect(() => {
         if (location.pathname === '/battle/create')
             requestCreateRoom()
         if (location.pathname === '/battle/find')
@@ -53,6 +56,11 @@ export const Room = (props: any) => {
 
     const joinRoom = (roomId) => roomId ? requestJoinRoom(roomId) : null
     const isActive = (key) => key === sidebarKey
+    const getUserClass = (user) => {
+        if (user.id === room.creatorId) return 'creator'
+        if (room.users.map(u => u.id).contains(user.id)) return 'user'
+        return 'spectator'
+    }
 
     return (
         room && room.playerSessions ? <div className='Battle'>
@@ -71,7 +79,14 @@ export const Room = (props: any) => {
             <div className='Battle__body'>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto', border: '1px solid black' }}>
                     <TopBar condensed={true} style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
-                        {room.playerSessions.map((pSession, index) => <span className='Battle__user--name'>{room.users.find(u => u.id === pSession.userId).username}</span>)}
+                        {room.playerSessions.map((pSession, index) => {
+                            const user = room.users.find(u => u.id === pSession.userId)
+                            return (
+                                <span className={'Battle__user--name' + ' ' + getUserClass(user)}>
+                                    {user.username}
+                                </span>
+                            )
+                         })}
                     </TopBar>
                     <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.24)' }}>
                         {room.playerSessions.map((pSession, index) => <div style={{width: '50%', padding: 8}}>

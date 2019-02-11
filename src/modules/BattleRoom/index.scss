@@ -40,6 +40,13 @@
             color: white;
             font-weight: bold;
             
+            &.creator {
+                color: hsl(44, 100, 45);
+            }
+
+            &.user {
+                color: hsl(268, 40%, 60%);
+            }
         }
     }
 }

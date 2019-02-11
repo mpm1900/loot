@@ -6,12 +6,17 @@ import { Icon } from '../../../Core/Icon';
 import './index.scss'
 import { List } from 'immutable';
 
-const RoomChatMessage = (message: any, users: List<any>) => {
+const RoomChatMessage = (message: any, users: List<any>, room) => {
     console.log('USERS', users)
     const user = users.find(u => u.id === message.userId)
+    const getUserClass = (user) => {
+        if (user.id === room.creatorId) return 'creator'
+        if (room.users.map(u => u.id).contains(user.id)) return 'user'
+        return 'spectator'
+    }
     return (
         <div className='RoomChat__message'>
-            <strong>{user ? user.username : 'Disconnected User'}</strong>
+            <strong className={getUserClass(user)}>{user ? user.username : 'Disconnected User'}</strong>
             <span className='RoomChat__message__message'>{message.message.split(' ').map((word: string, index: number) => {
                 if (word.charAt(0) === ':' && word.charAt(word.length - 1) === ':') {
                     return <div key={index}><Icon icon={word.substr(1, word.length - 2)} fill='white' size={16} /></div>
@@ -24,7 +29,7 @@ const RoomChatMessage = (message: any, users: List<any>) => {
 
 const RoomChat = (props: any) => {
     const [ userMessage, setUserMessage ] = useState('')
-    const { messages, sendMessage, users } = props
+    const { messages, sendMessage, users, room } = props
 
     const checkEnter = (event: any) => {
         if (event.key === 'Enter' && !event.shiftKey) {
@@ -36,7 +41,7 @@ const RoomChat = (props: any) => {
     return (
         <div className='RoomChat'>
             <div className='RoomChat__body'>
-                {messages.map((message, index) => RoomChatMessage(message, users))}
+                {messages.map((message, index) => RoomChatMessage(message, users, room))}
             </div>
             <div className='RoomChat__input'>
                 <textarea 
@@ -51,6 +56,7 @@ const RoomChat = (props: any) => {
 }
 
 const mapStateToProps = (state: any) => ({
+    room: state.room,
     messages: state.room.messages,
     users: state.room.users,
 })

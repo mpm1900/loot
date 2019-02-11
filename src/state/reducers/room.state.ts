@@ -10,6 +10,7 @@ import { sClientSession, iClientSession } from './session.state';
 
 export type sClientRoom = {
     id: string,
+    creatorId: string,
     users: any[],
     spectators: any[]
     playerSessions: sClientSession[],
@@ -18,6 +19,7 @@ export type sClientRoom = {
 }
 export type iClientRoom = {
     id: string,
+    creatorId: string,
     users: List<any>,
     spectators: List<any>,
     playerSessions: List<iClientSession>,
@@ -26,6 +28,7 @@ export type iClientRoom = {
 }
 export const defaultClientRoom: iClientRoom = {
     id: '',
+    creatorId: '',
     users: List(),
     spectators: List(),
     playerSessions: List<iClientSession>(),

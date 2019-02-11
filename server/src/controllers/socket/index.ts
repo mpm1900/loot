@@ -25,6 +25,7 @@ const authorizeConnection = async (args: any, socket: Socket, store: Store) => {
     console.log('user found...')
     if (user) {
         const session = Utils.findSessionByUser(store.getState().sessions, user.id)
+        // these comments allow a user to log in when a session exits (security risks)
         // if (!session) {
             console.log('session found.')
             console.log('updating user...')
@@ -87,14 +88,7 @@ const blastSession = async (sessionId: string, socket: Socket, store: Store, bla
     const session = Utils.findSessionById(store.getState().sessions, sessionId)
     if (session) {
         const rooms = Utils.findRoomsByUser(store.getState().rooms, session.userId)
-        let sessionState: any = Utils.serializeSession(session);
-        console.log('route', route)
-        if (route !== null) {
-            sessionState = {
-                ...sessionState,
-                route,
-            }
-        }
+        const sessionState = Utils.serializeSession(session);
         socket.emit('initialize-state__session', { state: sessionState })
         if (rooms && rooms.size > 0 && blastToRooms) {
             const sessions = store.getState().sessions
@@ -182,16 +176,18 @@ const handleJoinRoom = async (socket: Socket, store: Store, sessionId: string, r
 
 const registerRoomSocketActions = async (socket: Socket, store: Store) => {
     socket.on('room__request-create-room', async ({ sessionId }) => {
-        store.dispatch(createRoom())
-        const room = store.getState().rooms.filter((r: SocketRoom) => r.playerSessionIds.size === 0).first()
         const session = Utils.findSessionById(store.getState().sessions, sessionId)
-        store.dispatch(joinRoom(room.id, session.userId, session.id))
-        socket.join(room.id)
-        if (session.party.characters.size > 0) {
-            store.dispatch(partyUpdateActiveCharacterId(session.id, session.party.characters.get(0).__uuid))
-            blastSession(session.id, socket, store)
+        if (session) {
+            store.dispatch(createRoom(session.userId))
+            const room = store.getState().rooms.filter((r: SocketRoom) => r.playerSessionIds.size === 0).first()
+            store.dispatch(joinRoom(room.id, session.userId, session.id))
+            socket.join(room.id)
+            if (session.party.characters.size > 0) {
+                store.dispatch(partyUpdateActiveCharacterId(session.id, session.party.characters.get(0).__uuid))
+                blastSession(session.id, socket, store)
+            }
+            await blastRoom(room.id, socket, store)
         }
-        await blastRoom(room.id, socket, store)
     })
 
     socket.on('room__request-join-room', async ({ sessionId, roomId }) => {

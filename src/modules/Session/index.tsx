@@ -13,6 +13,7 @@ import { Button } from '../Core/Button'
 import { Character } from '../../types/character'
 import './index.scss'
 import { CharacterChip } from '../Core/CharacterChip';
+import { ClientAuthState } from '../../state/reducers/auth.state';
 
 interface PartyLoadoutPropTypes {
     session: ClientSessionState
@@ -26,6 +27,7 @@ interface PartyLoadoutPropTypes {
     isModal: boolean,
     onClose?: any,
     history: any,
+    auth: ClientAuthState,
 }
 
 const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) => {
@@ -57,13 +59,12 @@ const SessionActiveCharacter = (props: { character: Character }) => {
 }
 
 const Session = (props: PartyLoadoutPropTypes) => {
-    const { history, session: { id, party }, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, onClose, isModal } = props
+    const { auth, history, session: { sessionId, party }, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, onClose, isModal } = props
     const character = party.activeCharacter ? party.activeCharacter : null
 
     useEffect(() => {
-        console.log('session props', props)
-        if (!id) history.push('/auth')
-    }, [])
+        if (!sessionId || !auth.loggedIn) history.push('/auth')
+    }, [sessionId, auth])
 
     return (
         <div className='Session'>
