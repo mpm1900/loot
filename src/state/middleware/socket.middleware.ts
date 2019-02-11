@@ -56,6 +56,12 @@ const handleRoomAction = (state, action, socket) => {
             })
             break;
         }
+        case RoomActions.REQUEST_FIND_ROOM: {
+            socket.emit('room__request-find-room', {
+                sessionId: state.session.sessionId,
+            })
+            break;
+        }
         case RoomActions.REQUEST_LEAVE_ROOM: {
             socket.emit('room__request-leave-room', {
                 sessionId: state.session.sessionId,

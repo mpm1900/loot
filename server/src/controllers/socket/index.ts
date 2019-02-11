@@ -161,6 +161,14 @@ const handleLeaveRoom = async (socket: Socket, store: Store, sessionId: string, 
     }
 }
 
+const handleJoinRoom = async (socket: Socket, store: Store, sessionId: string, roomId: string) => {
+    const session = Utils.findSessionById(store.getState().sessions, sessionId)
+    handleLeaveRooms(socket, store, session.userId)
+    store.dispatch(joinRoom(roomId, session.userId, session.id))
+    socket.join(roomId)
+    await blastRoom(roomId, socket, store)
+}
+
 const registerRoomSocketActions = async (socket: Socket, store: Store) => {
     socket.on('room__request-create-room', async ({ sessionId }) => {
         store.dispatch(createRoom())
@@ -178,12 +186,18 @@ const registerRoomSocketActions = async (socket: Socket, store: Store) => {
     socket.on('room__request-join-room', async ({ sessionId, roomId }) => {
         const room = Utils.findRoomById(store.getState().rooms, roomId)
         if (room) {
-            const session = Utils.findSessionById(store.getState().sessions, sessionId)
-            handleLeaveRooms(socket, store, session.userId)
-            store.dispatch(joinRoom(roomId, session.userId, session.id))
-            socket.join(roomId)
-            await blastRoom(roomId, socket, store)
+            handleJoinRoom(socket, store, sessionId, room.id)
         } else {
+            socket.emit('request-error', SocketErrors.RoomNotFound)
+        }
+    })
+
+    socket.on('room__request-find-room', async ({ sessionId }) => {
+        const room = store.getState().rooms.filter((r: SocketRoom) => r.userIds.size == 1).first()
+        if (room) {
+            handleJoinRoom(socket, store, sessionId, room.id)
+        } else {
+            // TODO send a special error
             socket.emit('request-error', SocketErrors.RoomNotFound)
         }
     })

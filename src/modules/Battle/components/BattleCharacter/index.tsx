@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.scss'
-import CharacterAvatar from '../../../PartyLoadout/components/CharacterSelectSidebar/components/CharacterAvatar';
+import { CharacterAvatar } from '../../../PartyLoadout/components/CharacterSelectSidebar/components/CharacterAvatar';
 import { ZeroGuage } from '../ZeroGuage';
 import { RandInt } from '../../../../types/random';
 import { Icon } from '../../../../components/Icon';
@@ -35,13 +35,13 @@ export class BattleCharacter extends React.Component {
                                     color: 'rgba(255,255,255,0.36)',
                                 }}>?</div>
                             </div>:
-                            <CharacterAvatar active={active} character={character} activeCharacterId={character.__uuid} />
+                            <CharacterAvatar character={character} activeCharacterId={character.__uuid} />
                         }
                     </div>
                     { secret ? 
                     <div style={{flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
                         <div style={{fontWeight: 900, padding: reverse ? '0 8px 0 0' : '0 0 0 8px', color: 'white', textAlign: reverse ? 'right' : 'left'}}>???</div>
-                        <ZeroGuage className={reverse ? 'reverse' : ''} value={character.getArmor()} max={character.getArmor()} height={24} fills={[[63,177,162],[70, 130, 180]]}>
+                        <ZeroGuage className={reverse ? 'reverse' : ''} value={1} max={1} height={24} fills={[[63,177,162],[70, 130, 180]]}>
                             <div style={{display: 'flex', height: 24, fontSize: 16, lineHeight: '25px', justifyContent: 'center', alignItems: 'center'}}>
                                 ???
                             </div>

@@ -3,7 +3,7 @@ import './index.scss'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { BattleCharacter } from './components/BattleCharacter';
-import { requestCreateRoom, requestLeaveRoom, requestJoinRoom } from '../../state/actions/room.actions';
+import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom } from '../../state/actions/room.actions';
 import { TopBar } from '../Core/TopBar';
 import { Icon } from '../../components/Icon';
 import RoomChat  from './components/RoomChat';
@@ -30,11 +30,14 @@ export const Room = (props: any) => {
     const [ sidebarKey, setSidebarKey ] = useState(SidebarKey.Chat)
     const [ roomId, setRoomId ] = useState(null)
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
-    const { session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, room, users, } = props
+    const { session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location, match } = props
 
     useEffect(() => {
         if (!session || !session.sessionId) return history ? history.push('/') : null
-        requestCreateRoom()
+        if (location.pathname === '/battle/create')
+            requestCreateRoom()
+        if (location.pathname === '/battle/find')
+            requestFindRoom()
         return () => { requestLeaveRoom() }
     }, [])    
 
@@ -122,5 +125,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     requestCreateRoom,
     requestLeaveRoom,
     requestJoinRoom,
+    requestFindRoom,
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Room)

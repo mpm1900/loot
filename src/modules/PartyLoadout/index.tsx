@@ -34,7 +34,10 @@ const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) 
     return (
         <TopBar style={{borderBottom: 'none'}}>
             <strong>Session Party Loadout</strong>
-            { !isModal ? <Button onClick={() => history.push('/battle')}>Ready!</Button> : null }
+            { !isModal ? <div style={{ display: 'flex'}}>
+                <Button onClick={() => history.push('/battle/create')}>Create Room</Button>
+                <Button onClick={() => history.push('/battle/find')}>Find Room</Button>
+            </div> : null }
             { isModal ? <Icon icon='split-cross' size={36} fill={fill} style={{ cursor: 'pointer', marginRight: 8 }} onClick={onClose}/> : null }
         </TopBar>
     )

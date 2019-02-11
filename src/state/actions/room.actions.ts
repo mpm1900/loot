@@ -7,6 +7,7 @@ export const SET_STATE = PREFIX + 'SET_STATE'
 
 export const REQUEST_CREATE_ROOM = PREFIX + 'REQUEST_CREATE_ROOM'
 export const REQUEST_JOIN_ROOM = PREFIX + 'REQUEST_JOIN_ROOM'
+export const REQUEST_FIND_ROOM = PREFIX + 'REQUEST_FIND_ROOM'
 export const REQUEST_LEAVE_ROOM = PREFIX + 'REQUEST_LEAVE_ROOM'
 export const SEND_MESSAGE = PREFIX + 'SEND_MESSAGE'
 
@@ -30,6 +31,12 @@ export const requestJoinRoom = (roomId: string) => ({
     payload: {
         roomId,
     }
+})
+
+export const requestFindRoom = () => ({
+    type: REQUEST_FIND_ROOM,
+    socket: false,
+    payload: { }
 })
 
 export const requestLeaveRoom = () => ({

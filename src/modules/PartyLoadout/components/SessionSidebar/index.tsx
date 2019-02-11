@@ -14,8 +14,9 @@ interface iSessionSidebarProps {
 
 enum SessionSidebarKey {
     Items = 'Items',
-    Characters = 'Characters',
+    Characters = 'Heros',
     Packs = 'Packs',
+    Loadouts = 'Loadouts',
 }
 
 const SessionSidebar = (props: iSessionSidebarProps) => {
@@ -51,7 +52,7 @@ const SessionSidebar = (props: iSessionSidebarProps) => {
     return (
         <div className='SessionSidebar'>
             <TopBar style={{borderLeft: 'none'}}>
-                {[SessionSidebarKey.Characters, SessionSidebarKey.Items, SessionSidebarKey.Packs].map(key => (
+                {[SessionSidebarKey.Characters, SessionSidebarKey.Items, SessionSidebarKey.Packs, SessionSidebarKey.Loadouts].map(key => (
                     <div onClick={() => setActiveKey(key)} className={isActive(key) ? 'active' : ''}>
                         {key}
                     </div>

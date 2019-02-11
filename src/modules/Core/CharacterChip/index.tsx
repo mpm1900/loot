@@ -75,7 +75,7 @@ export const CharacterChip = (props: any) => {
                     <div className='CharacterChip__top'>
                         <div className='CharacterChip__body'>
                             <div className='CharacterChip__name'>{character.name}</div>
-                            <CharacterChipStats character={character} />
+                            <CharacterChipStats character={character.withStaticModifiers()} />
                         </div>
                         <div className='CharacterChip__right'>
                             {character.elementTypes.map(type => (
@@ -87,7 +87,7 @@ export const CharacterChip = (props: any) => {
                     </div>
                     <div style={{ flex: 1 }}></div>
                     <div className='CharacterChip__bottom'>
-                        <div className='CharacterChip__skills'>{character.skills.map(skill => (
+                        <div className='CharacterChip__skills'>{character.withStaticModifiers().skills.map(skill => (
                             <CharacterCardSkill key={skill.name} skill={skill} />
                         ))}</div>
                     </div>
