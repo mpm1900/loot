@@ -96,13 +96,13 @@
         }
     }
     .PackItem__rarity--Unique {
-        background-color: rgb(134, 90, 7);
+        background-color: hsl(40, 80, 30%);
         background:
             linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
             linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 0 0,
             linear-gradient(115deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
             linear-gradient(245deg, transparent 75%, rgba(255,255,255,.05) 75%) 7px -15px,
-            rgb(179, 131, 0);
+            hsl(40, 100, 30%);
         //background-size: 15px 30px;
         color: white;
     }

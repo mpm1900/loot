@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import './index.scss'
 import { Button } from '../Core/Button'
 import { Input } from '../Core/Input'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { login, signup } from '../../state/actions/auth.actions'
+import './index.scss'
 
 enum AuthComponentKey {
     Login = 'Login',
@@ -55,18 +55,23 @@ export const Auth = (props) => {
     }, [])
 
     useEffect(() => {
-        console.log(auth, history)
         if (auth.loggedIn) {
             history.push('/')
         }
     })
 
     const handleAction = () => {
+        localStorage.setItem('username', username)
+        localStorage.setItem('password', password)
         switch (activeKey) {
             case AuthComponentKey.Login: return login(username, password)
             case AuthComponentKey.Signup: return signup(username, password)
         }
     }
+
+    const buttonType = activeKey === AuthComponentKey.Login ? 
+        'primary': 
+        'secondary'
 
     return (
         <div className='Auth'>
@@ -80,7 +85,10 @@ export const Auth = (props) => {
                         <Input type='password' value={password} onChange={e => setPassword(e.target.value)} />
                     </div>
                     <div>
-                        <Button onClick={handleAction} style={{ justifyContent: 'center' }}>{activeKey}</Button>
+                        <Button type={buttonType} onClick={handleAction} style={{ justifyContent: 'center' }}>{activeKey}</Button>
+                    </div>
+                    <div style={{ marginTop: 16 }}>
+                        Do not share any information that are you are not prepared to be made public during pre-alpha development.
                     </div>
                 </AuthBody>
             </AuthMain>

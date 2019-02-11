@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import * as SessionActions from '../../state/actions/session.actions'
 import { bindActionCreators } from 'redux'
 import CharacterSelectSidebar from './components/CharacterSelect'
-import { PackCharacterItemList } from '../Core/PackCharacterItemList'
+import { CharacterItemList } from '../Core/PackCharacterItemList'
 import { CharacterCard } from '../Core/CharacterCard'
 import { ClientSessionState } from '../../state/reducers/session.state'
 import SessionSidebar from './components/SessionSidebar'
@@ -52,7 +52,7 @@ const SessionActiveCharacter = (props: { character: Character }) => {
             { /* <CharacterCard character={character} /> */ }
             <CharacterChip character={character} showImage={true} />
             <div style={{margin: '0', flex: 1, overflowY: 'auto'}}>
-                <PackCharacterItemList character={character} />
+                <CharacterItemList character={character} />
             </div>
         </div>
     )

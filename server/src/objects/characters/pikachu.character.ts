@@ -27,6 +27,7 @@ export const Pikachu = (level = 50) => {
         name: 'Pikachu',
         level: level,
         image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
+        avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
         elementTypes: List.of<ElementType>(ElementType.Light, ElementType.Thunder),
         maxHealth: health,
         health,

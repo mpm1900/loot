@@ -21,8 +21,8 @@ const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
     const { characters, activeCharacterId, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, characterLimit } = props
     const size = 120
     return (
-        <div className='CharacterSelectSidebar'>
-            <CharacterDropTarget partyAddCharacter={partyAddCharacter} characters={characters} characterLimit={characterLimit} >
+        <div className='CharacterSelect'>
+            <CharacterDropTarget partyAddCharacter={partyAddCharacter} characters={characters} characterLimit={characterLimit}>
                 <div style={{padding: 0, width: '100%', height: 'calc(100% - 8px)', minHeight: 121, display: 'flex' }}>{characters.map((character, i) => (
                     <EquipItemDropTarget key={character.__uuid} character={character}>
                         <div style={{display: 'flex', height: size, width: '16.67%'}}>
@@ -37,7 +37,7 @@ const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
                             />
                         </div>
                     </EquipItemDropTarget>
-                ))}</div>
+                ))}{characters.size === 6 ? null : <div className='CharacterSelect__helper'></div>}</div>
             </CharacterDropTarget>
         </div>
     )

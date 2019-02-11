@@ -70,9 +70,9 @@ export const Room = (props: any) => {
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-end'}}>
                     <Input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
-                    <Button onClick={() => joinRoom(roomId)}>Join Room</Button>
-                    <Button onClick={() => history.push('/')}>Leave Room</Button>
-                    <Button onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
+                    <Button type='important' onClick={() => joinRoom(roomId)}>Join Room</Button>
+                    <Button type='important' onClick={() => history.push('/')}>Leave Room</Button>
+                    <Button type='secondary' onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
                     <Button onClick={() => setSessionModalOpen(true)}>Ready Up</Button>
                 </div>
             </TopBar>

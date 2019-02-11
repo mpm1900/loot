@@ -28,6 +28,7 @@ export const Shrek = (level = 50) => {
         name: 'Shrek, Ogre of the Swamp',
         level: level,
         image: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
+        avatar: 'https://res.cloudinary.com/dyfavlpyf/image/upload/v1549224020/characters-full/thundermutant.png',
         elementTypes: List.of(ElementType.Dragon, ElementType.Thunder),
         maxHealth: health,
         health,

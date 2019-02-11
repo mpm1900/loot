@@ -3,10 +3,10 @@ import './index.scss'
 
 export const Button = (props: any) => {
     const [ isHovering, setIsHovering ] = useState(false)
-    const { style, children, onClick } = props
+    const { style, children, onClick, type = 'primary' } = props
     return (
         <div className='Button2'>
-            <button onClick={onClick} style={style}>
+            <button className={`Button2--${type}`} onClick={onClick} style={style}>
                 {children}
             </button>
         </div>
