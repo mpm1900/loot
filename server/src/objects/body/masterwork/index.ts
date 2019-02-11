@@ -18,29 +18,27 @@ export const MasterworkBody = (level: number) => (Choose(List.of(
 
 export const MasterworkArmor = (level: number) => {
     const range = getArmorValue(ItemRarity.Masterwork, ItemSubType.Body)
-    return (
-        new Item({
-            name: 'Masterwork Armor',
-            description: 'A masterfully made armor.',
-            image: '-- IMAGE URL --',
-            level,
-            rarity: ItemRarity.Masterwork,
-            type: ItemType.Equipable,
-            subType: ItemSubType.Body,
-            stats: new ItemStats({
-                armor: RandInt(range[0], range[1])
-            }),
-            modifiers: Choose(
-                List.of<Modifier>(
-                        ArmorUp(RandInt(1, 4)),
-                        SpeedUp(RandInt(1, 40)),
-                        HealthUp(RandInt(1, 40)),
-                        PoisonResistanceUp(RandInt(1, 40)),
-                        WeaponPowerUp(RandInt(1, 40)),
-                        SpecialUp(RandInt(1, 40)),
-                        StrengthUp(RandInt(1, 40)),
-                    ),
-                3)
-        })
-    )
+    return new Item({
+        name: 'Masterwork Armor',
+        description: 'A masterfully made armor.',
+        image: '-- IMAGE URL --',
+        level,
+        rarity: ItemRarity.Masterwork,
+        type: ItemType.Equipable,
+        subType: ItemSubType.Body,
+        stats: new ItemStats({
+            armor: RandInt(range[0], range[1])
+        }),
+        modifiers: Choose(
+            List.of<Modifier>(
+                    ArmorUp(RandInt(1, 4)),
+                    SpeedUp(RandInt(1, 40)),
+                    HealthUp(RandInt(1, 40)),
+                    PoisonResistanceUp(RandInt(1, 40)),
+                    WeaponPowerUp(RandInt(1, 40)),
+                    SpecialUp(RandInt(1, 40)),
+                    StrengthUp(RandInt(1, 40)),
+                ),
+            3)
+    })
 }

@@ -30,7 +30,7 @@ export const GoldRing = (level: number) => {
         subType: ItemSubType.Ring,
         rarity: ItemRarity.Rare,
         stats: new ItemStats({
-            armor: RandInt(level, level + 50),
+            armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(List.of<Modifier>(
             ArmorUp(RandInt(1, 20)),
@@ -54,7 +54,7 @@ export const StrengthRing = (level: number) => {
         subType: ItemSubType.Ring,
         rarity: ItemRarity.Rare,
         stats: new ItemStats({
-            armor: RandInt(level, level + 20),
+            armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(List.of<Modifier>(
             StrengthUp(RandInt(1, 35)),
@@ -73,7 +73,7 @@ export const SpecialRing = (level: number) => {
         subType: ItemSubType.Ring,
         rarity: ItemRarity.Rare,
         stats: new ItemStats({
-            armor: RandInt(level, level + 20),
+            armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(List.of<Modifier>(
             SpecialUp(RandInt(1, 35)),
@@ -83,6 +83,7 @@ export const SpecialRing = (level: number) => {
 
 
 export const SpeedRing = (level: number) => {
+    const armorRange = getArmorValue(ItemRarity.Rare, ItemSubType.Ring)
     return new Item({
         name: 'Speed Ring',
         description: 'A gold ring, that gives you increased speed.',
@@ -92,7 +93,7 @@ export const SpeedRing = (level: number) => {
         subType: ItemSubType.Ring,
         rarity: ItemRarity.Rare,
         stats: new ItemStats({
-            armor: RandInt(level, level + 20),
+            armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(List.of<Modifier>(
             SpeedUp(RandInt(1, 35)),

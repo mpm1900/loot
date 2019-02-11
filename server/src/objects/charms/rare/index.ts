@@ -18,7 +18,7 @@ export const RareCharm = (level: number) => (Choose(List.of(
 
 export const _RareCharm = (level: number) => {
     const armorRange = getArmorValue(ItemRarity.Rare, ItemSubType.Charm)
-    new Item({
+    return new Item({
         name: 'Rare Charm',
         description: 'A rare charm.',
         image: '-- IMAGE URL --',
