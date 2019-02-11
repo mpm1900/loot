@@ -16,6 +16,5 @@ export const Footwear = (level: number) => {
         // if (rarity === ItemRarity.Unique) returnValue = UniqueCharm(level)
         // if (rarity === ItemRarities.BlackMarket) returnValue = BlackMarketWeapon(level)
     }
-    // console.log(returnValue)
     return returnValue;
 }

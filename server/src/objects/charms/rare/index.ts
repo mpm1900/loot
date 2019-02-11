@@ -10,12 +10,14 @@ import { StrengthUp } from '../../modifiers/strength.mod'
 import { Modifier } from '../../../types/modifier'
 import { ItemStats } from '../../../types/item/item.stats'
 import { SpecialUp } from '../../modifiers/special.mod'
+import { getArmorValue } from '../../stats'
 
 export const RareCharm = (level: number) => (Choose(List.of(
     _RareCharm(level)
 ), 1)).first()
 
-export const _RareCharm = (level: number) => (
+export const _RareCharm = (level: number) => {
+    const armorRange = getArmorValue(ItemRarity.Rare, ItemSubType.Charm)
     new Item({
         name: 'Rare Charm',
         description: 'A rare charm.',
@@ -25,16 +27,19 @@ export const _RareCharm = (level: number) => (
         type: ItemType.Equipable,
         subType: ItemSubType.Charm,
         stats: new ItemStats({
-            armor: RandInt(level, level + 60),
+            armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(
-            List<Modifier>()
-                .concat(RangeFuncChoose(1, 20, ArmorUp, 1))
-                .concat(RangeFuncChoose(1, 20, SpeedUp, 1))
-                .concat(RangeFuncChoose(1, 20, HealthUp, 1))
-                .concat(RangeFuncChoose(1, 20, PoisonResistanceUp, 1))
-                .concat(RangeFuncChoose(1, 20, SpecialUp, 1))
-                .concat(RangeFuncChoose(1, 20, StrengthUp, 1)) as List<Modifier>,
-            2)
+            List.of<Modifier>(
+                ArmorUp(RandInt(1, 20)),
+                SpeedUp(RandInt(1, 20)),
+                HealthUp(RandInt(1, 20)),
+                PoisonResistanceUp(RandInt(1, 20)),
+                WeaponPowerUp(RandInt(1, 20)),
+                SpecialUp(RandInt(1, 20)),
+                StrengthUp(RandInt(1, 20))
+            ),
+            3
+        )
     })
-)
+}

@@ -10,13 +10,15 @@ import { StrengthUp } from '../../modifiers/strength.mod'
 import { Modifier } from '../../../types/modifier'
 import { ItemStats } from '../../../types/item/item.stats'
 import { SpecialUp } from '../../modifiers/special.mod'
+import { getArmorValue } from '../../stats'
 
 export const MasterworkCharm = (level: number) => (Choose(List.of(
     _MasterworkCharm(level)
 ), 1)).first()
 
-export const _MasterworkCharm = (level: number) => (
-    new Item({
+export const _MasterworkCharm = (level: number) => {
+    const armorRange = getArmorValue(ItemRarity.Masterwork, ItemSubType.Charm)
+    return new Item({
         name: 'Masterwork Charm',
         description: 'A masterfully made charm.',
         image: '-- IMAGE URL --',
@@ -25,17 +27,19 @@ export const _MasterworkCharm = (level: number) => (
         type: ItemType.Equipable,
         subType: ItemSubType.Charm,
         stats: new ItemStats({
-            armor: RandInt(level, level + 75),
+            armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(
-            List<Modifier>()
-                .concat(RangeFuncChoose(1, 40, ArmorUp, 1))
-                .concat(RangeFuncChoose(1, 40, SpeedUp, 1))
-                .concat(RangeFuncChoose(1, 40, HealthUp, 1))
-                .concat(RangeFuncChoose(1, 40, PoisonResistanceUp, 1))
-                .concat(RangeFuncChoose(1, 40, WeaponPowerUp, 1))
-                .concat(RangeFuncChoose(1, 40, SpecialUp, 1))
-                .concat(RangeFuncChoose(1, 40, StrengthUp, 1)) as List<Modifier>,
-            3)
+            List.of<Modifier>(
+                ArmorUp(RandInt(1, 40)),
+                SpeedUp(RandInt(1, 40)),
+                HealthUp(RandInt(1, 40)),
+                PoisonResistanceUp(RandInt(1, 40)),
+                WeaponPowerUp(RandInt(1, 40)),
+                SpecialUp(RandInt(1, 40)),
+                StrengthUp(RandInt(1, 40))
+            ),
+            3
+        )
     })
-)
+}

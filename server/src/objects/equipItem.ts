@@ -25,6 +25,14 @@ import { MasterworkRing } from './rings/masterwork';
 import { UniqueWeapon } from './weapons/unique';
 import { UniqueCharm } from './charms/unique';
 import { BlackMarketWeapon } from './weapons/blackmarket';
+import { RareHelmet } from './head/rare/helmet.item';
+import { RareBody } from './body/rare';
+import { RareFootware } from './footwear/rare';
+import { RareGloves } from './gloves/rare';
+import { MasterworkHelmet } from './head/masterwork/helmet.item';
+import { MasterworkBody } from './body/masterwork';
+import { MasterworkFootware } from './footwear/masterwork';
+import { MasterworkGloves } from './gloves/masterwork';
 
 export const EquipItem = (level: number) => {
     return Choose(List.of(Weapon(level), Charm(level), Ring(level), Head(level), Body(level), Footwear(level), Gloves(level)), 1).first()
@@ -39,11 +47,11 @@ export const UncommonEquipItem = (level: number) => {
 }
 
 export const RareEquipItem = (level: number) => {
-    return Choose(List.of(RareWeapon(level), RareCharm(level), RareRing(level), /*RareHead(level), RareBody(level), RareFootwear(level), RareGloves(level) */), 1).first()
+    return Choose(List.of(RareWeapon(level), RareCharm(level), RareRing(level), RareHelmet(level), RareBody(level), RareFootware(level), RareGloves(level)), 1).first()
 }
 
 export const MasterworkEquipItem = (level: number) => {
-    return Choose(List.of(MasterworkWeapon(level), MasterworkCharm(level), MasterworkRing(level), /*MasterworkHead(level), MasterworkBody(level), MasterworkFootwear(level), MasterworkGloves(level) */), 1).first()
+    return Choose(List.of(MasterworkWeapon(level), MasterworkCharm(level), MasterworkRing(level), MasterworkHelmet(level), MasterworkBody(level), MasterworkFootware(level), MasterworkGloves(level)), 1).first()
 }
 
 export const UniqueEquipItem = (level: number) => {

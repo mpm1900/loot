@@ -10,13 +10,15 @@ import { StrengthUp } from '../../modifiers/strength.mod'
 import { Modifier } from '../../../types/modifier'
 import { ItemStats } from '../../../types/item/item.stats'
 import { SpecialUp } from '../../modifiers/special.mod'
+import { getArmorValue } from '../../stats'
 
 export const MasterworkGloves = (level: number) => (Choose(List.of(
     _MasterworkGloves(level)
 ), 1)).first()
 
-export const _MasterworkGloves = (level: number) => (
-    new Item({
+export const _MasterworkGloves = (level: number) => {
+    const armorRange = getArmorValue(ItemRarity.Masterwork, ItemSubType.Gloves)
+    return new Item({
         name: 'Masterwork Gloves',
         description: 'A masterfully made gloves.',
         image: '-- IMAGE URL --',
@@ -25,7 +27,7 @@ export const _MasterworkGloves = (level: number) => (
         type: ItemType.Equipable,
         subType: ItemSubType.Gloves,
         stats: new ItemStats({
-            armor: RandInt(level, level + 75),
+            armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(
             List.of<Modifier>(
@@ -39,4 +41,4 @@ export const _MasterworkGloves = (level: number) => (
                 ),
             3)
     })
-)
+}

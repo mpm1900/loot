@@ -35,7 +35,7 @@ export const Room = (props: any) => {
 
     useEffect(() => {
         if (!session || !session.sessionId || !auth.loggedIn) return history ? history.push('/') : null
-    }, [session, auth])
+    })
 
     useEffect(() => {
         if (location.pathname === '/battle/create')

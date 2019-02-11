@@ -1,8 +1,7 @@
-import { CommonHelmet } from './common/helmet.item';
-import { ItemRarity, getRarity } from '../../types/item';
-import { UncommonHelmet } from './uncommon/helmet.item';
-import { RareHelmet } from './rare/helmet.item';
-import { MasterworkHelmet } from './masterwork/helmet.item';
+import { ItemRarity, getRarity } from '../../types/item'
+import { UncommonHelmet } from './uncommon/helmet.item'
+import { RareHelmet } from './rare/helmet.item'
+import { MasterworkHelmet } from './masterwork/helmet.item'
 
 
 export const Head = (level: number) => {
