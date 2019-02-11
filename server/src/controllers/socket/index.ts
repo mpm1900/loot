@@ -39,6 +39,20 @@ const authorizeConnection = async (args: any, socket: Socket, store: Store) => {
     }
 }
 
+const createConnection = async (args: any, socket: Socket, store: Store) => {
+    console.log('creating fresh connection...')
+    const { username, password } = args
+    let user = await UserModel.findOne({ username, password })
+    if (user) {
+        socket.emit('request-error', { error: SocketErrors.InvalidUsername })
+    } else {
+        user = await UserModel.create({ username, password })
+        console.log('updating user...')
+        user = await UserModelUtils.updateUserSocketId(user.id, socket.id)
+        startConnection(socket, store, user)
+    }
+}
+
 const startConnection = async (socket: Socket, store: Store, user: IUserModel) => {
     console.log('starting socket session...')
     store.dispatch(createSession(user.id, socket.id))
@@ -234,6 +248,9 @@ export default (server: Server) => {
         socket.on('connection-auth', async ({ username, password }) => {
             await authorizeConnection({ username, password }, socket, store)
             console.log('connection done')
+        })
+        socket.on('connection-create', async ({ username, password }) => {
+            await createConnection({ username, password }, socket, store)
         })
     })
 }

@@ -5,13 +5,15 @@ import * as RoomActions from '../actions/room.actions'
 const handleAuthAction = (state, action, socket) => {
     switch (action.type) {
         case AuthActions.LOGIN: {
-            console.log('LOGINNNNNN')
             const username = action.payload.username
             const password = action.payload.password
             socket.emit('connection-auth', { username, password })
             break;
         }
         case AuthActions.SIGNUP: {
+            const username = action.payload.username
+            const password = action.payload.password
+            socket.emit('connection-create', { username, password })
             break;
         }
     }
