@@ -49,6 +49,17 @@
             }
         }
 
+        &.Button2--info {
+            background-color: hsl(268, 25%, 40%);
+            &:hover {
+                background-color: hsl(268, 25%, 45%);
+            }
+            &:active {
+                outline: none;
+                background-color: hsl(268, 25%, 40%);
+            }
+        }
+
         &.Button2--important {
             background-color:  hsl(40, 55, 35);
             &:hover {

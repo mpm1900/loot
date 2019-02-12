@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, CSSProperties } from 'react'
 import './index.scss'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -57,9 +57,26 @@ export const Room = (props: any) => {
     const joinRoom = (roomId) => roomId ? requestJoinRoom(roomId) : null
     const isActive = (key) => key === sidebarKey
     const getUserClass = (user) => {
-        if (user.id === room.creatorId) return 'creator'
-        if (room.users.map(u => u.id).contains(user.id)) return 'user'
+        if (user) {
+            if (user.id === room.creatorId) return 'creator'
+            if (room.users.map(u => u.id).contains(user.id)) return 'user'
+        }
         return 'spectator'
+    }
+
+    const battleBodyBorderStyle = { 
+        display: 'flex', 
+        flexDirection: 'column', 
+        flex: 1, 
+        overflowY: 'auto', 
+        border: '1px solid black' 
+    }
+    const actionBarStyle = { 
+        backgroundColor: 'hsl(0,0%,20%)', 
+        borderLeft: 'none', 
+        borderRight: 'none', 
+        borderBottom: '1px solid black', 
+        justifyContent: 'flex-start' 
     }
 
     return (
@@ -70,14 +87,14 @@ export const Room = (props: any) => {
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-end'}}>
                     <Input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
-                    <Button type='important' onClick={() => joinRoom(roomId)}>Join Room</Button>
-                    <Button type='important' onClick={() => history.push('/')}>Leave Room</Button>
+                    <Button type='info' onClick={() => joinRoom(roomId)}>Join Room</Button>
+                    <Button type='info' onClick={() => history.push('/')}>Leave Room</Button>
                     <Button type='secondary' onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
                     <Button onClick={() => setSessionModalOpen(true)}>Ready Up</Button>
                 </div>
             </TopBar>
             <div className='Battle__body'>
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto', border: '1px solid black' }}>
+                <div style={battleBodyBorderStyle as CSSProperties}>
                     <TopBar condensed={true} style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
                         {room.playerSessions.map((pSession, index) => {
                             const user = room.users.find(u => u.id === pSession.userId)
@@ -88,10 +105,24 @@ export const Room = (props: any) => {
                             )
                          })}
                     </TopBar>
-                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.24)' }}>
+                    <TopBar style={actionBarStyle}>
+                        <div style={{ display: 'flex' }}>
+                            <Button type='important'>Weapon Attack</Button>
+                            <Button type='important'>Skill 1</Button>
+                            <Button type='important'>Skill 2</Button>
+                            <Button type='important'>Skill 3</Button>
+                            <Button type='important'>Switch</Button>
+                        </div>
+                    </TopBar>
+                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.12)', boxSizing: 'border-box' }}>
                         {room.playerSessions.map((pSession, index) => <div style={{width: '50%', padding: 8}}>
                             <div className='Battle__user'>
-                                {pSession.party.characters.map(character => <BattleCharacter reverse={index === 1} active={character.__uuid === (pSession.party.characters.get(0) || {}).__uuid} character={character} secret={pSession.userId !== session.userId} />)}
+                                {pSession.party.characters.map(character => 
+                                    <BattleCharacter reverse={index === 1} 
+                                        active={character.__uuid === (pSession.party.characters.get(0) || {}).__uuid} 
+                                        character={character} secret={pSession.userId !== session.userId} 
+                                    />
+                                )}
                             </div>
                         </div>)}
                     </div>

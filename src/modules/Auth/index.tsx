@@ -87,7 +87,7 @@ export const Auth = (props) => {
                     <div>
                         <Button type={buttonType} onClick={handleAction} style={{ justifyContent: 'center' }}>{activeKey}</Button>
                     </div>
-                    <div style={{ marginTop: 16 }}>
+                    <div style={{ marginTop: 16, fontSize: 12, }}>
                         Do not share any information that are you are not prepared to be made public during pre-alpha development.
                     </div>
                 </AuthBody>
