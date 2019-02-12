@@ -89,7 +89,7 @@ export class ItemSelectSidebar extends React.Component {
                     </div>)}
                     {ItemSubTypes.map(type => <div>
                         <button key={type} className={this.state.filters.map(f => f.value).contains(type) ? 'active' : ''} disabled={(items.filter(item => item.subType === type).size === 0)} onClick={() => this.addFilter('subType', type)}>
-                            <div style={{ padding: '4px 0'}}>
+                            <div>
                                 <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.54)'} />
                             </div>
                         </button>

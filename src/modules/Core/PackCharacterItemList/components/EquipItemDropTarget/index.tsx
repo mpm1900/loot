@@ -1,12 +1,11 @@
 import React from 'react'
-import { DropTarget, DndComponentClass } from 'react-dnd';
+import { DropTarget } from 'react-dnd';
 import { Character } from '../../../../../types/character';
 import { Item, ItemType } from '../../../../../types/item';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { ClientSessionState } from '../../../../../state/reducers/session.state';
 import { partyUpdateCharacter } from '../../../../../state/actions/session.actions';
-
 
 export const updateCharacter = (props: EquipItemDropTargetProps, item: Item) => {
     const { character } = props
@@ -49,17 +48,11 @@ type EquipItemDropTargetProps = {
     session: ClientSessionState,
     partyUpdateCharacter: Function,
 }
-export class _EquipItemDropTarget extends React.Component {
-    props: EquipItemDropTargetProps
 
-    constructor(props) {
-        super(props)
-    }
-    render() { 
-        return this.props.connectDropTarget(this.props.children)
-    }
+export const _EquipItemDropTarget = (props: EquipItemDropTargetProps) => {
+    const { children, connectDropTarget = ((cmp) => cmp) } = props
+    return connectDropTarget(children)
 }
-
 const mapStateToProps = (state) => ({ ...state, })
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({

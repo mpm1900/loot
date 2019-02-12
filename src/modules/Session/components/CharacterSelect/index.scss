@@ -13,9 +13,12 @@
 
     &__helper {
         flex: 1;
+        min-height: 110px;
+        max-height: 110px;
         background: rgba(255,255,255,0.12);
         margin: 4px;
         border: 1px dashed rgba(255,255,255,0.24);
+        box-sizing: border-box;
     }
 
     .CharacterAvatar {
