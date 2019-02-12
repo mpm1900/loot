@@ -22,9 +22,10 @@
             cursor: pointer;
             font-weight: bold;
             color: rgba(255,255,255,255.72);
+            user-select: none;
     
             &.active {
-                border-bottom: 8px solid rgba(255,255,255,0.54);
+                border-bottom: 8px solid rgba(255,255,255,0.36);
                 height: 46px;
             }
         }

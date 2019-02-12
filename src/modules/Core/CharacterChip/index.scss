@@ -57,6 +57,8 @@
             line-height: 24px;
             padding: 8px 0;
             width: 100%;
+            user-select: none;
+            
             &__stat {
                 display: flex;
                 width: 20%;
@@ -131,6 +133,7 @@
                 display: flex;
                 top: 8px;
                 right: 8px;
+                user-select: none;
             }
         }
     }
