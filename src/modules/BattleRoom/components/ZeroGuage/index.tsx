@@ -15,21 +15,20 @@ const getDefaultColor = (ratio: number) => {
     return pickHex([190, 152, 5], [255,0,0], ratio * 2)
 }
 
-export class ZeroGuage extends React.Component {
-    props: any
-    constructor(props) {
-        super(props)
-
-    }
-    render() {
-        const { value, max, height = 40, children, fills, className } = this.props
-        return (
-            <div className={"ZeroGuage " + className} style={{ height }}>
-                <div className="ZeroGuage__fill" style={{width: `${100 * value / max}%`, height: height - 2, backgroundColor: fills ? `rgb(${pickHex(fills[0], fills[1], value / max)})`:  `rgb(${getDefaultColor(value / max)})` }}></div>
-                <div className="ZeroGuage__content" style={{ height: height - 2, lineHeight: `${height}px` }}>
-                    {children}
-                </div>
+export const ZeroGuage = (props: any) => {
+    const { value, max, height = 40, children, fills, className } = props
+    const bg = fills ? 
+        `rgb(${pickHex(fills[0], fills[1], value / max)})`:
+        `rgb(${getDefaultColor(value / max)})`
+        
+    const fillStyle = { width: `${100 * value / max}%`, height: height - 2, backgroundColor: bg }
+    const contentStyle = { height: height - 2, lineHeight: `${height}px` }
+    return (
+        <div className={"ZeroGuage " + className} style={{ height }}>
+            <div className="ZeroGuage__fill" style={fillStyle}></div>
+            <div className="ZeroGuage__content" style={contentStyle}>
+                {children}
             </div>
-        )
-    }
+        </div>
+    )
 }
