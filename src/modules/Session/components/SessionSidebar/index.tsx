@@ -53,7 +53,7 @@ const SessionSidebar = (props: iSessionSidebarProps) => {
         <div className='SessionSidebar'>
             <TopBar style={{borderLeft: 'none'}}>
                 {[SessionSidebarKey.Characters, SessionSidebarKey.Items, SessionSidebarKey.Packs, SessionSidebarKey.Loadouts].map(key => (
-                    <div onClick={() => setActiveKey(key)} className={isActive(key) ? 'active' : ''}>
+                    <div key={key} onClick={() => setActiveKey(key)} className={isActive(key) ? 'active' : ''}>
                         {key}
                     </div>
                 ))}

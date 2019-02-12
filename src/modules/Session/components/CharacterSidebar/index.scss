@@ -15,37 +15,4 @@
     & > div > div {
         border-right-width: 2px !important;
     }
-
-    /*
-    .CharacterCard {
-        min-height: unset;
-        height: auto;
-        margin-bottom: 4px;
-        width: calc(100% - 3px);
-        border-bottom-left-radius: 0;
-        border-radius: 8px;
-
-        &__body__contents {
-            justify-content: space-between;
-        }
-
-        &__body__contents--foil {
-            display: none;
-        }
-
-        &__body__image {
-            position: absolute;
-        }
-
-        &__body__stats {
-            position: relative;
-            min-height: 48px;
-        }
-
-        &__body__skills {
-            position: relative;
-            flex: unset;
-        }
-    }
-    */
 }

@@ -82,7 +82,7 @@ export const Room = (props: any) => {
                         {room.playerSessions.map((pSession, index) => {
                             const user = room.users.find(u => u.id === pSession.userId)
                             return (
-                                <span className={'Battle__user--name' + ' ' + getUserClass(user)}>
+                                <span key={pSession.sessionId} className={'Battle__user--name' + ' ' + getUserClass(user)}>
                                     {user.username}
                                 </span>
                             )

@@ -24,8 +24,8 @@ const AuthHeader = (props) => {
     return (
         <div className='Auth__header'>
             {[ AuthComponentKey.Login, AuthComponentKey.Signup ].map(key => ([
-                <div onClick={() => setActiveKey(key)} className={'Auth__header__key' + (key === activeKey ? ' active' : '')}>{key}</div>,
-                <div className='Auth__header__divider'></div>
+                <div key={key+'a'} onClick={() => setActiveKey(key)} className={'Auth__header__key' + (key === activeKey ? ' active' : '')}>{key}</div>,
+                <div key={key+'b'} className='Auth__header__divider'></div>
             ]))}
         </div>
     )

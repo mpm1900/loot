@@ -10,8 +10,10 @@ const RoomChatMessage = (message: any, users: List<any>, room) => {
     console.log('USERS', users)
     const user = users.find(u => u.id === message.userId)
     const getUserClass = (user) => {
-        if (user.id === room.creatorId) return 'creator'
-        if (room.users.map(u => u.id).contains(user.id)) return 'user'
+        if (user) {
+            if (user.id === room.creatorId) return 'creator'
+            if (room.users.map(u => u.id).contains(user.id)) return 'user'
+        }
         return 'spectator'
     }
     return (

@@ -18,16 +18,17 @@ interface CharacterSelectSidebarPropTypes {
 }
 
 const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
-    const { characters, activeCharacterId, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, characterLimit } = props
     const size = 120
+    const { characters, activeCharacterId, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, characterLimit } = props
+    const charactersStyle = { padding: 0, width: '100%', height: 'calc(100% - 8px)', minHeight: size + 1, display: 'flex' }
+    const characterStyle = { display: 'flex', height: size, width: '16.67%' }
     return (
         <div className='CharacterSelect'>
             <CharacterDropTarget partyAddCharacter={partyAddCharacter} characters={characters} characterLimit={characterLimit}>
-                <div style={{padding: 0, width: '100%', height: 'calc(100% - 8px)', minHeight: 121, display: 'flex' }}>{characters.map((character, i) => (
+                <div style={charactersStyle}>{characters.map((character, i) => (
                     <EquipItemDropTarget key={character.__uuid} character={character}>
-                        <div style={{display: 'flex', height: size, width: '16.67%'}}>
+                        <div style={characterStyle}>
                             <CharacterAvatar 
-                                key={character.__uuid} 
                                 size={size}
                                 index={i}
                                 character={character}
