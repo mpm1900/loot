@@ -23,8 +23,8 @@ export const ItemRarityColor = {
     [ItemRarity.Common]: '#f2f2f2',
     [ItemRarity.Uncommon]: '#4a6741',
     [ItemRarity.Rare]: '#3A5894',
-    [ItemRarity.Masterwork]: '#380474',
-    [ItemRarity.Unique]: 'rgb(134, 90, 7)',
+    [ItemRarity.Masterwork]: 'hsl(268, 45%, 30%)',
+    [ItemRarity.Unique]: 'hsl(40, 100%, 30%)',
     [ItemRarity.BlackMarket]: 'black'
 }
 

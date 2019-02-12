@@ -15,6 +15,7 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
         border: '1px dashed rgba(255,255,255,0.24)',
         height: 'calc(100% - 8px)', 
         width: 'calc(100% - 8px)',
+        boxShadow: '0px 0px 2px rgba(0,0,0,1) inset',
     }
     return (
         <div className='PackCharacterItemList'>
