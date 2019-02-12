@@ -72,7 +72,7 @@ export const Room = (props: any) => {
         border: '1px solid black' 
     }
     const actionBarStyle = { 
-        backgroundColor: 'hsl(0,0%,20%)', 
+        background: 'linear-gradient(175deg, hsl(0,0%,25%) 0%,hsl(0,0%,20%) 100%)', 
         borderLeft: 'none', 
         borderRight: 'none', 
         borderBottom: '1px solid black', 
@@ -114,7 +114,7 @@ export const Room = (props: any) => {
                             <Button type='important'>Switch</Button>
                         </div>
                     </TopBar>
-                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.12)', boxSizing: 'border-box' }}>
+                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.12)', boxSizing: 'border-box', background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' }}>
                         {room.playerSessions.map((pSession, index) => <div style={{width: '50%', padding: 8}}>
                             <div className='Battle__user'>
                                 {pSession.party.characters.map(character => 

@@ -48,7 +48,7 @@ const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) 
 const SessionActiveCharacter = (props: { character: Character }) => {
     const { character } = props
     return (
-        <div style={{display: 'flex', flex: 1, padding: 8, maxHeight: 'calc(100% - 136px)', backgroundColor: 'hsl(0, 0%, 25%)' }}>
+        <div style={{display: 'flex', flex: 1, padding: 8, maxHeight: 'calc(100% - 136px)', background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' }}>
             { /* <CharacterCard character={character} /> */ }
             <CharacterChip character={character} showImage={true} />
             <div style={{margin: '0', flex: 1, overflowY: 'auto'}}>

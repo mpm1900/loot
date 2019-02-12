@@ -29,7 +29,6 @@
             &:focus {
                 outline: none;
             }
-        
             
             &:disabled {
                 * {
@@ -59,7 +58,6 @@
     .Pack_Item {
         & > div {
             width: calc(100% - 3px) !important;
-            // margin-bottom: 8px;
             border-right-width: 2px;
         }
     }

@@ -28,46 +28,46 @@
         user-select: none;
 
         &.Button2--primary {
-            background-color:  hsl(106, 20, 38);
+            background: linear-gradient(to bottom, hsl(106, 20, 38) 0%,hsl(106, 20, 35) 100%);
             &:hover {
-                background-color:  hsl(106, 20, 43); 
+                background:  hsl(106, 20, 43); 
             }
             &:active {
                 outline: none;
-                background-color:  hsl(106, 20, 38);
+                background: linear-gradient(to bottom, hsl(106, 20, 38) 0%,hsl(106, 20, 32) 100%);
             }
         }
 
         &.Button2--secondary {
-            background-color:  hsl(220, 44, 40);
+            background: linear-gradient(to bottom, hsl(220, 44, 40) 0%,hsl(220, 44, 37) 100%);
             &:hover {
-                background-color:  hsl(220, 44, 45);
+                background:  hsl(220, 44, 45);
             }
             &:active {
                 outline: none;
-                background-color:  hsl(220, 44, 40);
+                background: linear-gradient(to bottom, hsl(220, 44, 40) 0%,hsl(220, 44, 35) 100%);
             }
         }
 
         &.Button2--info {
-            background-color: hsl(268, 25%, 40%);
+            background: linear-gradient(to bottom, hsl(268, 23%, 40%) 0%,hsl(268, 23%, 37%) 100%);
             &:hover {
-                background-color: hsl(268, 25%, 45%);
+                background: hsl(268, 25%, 45%);
             }
             &:active {
                 outline: none;
-                background-color: hsl(268, 25%, 40%);
+                background: linear-gradient(to bottom, hsl(268, 23%, 40%) 0%,hsl(268, 23%, 37%) 100%);
             }
         }
 
         &.Button2--important {
-            background-color:  hsl(40, 55, 35);
+            background: linear-gradient(to bottom, hsl(40, 50%, 35%) 0%,hsl(40, 50%, 32%) 100%);
             &:hover {
-                background-color:  hsl(39, 55, 40);
+                background:  hsl(39, 55, 40);
             }
             &:active {
                 outline: none;
-                background-color:  hsl(40, 55, 35);
+                background: linear-gradient(to bottom, hsl(40, 50%, 35%) 0%,hsl(40, 50%, 30%) 100%);
             }
         }
     }

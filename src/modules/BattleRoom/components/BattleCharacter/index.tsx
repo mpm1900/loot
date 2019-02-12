@@ -21,7 +21,7 @@ export class BattleCharacter extends React.Component {
                 <div style={{display: 'flex', flexDirection: reverse ? 'row-reverse' :  'row'}}>
                     <div className="BattleCharacter__avatar" style={{height: active ? 180 : 120, width: active ? 180 : 120 }}>
                         { secret ? 
-                            <div style={{height: active ? 180 : 120, width: active ? 180 : 120, boxSizing: 'border-box', backgroundColor: '#555'}}>
+                            <div style={{height: active ? 180 : 120, width: active ? 180 : 120, boxSizing: 'border-box', background: 'linear-gradient(135deg, rgba(96,96,96,1) 0%, rgba(76,76,76,1) 100%)'}}>
                                 <div style={{
                                     height: '100%', 
                                     width: '100%', 
@@ -34,6 +34,7 @@ export class BattleCharacter extends React.Component {
                                     fontWeight: 'bold',
                                     color: 'rgba(255,255,255,0.36)',
                                     userSelect: 'none',
+                                    boxShadow: '0px 0px 2px rgba(0,0,0,1) inset',
                                 }}>?</div>
                             </div>:
                             <CharacterAvatar character={character} activeCharacterId={character.__uuid} reverse={reverse} />
