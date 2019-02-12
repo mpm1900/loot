@@ -41,6 +41,7 @@ export const deserializeRoom = (room: any): ClientRoomState => {
         creatorId: room.creatorId,
         playerSessions: List<any>(room.playerSessions.map((session: any) => deserializeSession(session))),
         users: List(room.users),
+        readyUserIds: List(room.readyUserIds),
         spectators: List(room.spectatorIds),
         messages: List(room.messages),
         connected: room.connected,

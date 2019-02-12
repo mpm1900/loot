@@ -9,7 +9,8 @@ export interface SocketRoom {
     id: string
     creatorId: string,
     playerSessionIds: List<string>,
-    userIds: List<string>
+    userIds: List<string>,
+    readyUserIds: List<string>,
     spectatorIds: List<string>,
     messages: List<any>,
 }
@@ -17,7 +18,8 @@ export interface PopulatedSocketRoom {
     id: string,
     creatorId: string, // this can be a user if needed
     playerSessions: List<SocketSession>,
-    users: List<IUser>, // make this a list of users
+    users: List<IUser>,
+    readyUserIds: List<string>,
     spectatorIds: List<string>,
     messages: List<any>,
 }
@@ -35,6 +37,7 @@ export default (state: SocketRoomsState = INITIAL_STATE, action: SocketReduxActi
         case Actions.REMOVE_SESSION_FROM_ROOMS: return Core.removeSessionFromRooms(state, action)
         case Actions.REMOVE_EMPTY_ROOMS: return Core.removeEmptyRooms(state, action)
         case Actions.SEND_MESSAGE: return Core.sendMessage(state, action)
+        case Actions.READY_USER: return Core.readyUser(state, action)
         default: return state
     }
 }

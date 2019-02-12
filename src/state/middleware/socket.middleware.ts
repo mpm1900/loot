@@ -72,20 +72,20 @@ const handleRoomAction = (state, action, socket) => {
                 sessionId: state.session.sessionId,
                 roomId: action.payload.roomId,
             })
-            break;
+            break
         }
         case RoomActions.REQUEST_FIND_ROOM: {
             socket.emit('room__request-find-room', {
                 sessionId: state.session.sessionId,
             })
-            break;
+            break
         }
         case RoomActions.REQUEST_LEAVE_ROOM: {
             socket.emit('room__request-leave-room', {
                 sessionId: state.session.sessionId,
                 roomId: state.room.id,
             })
-            break;
+            break
         }
         case RoomActions.SEND_MESSAGE: {
             if (action.payload.message) {
@@ -95,7 +95,14 @@ const handleRoomAction = (state, action, socket) => {
                     roomId: state.room.id,
                 })
             }
-            break;
+            break
+        }
+        case RoomActions.READY_USER: {
+            socket.emit('room__request-ready-user', {
+                userId: state.session.userId,
+                roomId: state.room.id,
+            })
+            break
         }
     }
 }

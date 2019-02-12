@@ -9,6 +9,7 @@ export const createRoom = (state: SocketRoomsState, action: SocketReduxAction): 
         creatorId: action.payload.userId,
         playerSessionIds: List<string>(),
         userIds: List<string>(),
+        readyUserIds: List<string>(),
         spectatorIds: List<string>(),
         messages: List<any>(),
     })
@@ -66,13 +67,26 @@ export const sendMessage = (state: SocketRoomsState, action: SocketReduxAction):
     const index = state.map(room => room.id).indexOf(action.payload.roomId)
     if (index === -1) return state
     return state.update(index, (room: SocketRoom) => {
-        console.log(room);
         return {
             ...room,
             messages: room.messages.push({
                 userId: action.payload.userId,
                 message: action.payload.message,
             })
+        }
+    })
+}
+
+export const readyUser = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
+    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    if (index === -1) return state
+    return state.update(index, (room: SocketRoom) => {
+        const userId = action.payload.userId
+        if (!room.userIds.contains(userId)) return room
+        if (room.readyUserIds.contains(userId)) return room
+        return {
+            ...room,
+            readyUserIds: room.readyUserIds.push(userId)
         }
     })
 }

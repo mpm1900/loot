@@ -3,7 +3,7 @@ import './index.scss'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { BattleCharacter } from './components/BattleCharacter';
-import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom } from '../../state/actions/room.actions';
+import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser } from '../../state/actions/room.actions';
 import { TopBar } from '../Core/TopBar';
 import { Icon } from '../Core/Icon';
 import RoomChat  from './components/RoomChat';
@@ -31,7 +31,7 @@ export const Room = (props: any) => {
     const [ sidebarKey, setSidebarKey ] = useState(SidebarKey.Chat)
     const [ roomId, setRoomId ] = useState(null)
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
-    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location } = props
+    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location, readyUser } = props
 
     useEffect(() => {
         if (!session || !session.sessionId || !auth.loggedIn) return history ? history.push('/') : null
@@ -56,10 +56,12 @@ export const Room = (props: any) => {
 
     const joinRoom = (roomId) => roomId ? requestJoinRoom(roomId) : null
     const isActive = (key) => key === sidebarKey
+    const isUser = (userId) => room.users.map(u => u.id).contains(userId)
+    const isReady = (userId) => room.readyUserIds.contains(userId)
     const getUserClass = (user) => {
         if (user) {
             if (user.id === room.creatorId) return 'creator'
-            if (room.users.map(u => u.id).contains(user.id)) return 'user'
+            if (isUser(user.id)) return 'user'
         }
         return 'spectator'
     }
@@ -69,7 +71,8 @@ export const Room = (props: any) => {
         flexDirection: 'column', 
         flex: 1, 
         overflowY: 'auto', 
-        border: '1px solid black' 
+        border: '1px solid black',
+        boxSizing: 'border-box',
     }
     const actionBarStyle = { 
         background: 'linear-gradient(175deg, hsl(0,0%,25%) 0%,hsl(0,0%,20%) 100%)', 
@@ -81,16 +84,17 @@ export const Room = (props: any) => {
 
     return (
         room && room.playerSessions ? <div className='Battle'>
-            <TopBar style={{paddingRight: 0}}>
+            <TopBar>
                 <div className='roomid'>
                     <strong>{room.id}</strong>
                 </div>
                 <div style={{display: 'flex', alignItems: 'flex-end'}}>
                     <Input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
-                    <Button type='info' onClick={() => joinRoom(roomId)}>Join Room</Button>
-                    <Button type='info' onClick={() => history.push('/')}>Leave Room</Button>
+                    <Button type='secondary' onClick={() => joinRoom(roomId)}>Join Room</Button>
+                    <Button type='secondary' onClick={() => history.push('/')}>Leave Room</Button>
                     <Button type='secondary' onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
-                    <Button onClick={() => setSessionModalOpen(true)}>Ready Up</Button>
+                    { isUser(session.userId) && !isReady(session.userId) ? <Button onClick={() => readyUser()}>Ready Up</Button> : null }
+                    { isUser(session.userId) && isReady(session.userId) ? <Button type='warning'>Cancel</Button> : null }
                 </div>
             </TopBar>
             <div className='Battle__body'>
@@ -100,7 +104,7 @@ export const Room = (props: any) => {
                             const user = room.users.find(u => u.id === pSession.userId)
                             return (
                                 <span key={pSession.sessionId} className={'Battle__user--name' + ' ' + getUserClass(user)}>
-                                    {user.username}
+                                    {isReady(user.id) ? 'READY' : null} {user.username}
                                 </span>
                             )
                          })}
@@ -114,14 +118,18 @@ export const Room = (props: any) => {
                             <Button type='important'>Switch</Button>
                         </div>
                     </TopBar>
-                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.12)', boxSizing: 'border-box', background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' }}>
-                        {room.playerSessions.map((pSession, index) => <div style={{width: '50%', padding: 8}}>
+                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.12)', boxSizing: 'border-box', overflowY: 'auto', background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' }}>
+                        {room.playerSessions.map((pSession, index) => <div style={{width: '50%'}}>
                             <div className='Battle__user'>
-                                {pSession.party.characters.map(character => 
-                                    <BattleCharacter reverse={index === 1} 
-                                        active={character.__uuid === (pSession.party.characters.get(0) || {}).__uuid} 
+                                {pSession.party.characters.get(0) ? <BattleCharacter reverse={index === 1} 
+                                    active={true} 
+                                    character={pSession.party.characters.get(0)} secret={pSession.userId !== session.userId} 
+                                /> : null }
+                                {pSession.party.characters.shift().map(character => 
+                                    <div style={{padding: 8}}><BattleCharacter reverse={index === 1} 
+                                        active={false} 
                                         character={character} secret={pSession.userId !== session.userId} 
-                                    />
+                                    /></div>
                                 )}
                             </div>
                         </div>)}
@@ -173,5 +181,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     requestLeaveRoom,
     requestJoinRoom,
     requestFindRoom,
+    readyUser,
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Room)

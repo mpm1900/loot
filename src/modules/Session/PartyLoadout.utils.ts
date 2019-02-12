@@ -11,7 +11,7 @@ export const TypeColors = {
     [ElementType.Earth]: '#966532',
     [ElementType.Light]: '#CAB298',
     [ElementType.Ice]: '#87BCE5',
-    [ElementType.Dragon]: '#B2375C',
+    [ElementType.Dragon]: 'hsl(342, 53%, 46%)',
 }
 
 export const getTypeGradient = (character: Character) => {

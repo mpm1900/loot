@@ -12,6 +12,7 @@ export type sClientRoom = {
     id: string,
     creatorId: string,
     users: any[],
+    readyUserIds: string[],
     spectators: any[]
     playerSessions: sClientSession[],
     messages: any[],
@@ -21,6 +22,7 @@ export type iClientRoom = {
     id: string,
     creatorId: string,
     users: List<any>,
+    readyUserIds: List<string>,
     spectators: List<any>,
     playerSessions: List<iClientSession>,
     messages: List<any>,
@@ -30,6 +32,7 @@ export const defaultClientRoom: iClientRoom = {
     id: '',
     creatorId: '',
     users: List(),
+    readyUserIds: List(),
     spectators: List(),
     playerSessions: List<iClientSession>(),
     messages: List(),

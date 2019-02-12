@@ -9,17 +9,15 @@
     width: 100%;
     font-family: 'Roboto', sans-serif;
     height: 100%;
-    // box-shadow: 0px 1px 3px rgba(0,0,0,0.4);
     box-shadow: 0px 0px 2px rgba(0,0,0,1) inset;
     box-sizing: border-box;
     border: 1px solid rgba(255,255,255,0.24) !important;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+    transition: background-position 0.2s ease-out;
 
     svg {
         filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.4));
     }
-
-    // margin: 1px;
 
     .StatChip {
         display: flex;
@@ -107,19 +105,6 @@
         color: white;
     }
     .PackItem__rarity--BlackMarket {
-        /*
-        background:
-        radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.15) 30%, rgba(255,255,255,.3) 32%, rgba(255,255,255,0) 33%) 0 0,
-        radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.3) 13%, rgba(255,255,255,0) 14%) 0 0,
-        radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 17%, rgba(255,255,255,.43) 19%, rgba(255,255,255,0) 20%) 0 110px,
-        radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) -130px -170px,
-        radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) 130px 370px,
-        radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.2) 13%, rgba(255,255,255,0) 14%) 0 0,
-        linear-gradient(45deg, #343702 0%, #184500 20%, #187546 30%, #006782 40%, #0b1284 50%, #760ea1 60%, #83096e 70%, #840b2a 80%, #b13e12 90%, #e27412 100%);
-        background-size: 470px 470px, 970px 970px, 410px 410px, 610px 610px, 530px 530px, 730px 730px, 100% 100%;
-        background-color: #840b2a;
-        color: white;
-        */
         background-color: hsl(0, 0%, 13%);
         color: white;
         background-image: url("https://www.transparenttextures.com/patterns/skulls.png");
@@ -132,6 +117,7 @@
             background-color: hsl(0, 0%, 18%);
         }
     }
+    
     .PackItem__stats {
         display: flex;
         width: 100%;
@@ -158,6 +144,7 @@
                 line-height: 20px;
                 clear: both;
             }
+
     .PackItem__modifiers {
         background-color: rgba(0,0,0,0.46);
         box-shadow: 0px 0px 2px rgba(0,0,0,1) inset;
@@ -166,7 +153,6 @@
         padding: 8px;
         letter-spacing: 1px;
         margin-top: 8px;
-        // border-radius: 8px;
         flex: 1;
 
         .PackItem__modifier--buff {

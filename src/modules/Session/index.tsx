@@ -40,7 +40,7 @@ const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) 
                 <Button onClick={() => history.push('/battle/create')}>Create Room</Button>
                 <Button onClick={() => history.push('/battle/find')}>Find Room</Button>
             </div> : null }
-            { isModal ? <Icon icon='split-cross' size={36} fill={fill} style={{ cursor: 'pointer', marginRight: 8 }} onClick={onClose}/> : null }
+            { isModal ? <Button type='warning' onClick={onClose}>Close</Button> : null }
         </TopBar>
     )
 }

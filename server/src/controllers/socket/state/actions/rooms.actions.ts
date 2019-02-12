@@ -6,6 +6,7 @@ export const LEAVE_ALL_ROOMS = PREFIX + '_LEAVE_ALL_ROOMS'
 export const REMOVE_SESSION_FROM_ROOMS = PREFIX + '_REMOVE_SESSION_FROM_ROOMS'
 export const REMOVE_EMPTY_ROOMS = PREFIX + '_REMOVE_EMPTY_ROOMS'
 export const SEND_MESSAGE = PREFIX + '_SEND_MESSAGE'
+export const READY_USER = PREFIX + '_READY_USER'
 
 export const createRoom = (userId: string = null) => ({
     type: CREATE_ROOM,
@@ -52,6 +53,14 @@ export const sendMessage = (message: string, userId: string, roomId: string) => 
     type: SEND_MESSAGE,
     payload: {
         message,
+        userId,
+        roomId,
+    }
+})
+
+export const readyUser = (userId: string, roomId: string) => ({
+    type: READY_USER,
+    payload: {
         userId,
         roomId,
     }
