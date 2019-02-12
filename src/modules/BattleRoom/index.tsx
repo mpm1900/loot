@@ -118,13 +118,24 @@ export const Room = (props: any) => {
                             <Button type='important'>Switch</Button>
                         </div>
                     </TopBar>
-                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.12)', boxSizing: 'border-box', overflowY: 'auto', background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' }}>
+                    <div style={{ display: 'flex', flex: 1, border: '1px solid rgba(255,255,255,0.12)', justifyContent: room.playerSessions.size > 1 ? 'space-between' : 'flex-start', boxSizing: 'border-box', overflowY: 'auto', background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' }}>
                         {room.playerSessions.map((pSession, index) => <div style={{width: '50%'}}>
                             <div className='Battle__user'>
-                                {pSession.party.characters.get(0) ? <BattleCharacter reverse={index === 1} 
+                                {pSession.party.characters.get(0) ? 
+                                <div style={{
+                                    padding: 16,
+                                    boxShadow: index === 0 ? '1px 0px 5px black inset' : '-1px 0px 5px black inset',
+                                    overflow: 'hidden',
+                                    border: '1px solid rgba(255,255,255,0.24)',
+                                    boxSizing: 'border-box',
+                                    width: 'calc(100% - 1px)',
+                                    background: index === 0 ?
+                                        'linear-gradient(135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 100%)':
+                                        'linear-gradient(-135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 100%)'
+                                }}><BattleCharacter reverse={index === 1} 
                                     active={true} 
                                     character={pSession.party.characters.get(0)} secret={pSession.userId !== session.userId} 
-                                /> : null }
+                                /></div>: null }
                                 {pSession.party.characters.shift().map(character => 
                                     <div style={{padding: 8}}><BattleCharacter reverse={index === 1} 
                                         active={false} 
