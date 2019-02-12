@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import './components/Icon/icons.svg'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import HTML5Backend from 'react-dnd-html5-backend'
@@ -18,6 +16,9 @@ import { setState as setSessionState } from './state/actions/session.actions';
 import { setState as setRoomState } from './state/actions/room.actions';
 import { ClientRoomState } from './state/reducers/room.state';
 import { loginSuccess, logoutSuccess } from './state/actions/auth.actions';
+import './index.css';
+import './components/Icon/icons.svg'
+
 const socket = io('http://localhost:3005')
 const store = makeStore(socket)
 
@@ -48,11 +49,6 @@ export const deserializeRoom = (room: any): ClientRoomState => {
 
 socket.on('connect', (data) => {
     console.log('connection!')
-    /*
-    const username = localStorage.getItem('username')
-    const password = localStorage.getItem('password')
-    socket.emit('connection-auth', { username, password })
-    */
 })
 socket.on('disconnect', () => {
     store.dispatch(logoutSuccess())

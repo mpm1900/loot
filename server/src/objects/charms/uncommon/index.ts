@@ -37,7 +37,7 @@ export const _UncommonCharm = (level: number) => {
                 SpecialUp(RandInt(1, 20)),
                 StrengthUp(RandInt(1, 20))
             ),
-            3
+            1
         )
     })
 }

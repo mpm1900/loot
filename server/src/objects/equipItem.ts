@@ -8,7 +8,6 @@ import { Body } from './body'
 import { Footwear } from './footwear'
 import { Gloves } from './gloves'
 import { CommonWeapon } from './weapons/common';
-import { CommonCharm } from './charms/common';
 import { UncommonWeapon } from './weapons/uncommon';
 import { UncommonRing } from './rings/uncommon';
 import { UncommonHelmet } from './head/uncommon/helmet.item';
@@ -36,10 +35,6 @@ import { MasterworkGloves } from './gloves/masterwork';
 
 export const EquipItem = (level: number) => {
     return Choose(List.of(Weapon(level), Charm(level), Ring(level), Head(level), Body(level), Footwear(level), Gloves(level)), 1).first()
-}
-
-export const CommonEquipItem = (level: number) => {
-    return Choose(List.of(CommonWeapon(level), CommonCharm(level), /*CommonRing(level), CommonHead(level), Body(level), Footwear(level), Gloves(level) */), 1).first()
 }
 
 export const UncommonEquipItem = (level: number) => {
