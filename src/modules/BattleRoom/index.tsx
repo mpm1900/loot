@@ -3,7 +3,7 @@ import './index.scss'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { BattleCharacter } from './components/BattleCharacter';
-import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser } from '../../state/actions/room.actions';
+import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser, cancelReady } from '../../state/actions/room.actions';
 import { TopBar } from '../Core/TopBar';
 import { Icon } from '../Core/Icon';
 import RoomChat  from './components/RoomChat';
@@ -31,7 +31,7 @@ export const Room = (props: any) => {
     const [ sidebarKey, setSidebarKey ] = useState(SidebarKey.Chat)
     const [ roomId, setRoomId ] = useState(null)
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
-    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location, readyUser } = props
+    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location, readyUser, cancelReady } = props
 
     useEffect(() => {
         if (!session || !session.sessionId || !auth.loggedIn) return history ? history.push('/') : null
@@ -94,7 +94,7 @@ export const Room = (props: any) => {
                     <Button type='secondary' onClick={() => history.push('/')}>Leave Room</Button>
                     <Button type='secondary' onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
                     { isUser(session.userId) && !isReady(session.userId) ? <Button onClick={() => readyUser()}>Ready Up</Button> : null }
-                    { isUser(session.userId) && isReady(session.userId) ? <Button type='warning'>Cancel</Button> : null }
+                    { isUser(session.userId) && isReady(session.userId) ? <Button onClick={() => cancelReady()} type='warning'>Cancel</Button> : null }
                 </div>
             </TopBar>
             <div className='Battle__body'>
@@ -131,7 +131,7 @@ export const Room = (props: any) => {
                                     width: 'calc(100% - 1px)',
                                     background: index === 0 ?
                                         'linear-gradient(135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 100%)':
-                                        'linear-gradient(-135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 100%)'
+                                        'linear-gradient(-45deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 100%)'
                                 }}><BattleCharacter reverse={index === 1} 
                                     active={true} 
                                     character={pSession.party.characters.get(0)} secret={pSession.userId !== session.userId} 
@@ -193,5 +193,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     requestJoinRoom,
     requestFindRoom,
     readyUser,
+    cancelReady,
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Room)

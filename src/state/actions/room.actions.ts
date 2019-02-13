@@ -11,6 +11,7 @@ export const REQUEST_FIND_ROOM = PREFIX + 'REQUEST_FIND_ROOM'
 export const REQUEST_LEAVE_ROOM = PREFIX + 'REQUEST_LEAVE_ROOM'
 export const SEND_MESSAGE = PREFIX + 'SEND_MESSAGE'
 export const READY_USER = PREFIX + 'READY_USER'
+export const CANCEL_READY = PREFIX + 'CANCEL_READY'
 
 export const setState = (state: ClientRoomState): ClientReduxAction => ({
     type: SET_STATE,
@@ -56,6 +57,12 @@ export const sendMessage = (message: string) => ({
 
 export const readyUser = () => ({
     type: READY_USER,
+    socket: false,
+    payload: { }
+})
+
+export const cancelReady = () => ({
+    type: CANCEL_READY,
     socket: false,
     payload: { }
 })

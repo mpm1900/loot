@@ -104,6 +104,12 @@ const handleRoomAction = (state, action, socket) => {
             })
             break
         }
+        case RoomActions.CANCEL_READY: {
+            socket.emit('room__request-cancel-ready', {
+                userId: state.session.userId,
+                roomId: state.room.id,
+            })
+        }
     }
 }
 

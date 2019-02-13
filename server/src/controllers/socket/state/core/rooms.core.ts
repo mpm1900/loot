@@ -90,3 +90,15 @@ export const readyUser = (state: SocketRoomsState, action: SocketReduxAction): S
         }
     })
 }
+
+export const cancelReady = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
+    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    if (index === -1) return state
+    return state.update(index, (room: SocketRoom) => {
+        const userId = action.payload.userId
+        return {
+            ...room,
+            readyUserIds: room.readyUserIds.filter(id => id !== userId)
+        }
+    })
+}

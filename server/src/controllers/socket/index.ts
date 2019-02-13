@@ -14,7 +14,7 @@ import { Shrek } from '../../objects/characters/shrek.character';
 import { DonaldDuck } from '../../objects/characters/duck.character';
 import { Pikachu } from '../../objects/characters/pikachu.character';
 import { Character } from '../../types/character';
-import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser } from './state/actions/rooms.actions';
+import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady } from './state/actions/rooms.actions';
 import { SocketRoom } from './state/reducers/rooms.state'
 import { SocketErrors } from './types'
 import { PontiffSulyvahn } from '../../objects/characters/pontif.character';
@@ -237,6 +237,13 @@ const registerRoomSocketActions = async (socket: Socket, store: Store) => {
     socket.on('room__request-ready-user', async ({ userId, roomId }) => {
         if (userId && roomId) {
             store.dispatch(readyUser(userId, roomId))
+            await blastRoom(roomId, socket, store)
+        }
+    })
+
+    socket.on('room__request-cancel-ready', async ({ userId, roomId }) => {
+        if (userId && roomId) {
+            store.dispatch(cancelReady(userId, roomId))
             await blastRoom(roomId, socket, store)
         }
     })

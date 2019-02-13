@@ -38,6 +38,7 @@ export default (state: SocketRoomsState = INITIAL_STATE, action: SocketReduxActi
         case Actions.REMOVE_EMPTY_ROOMS: return Core.removeEmptyRooms(state, action)
         case Actions.SEND_MESSAGE: return Core.sendMessage(state, action)
         case Actions.READY_USER: return Core.readyUser(state, action)
+        case Actions.CANCEL_READY: return Core.cancelReady(state, action)
         default: return state
     }
 }

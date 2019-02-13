@@ -3,6 +3,25 @@
     text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
 
     &__avatar {
+        &--secret {
+            box-sizing: border-box;
+            background: linear-gradient(135deg, rgb(96,96,96) 0%, rgb(76,76,76) 100%);
+
+            & > div {
+                height: 100%;
+                width: 100%;
+                border: 1px solid rgba(255,255,255,0.24);
+                box-sizing: border-box;
+                font-size: 92px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                color: rgba(255,255,255,0.36);
+                user-select: none;
+                box-shadow: 0px 0px 2px rgba(0,0,0,1) inset;
+            }
+        }
         & > div {
             border: 1px solid black;
         }
@@ -10,6 +29,33 @@
 
     .CharacterAvatar {
         z-index: 2;
+    }
+
+    &__main {
+        flex: 1;
+        display: flex; 
+        flex-direction: column;
+        justify-content: center;
+
+        &__name {
+            font-weight: 500;
+            color: white;
+        }
+
+        &__armor {
+            display: flex;
+            height: 24px;
+            font-size: 16px;
+            line-height: 25px; 
+            justify-content: center;
+            align-items: center;
+        }
+
+        &__health {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 
     .ZeroGuage {
