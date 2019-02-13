@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as SessionActions from '../../state/actions/session.actions'
 import { bindActionCreators } from 'redux'
-import CharacterSelectSidebar from './components/CharacterSelect'
+import CharacterSelect from './components/CharacterSelect'
 import { CharacterItemList } from '../Core/PackCharacterItemList'
 import { CharacterCard } from '../Core/CharacterCard'
 import { ClientSessionState } from '../../state/reducers/session.state'
@@ -25,6 +25,7 @@ interface PartyLoadoutPropTypes {
     partyAddCharacter: any,
     characterLimit: number,
     isModal: boolean,
+    viewOnly: boolean,
     onClose?: any,
     history: any,
     auth: ClientAuthState,
@@ -59,7 +60,11 @@ const SessionActiveCharacter = (props: { character: Character }) => {
 }
 
 const Session = (props: PartyLoadoutPropTypes) => {
-    const { auth, history, session: { sessionId, party }, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, onClose, isModal } = props
+    const { 
+        auth, history, session: { sessionId, party }, 
+        partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, 
+        onClose, isModal, viewOnly = false
+    } = props
     const character = party.activeCharacter ? party.activeCharacter : null
 
     useEffect(() => {
@@ -71,20 +76,21 @@ const Session = (props: PartyLoadoutPropTypes) => {
             <SessionTopBar isModal={isModal} history={history} onClose={onClose} />
             <div className='Session__main'>
                 <div className='Session__details'>
-                    <CharacterSelectSidebar 
+                    <CharacterSelect
                         characters={party.characters} 
                         activeCharacterId={party.activeCharacterId}
                         partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
                         partySwapCharacters={partySwapCharacters}
                         partyAddCharacter={partyAddCharacter}
                         characterLimit={party.characterLimit}
+                        viewOnly={viewOnly}
                     />
                     {party.activeCharacter ? 
                         <SessionActiveCharacter character={character} />:
                         <div style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.72)' }}></div> 
                     }
                 </div>
-                <SessionSidebar />
+                { !viewOnly ? <SessionSidebar /> : null }
             </div>
         </div>
     )

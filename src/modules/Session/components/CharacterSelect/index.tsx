@@ -6,7 +6,7 @@ import { EquipItemDropTarget } from '../../../Core/PackCharacterItemList/compone
 import CharacterDropTarget from './drop-target'
 import './index.scss'
 
-interface CharacterSelectSidebarPropTypes {
+interface CharacterSelectPropTypes {
     characters: List<Character>, 
     activeCharacterId: string, 
     partyUpdateActiveCharacterId: any,
@@ -15,32 +15,53 @@ interface CharacterSelectSidebarPropTypes {
     characterLimit: number,
     history?: any,
     isModal?: boolean,
+    viewOnly?: boolean,
 }
 
-const CharacterSelectSidebar = (props: CharacterSelectSidebarPropTypes) => {
+const ItemDropTarget = ({ character, children, viewOnly }) => (
+    viewOnly ?  
+        children: 
+        <EquipItemDropTarget character={character}>{children}</EquipItemDropTarget>
+)
+
+const HeroDropTarget = ({ children, characters, characterLimit, partyAddCharacter, viewOnly }) => (
+    viewOnly ?
+        children:
+        <CharacterDropTarget partyAddCharacter={partyAddCharacter} characters={characters} characterLimit={characterLimit}>{children}</CharacterDropTarget>
+)
+
+const CharacterSelect = (props: CharacterSelectPropTypes) => {
     const size = 120
-    const { characters, activeCharacterId, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, characterLimit } = props
+    const { characters, activeCharacterId, partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, characterLimit, viewOnly = false } = props
     const charactersStyle = { padding: 0, width: '100%', height: 'calc(100% - 8px)', minHeight: size + 1, display: 'flex' }
     const characterStyle = { display: 'flex', height: size, width: '16.67%' }
+
     return (
         <div className='CharacterSelect'>
-            <CharacterDropTarget partyAddCharacter={partyAddCharacter} characters={characters} characterLimit={characterLimit}>
-                <div style={charactersStyle}>{characters.map((character, i) => (
-                    <EquipItemDropTarget key={character.__uuid} character={character}>
-                        <div style={characterStyle}>
-                            <CharacterAvatar 
-                                size={size}
-                                index={i}
-                                character={character}
-                                activeCharacterId={activeCharacterId} 
-                                partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
-                                partySwapCharacters={partySwapCharacters}
-                            />
-                        </div>
-                    </EquipItemDropTarget>
-                ))}{characters.size === 6 ? null : <div className='CharacterSelect__helper'></div>}</div>
-            </CharacterDropTarget>
+            <HeroDropTarget characters={characters} characterLimit={characterLimit} partyAddCharacter={partyAddCharacter} viewOnly={viewOnly}>
+                <div style={charactersStyle}>
+                    {characters.map((character, i) => (
+                        <ItemDropTarget key={character.__uuid} character={character} viewOnly={viewOnly}>
+                            <div style={characterStyle}>
+                                <CharacterAvatar 
+                                    size={size}
+                                    index={i}
+                                    character={character}
+                                    activeCharacterId={activeCharacterId} 
+                                    partyUpdateActiveCharacterId={partyUpdateActiveCharacterId}
+                                    partySwapCharacters={partySwapCharacters}
+                                    viewOnly={viewOnly}
+                                />
+                            </div>
+                        </ItemDropTarget>
+                    ))}
+                    {characters.size === 6 ? 
+                        null : 
+                        <div className='CharacterSelect__helper'></div>
+                    }
+                </div>
+            </HeroDropTarget>
         </div>
     )
 }
-export default CharacterSelectSidebar
+export default CharacterSelect

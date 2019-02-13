@@ -86,7 +86,7 @@ export const Room = (props: any) => {
                 <Input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
                 <Button type='secondary' onClick={() => joinRoom(roomId)}>Join Room</Button>
                 <Button type='secondary' onClick={() => history.push('/')}>Leave Room</Button>
-                <Button type='secondary' onClick={() => setSessionModalOpen(true)}>Edit Party</Button>
+                <Button type='secondary' onClick={() => setSessionModalOpen(true)}>{!isReady(session.userId) ? 'Edit' : 'View'} Party</Button>
                 { isUser(session.userId) && !isReady(session.userId) ? <Button onClick={() => readyUser()}>Ready Up</Button> : null }
                 { isUser(session.userId) && isReady(session.userId) ? <Button onClick={() => cancelReady()} type='warning'>Cancel</Button> : null }
             </div>
@@ -194,7 +194,7 @@ export const Room = (props: any) => {
                     }
                 }}  
             >
-                <Session isModal={true} onClose={() => setSessionModalOpen(false)} />
+                <Session isModal={true} viewOnly={isReady(session.userId)} onClose={() => setSessionModalOpen(false)} />
             </Modal>
         </div> : null
     )

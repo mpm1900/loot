@@ -24,7 +24,7 @@ export const RoomSidebar = (props: any) => {
     const keys = List.of(SidebarKey.Chat, SidebarKey.Battlelog, SidebarKey.Users, SidebarKey.Settings)
     const isActive = (key: SidebarKey) => key === activeKey
     const fill = key => isActive(key) ? 'rgba(255,255,255,0.84)' : 'rgba(255,255,255,0.54)'
-    const selectStyle = { width: '25%', display: 'flex', justifyContent: 'center' }
+    const selectStyle = { width: '25%', display: 'flex', justifyContent: 'center', cursor: 'pointer' }
 
     const sidebar = (key: string, props: any) => {
         switch (key) {

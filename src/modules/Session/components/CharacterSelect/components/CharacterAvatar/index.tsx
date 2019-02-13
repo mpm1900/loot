@@ -16,6 +16,7 @@ interface CharacterAvatarPropTypes {
     connectDragSource?: any,
     size?: number,
     reverse?: boolean,
+    viewOnly?: boolean,
 }
 export class CharacterAvatar extends Component {
     props: CharacterAvatarPropTypes
@@ -25,9 +26,10 @@ export class CharacterAvatar extends Component {
     }
 
     render() {
-        let { character, activeCharacterId, partyUpdateActiveCharacterId, connectDragSource, connectDropTarget, reverse } = this.props
-        connectDragSource = connectDragSource || ((cmp) => cmp) 
-        connectDropTarget = connectDropTarget || ((cmp) => cmp) 
+        let { character, activeCharacterId, partyUpdateActiveCharacterId, connectDragSource, connectDropTarget, reverse, viewOnly } = this.props
+        const pure = ((cmp) => cmp) 
+        connectDragSource = viewOnly ? pure : connectDragSource || pure
+        connectDropTarget = viewOnly ? pure : connectDropTarget || pure
         return connectDragSource(connectDropTarget(
             <div className='CharacterAvavatarBorder' style={{border: '1px solid black', boxSizing: 'border-box', height: 'calc(100% - 1px)', width: '100%', display: 'flex'}}>
                 <div className='CharacterAvatar' onClick={() => partyUpdateActiveCharacterId && activeCharacterId !== character.__uuid ? partyUpdateActiveCharacterId(character.__uuid) : null} style={{

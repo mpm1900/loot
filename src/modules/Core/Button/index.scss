@@ -65,13 +65,13 @@
         }
 
         &.Button2--important {
-            background: linear-gradient(to bottom, hsl(40, 50%, 35%) 0%,hsl(40, 50%, 32%) 100%);
+            background: linear-gradient(to bottom, hsl(40, 50%, 45%) 0%,hsl(40, 50%, 42%) 100%);
             &:hover {
-                background:  hsl(39, 55, 40);
+                background:  hsl(39, 50, 48);
             }
             &:active {
                 outline: none;
-                background: linear-gradient(to bottom, hsl(40, 50%, 35%) 0%,hsl(40, 50%, 30%) 100%);
+                background: linear-gradient(to bottom, hsl(40, 50%, 45%) 0%,hsl(40, 50%, 40%) 100%);
             }
         }
 
