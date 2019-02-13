@@ -48,5 +48,5 @@ export const RoomSidebar = (props: any) => {
                 {sidebar(activeKey, props)}
             </div>
         </div>
-)
+    )
 }

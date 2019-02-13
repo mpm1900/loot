@@ -58,6 +58,7 @@ export const Room = (props: any) => {
     }
     const characterListStyle = {
         display: 'flex', 
+        flexDirection: 'column',
         flex: 1, 
         border: '1px solid rgba(255,255,255,0.12)', 
         justifyContent: room.playerSessions.size > 1 ? 'space-between' : 'flex-start', 
@@ -65,17 +66,17 @@ export const Room = (props: any) => {
         overflowY: 'auto', 
         background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)'
     }
-    const activeCharacterStyle = (index) => ({
+    const activeCharacterStyle = {
         padding: 16,
-        boxShadow: index === 0 ? '1px 0px 5px black inset' : '-1px 0px 5px black inset',
+        boxShadow: '1px 0px 5px black inset',
         overflow: 'hidden',
         border: '1px solid rgba(255,255,255,0.24)',
         boxSizing: 'border-box',
         width: 'calc(100% - 1px)',
-        background: index === 0 ?
-            'linear-gradient(135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 100%)':
-            'linear-gradient(-45deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 100%)'
-    })
+        background: 'linear-gradient(135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 50%, hsl(0,0%,15%) 100%)',
+        minHeight: 213,
+        display: 'flex',
+    }
 
     const RoomTopbar = () => (
         <TopBar>
@@ -149,31 +150,41 @@ export const Room = (props: any) => {
                     <RoomUserbar />
                     <RoomActionbar /> 
                     <div style={characterListStyle as CSSProperties}>
-                        {room.playerSessions.map((pSession, index) => (
-                            <div style={{ width: '50%' }}>
-                                <div className='Battle__user'>
-                                    {pSession.party.characters.get(0) ? 
-                                        <div style={activeCharacterStyle(index) as CSSProperties}>
-                                            <BattleCharacter 
-                                                reverse={index === 1} 
-                                                active={true} 
-                                                character={pSession.party.characters.get(0)} secret={isSecret(pSession.userId)} 
-                                            />
-                                        </div>: 
-                                        null 
-                                    }
-                                    {pSession.party.characters.shift().map(character => 
-                                        <div style={{padding: 8}}>
-                                            <BattleCharacter 
-                                                reverse={index === 1} 
-                                                active={false} 
-                                                character={character} secret={isSecret(pSession.userId)} 
-                                            />
-                                        </div>
-                                    )}
+                        <div className='Battle__activeUser'style={activeCharacterStyle as CSSProperties}>
+                            {room.playerSessions.map((pSession, index) => (
+                                <div style={{ width: 'calc(50% - 8px)' }}>
+                                    <div className='Battle__user'>
+                                        {pSession.party.characters.get(0) ? 
+                                            <div>
+                                                <BattleCharacter 
+                                                    reverse={index === 1} 
+                                                    active={true} 
+                                                    character={pSession.party.characters.get(0)} secret={isSecret(pSession.userId)} 
+                                                />
+                                            </div>: 
+                                        null
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                            {room.playerSessions.map((pSession, index) => (
+                                <div style={{ width: '50%', display: 'flex' }}>
+                                    <div className='Battle__user'>
+                                        {pSession.party.characters.shift().map(character => 
+                                            <div style={{padding: 8}}>
+                                                <BattleCharacter 
+                                                    reverse={index === 1} 
+                                                    active={false} 
+                                                    character={character} secret={isSecret(pSession.userId)} 
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <RoomSidebar />
