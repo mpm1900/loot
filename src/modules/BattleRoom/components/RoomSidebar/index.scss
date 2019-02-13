@@ -1,0 +1,15 @@
+.RoomSidebar {
+    display: flex;
+    flex-direction: column;
+    min-width: 407px;
+    max-width: 407px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+    border-left: 1px solid rgba(0,0,0,1);
+    border-right: 1px solid rgba(0,0,0,1);
+
+    &__body {
+        height: calc(100% - 58px);
+    }
+}
