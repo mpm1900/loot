@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { CSSProperties } from 'react'
 import { getTypeGradientCSS } from '../../../../PartyLoadout.utils'
 import { Character } from '../../../../../../types/character'
 import { DropTarget, DragSource } from 'react-dnd'
@@ -18,35 +18,46 @@ interface CharacterAvatarPropTypes {
     reverse?: boolean,
     viewOnly?: boolean,
 }
-export class CharacterAvatar extends Component {
-    props: CharacterAvatarPropTypes
 
-    constructor(props: CharacterAvatarPropTypes) {
-        super(props)
+export const CharacterAvatar = (props: CharacterAvatarPropTypes) => {
+    let { character, activeCharacterId, partyUpdateActiveCharacterId, connectDragSource, connectDropTarget, reverse, viewOnly } = props
+    const pure = ((cmp) => cmp) 
+    connectDragSource = viewOnly ? pure : connectDragSource || pure
+    connectDropTarget = viewOnly ? pure : connectDropTarget || pure
+
+    const borderStyle = {
+        border: '1px solid black',
+        boxSizing: 'border-box',
+        height: 'calc(100% - 1px)',
+        width: '100%',
+        display: 'flex'
     }
 
-    render() {
-        let { character, activeCharacterId, partyUpdateActiveCharacterId, connectDragSource, connectDropTarget, reverse, viewOnly } = this.props
-        const pure = ((cmp) => cmp) 
-        connectDragSource = viewOnly ? pure : connectDragSource || pure
-        connectDropTarget = viewOnly ? pure : connectDropTarget || pure
-        return connectDragSource(connectDropTarget(
-            <div className='CharacterAvavatarBorder' style={{border: '1px solid black', boxSizing: 'border-box', height: 'calc(100% - 1px)', width: '100%', display: 'flex'}}>
-                <div className='CharacterAvatar' onClick={() => partyUpdateActiveCharacterId && activeCharacterId !== character.__uuid ? partyUpdateActiveCharacterId(character.__uuid) : null} style={{
-                    background: getTypeGradientCSS(character),
-                    opacity: (activeCharacterId === character.__uuid) ? 1 : 0.4,
-                }}>
-                    <div className={'CharacterAvatar__content' + (reverse ? ' reverse' : '')} style={{
-                        backgroundImage: `url(${character.avatar || character.image})`, 
-                        backgroundSize: 'cover', 
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPositionX: 'center',
-                        zIndex: 3
-                    }}></div>
-                </div>
+    const avatarStyle = {
+        background: getTypeGradientCSS(character),
+        opacity: (activeCharacterId === character.__uuid) ? 1 : 0.4,
+    }
+
+    const handleClick = () => {
+        if (partyUpdateActiveCharacterId && activeCharacterId !== character.__uuid) 
+            partyUpdateActiveCharacterId(character.__uuid)
+    }
+
+    const contentStyle = {
+        backgroundImage: `url(${character.avatar || character.image})`, 
+        backgroundSize: 'cover', 
+        backgroundRepeat: 'no-repeat',
+        backgroundPositionX: 'center',
+        zIndex: 3
+    }
+
+    return connectDragSource(connectDropTarget(
+        <div className='CharacterAvavatarBorder' style={borderStyle as CSSProperties}>
+            <div className='CharacterAvatar' onClick={handleClick} style={avatarStyle}>
+                <div className={'CharacterAvatar__content' + (reverse ? ' reverse' : '')} style={contentStyle}></div>
             </div>
-        ))
-    }
+        </div>
+    ))
 }
 
 export default DropTarget('CharacterAvatar', characterAvatarTarget, connect => ({
@@ -55,4 +66,5 @@ export default DropTarget('CharacterAvatar', characterAvatarTarget, connect => (
     DragSource('CharacterAvatar', characterAvatarSource, (connect, monitor) => ({
         connectDragSource: connect.dragSource(),
         isDragging: monitor.isDragging(),
-    }))(CharacterAvatar))
+    }))(CharacterAvatar)
+)

@@ -6,6 +6,10 @@
     overflow: auto;
 
     &__header {
+        display: flex;
+        flex-wrap: wrap;
+        border-bottom: 1px solid black;
+        
         & > div {
             display: flex;
             border: 1px solid black;

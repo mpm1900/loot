@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { PackItem, ItemRarityColor } from '../../../Core/PackItem'
-import { DropTarget } from 'react-dnd';
-import { List } from 'immutable';
-import { Item, ItemSubTypes, ItemRarities, ItemSubType } from '../../../../types/item';
+import { DropTarget } from 'react-dnd'
+import { List } from 'immutable'
+import { Item, ItemSubTypes, ItemRarities, ItemSubType } from '../../../../types/item'
+import { Icon } from '../../../Core/Icon'
 import './index.scss'
-import { Icon } from '../../../Core/Icon';
 
 const itemSelectSidebarTarget = {
     canDrop(props, monitor) {
@@ -30,28 +30,17 @@ export const typeIconMap = {
     [ItemSubType.Gloves]: 'gauntlet',
 }
 
-interface ItemSelectSidebarState {
-    filters: List<any>
-}
-export class ItemSelectSidebar extends React.Component {
-    props: any
-    state: ItemSelectSidebarState
+export const ItemSelectSidebar = (props) =>  {
+    const { items, party, connectDropTarget = ((cmp) => cmp) } = props
+    const [ filters, setFilters ] = useState(List<any>())
+    const iconSize = 35
 
-    constructor(props: any) {
-        super(props)
-        this.state = {
-            filters: List<any>()
-        }
-    }
-
-    applyFilters(list: List<Item>, filters: List<any>): List<Item> {
+    const applyFilters = (list: List<Item>, filters: List<any>): List<Item> => {
         filters.forEach(filter => {
             list = list.filter(item => item[filter.key] === filter.value)
         })
         return list
-            .filter(item => {
-                return (!this.props.party.characterItems.map(i => i.__uuid).contains(item.__uuid))
-            })
+            .filter(item => !(party.characterItems.map(i => i.__uuid).contains(item.__uuid)))
             .sort((a, b) => {
                 const av = a.stats.armor || a.stats.power
                 const bv = b.stats.armor || b.stats.power
@@ -59,52 +48,51 @@ export class ItemSelectSidebar extends React.Component {
             })
     }
 
-    resetFilters() {
-        this.setState({ filters: List<any>() })
+    const resetFilters = () => {
+        setFilters(List<any>())
     }
 
-    addFilter(key: string, value: any) {
-        this.setState({
-            filters: List([{key, value}])
-        })
+    const addFilter = (key: string, value: any) => {
+        setFilters(List([{key, value}]))
     }
 
-    render() { 
-        const { items } = this.props
-        const iconSize = 35
-        return this.props.connectDropTarget(
-            <div className='ItemSelectSidebar'>
-                <div className='ItemSelectSidebar__header' style={{display: 'flex', flexWrap: 'wrap', borderBottom: '1px solid black'}}>
-                    <div>
-                        <button onClick={() => this.resetFilters()}>
-                            <div>
-                                <Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} />
-                            </div>
-                        </button>
-                    </div>
-                    {ItemRarities.map(rarity => <div>
-                        <button key={rarity} className={this.state.filters.map(f => f.value).contains(rarity) ? 'active' : ''} disabled={items.filter(item => item.rarity === rarity).size === 0} onClick={() => this.addFilter('rarity', rarity)}>
-                            <div style={{ background: ItemRarityColor[rarity]}}></div>
-                        </button>
-                    </div>)}
-                    {ItemSubTypes.map(type => <div>
-                        <button key={type} className={this.state.filters.map(f => f.value).contains(type) ? 'active' : ''} disabled={(items.filter(item => item.subType === type).size === 0)} onClick={() => this.addFilter('subType', type)}>
-                            <div>
-                                <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.42)'} />
-                            </div>
-                        </button>
-                    </div>)}
-                </div>
-                <div style={{display: 'flex', flexDirection: 'column', width: 'calc(100% - 0px)', flex: 1, padding: 0, overflowY: 'auto', maxHeight: '100%', background: 'rgba(0,0,0,0.24)' }}>
-                    {this.applyFilters(items, this.state.filters).map(w => (
-                        <div key={w.__uuid} className='Pack_Item'>
-                            <PackItem item={w} />
+    const disabledRarity = rarity => items.filter(item => item.rarity === rarity).size === 0
+    const classNameRarity = rarity => filters.map(f => f.value).contains(rarity) ? 'active' : ''
+    const disabledType = type => items.filter(item => item.subType === type).size === 0
+    const classNameType = type => filters.map(f => f.value).contains(type) ? 'active' : ''
+
+    return connectDropTarget(
+        <div className='ItemSelectSidebar'>
+            <div className='ItemSelectSidebar__header'>
+                <div>
+                    <button onClick={() => resetFilters()}>
+                        <div>
+                            <Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} />
                         </div>
-                    ))}
+                    </button>
                 </div>
+                {ItemRarities.map(rarity => <div>
+                    <button key={rarity} className={classNameRarity(rarity)} disabled={disabledRarity(rarity)} onClick={() => addFilter('rarity', rarity)}>
+                        <div style={{ background: ItemRarityColor[rarity]}}></div>
+                    </button>
+                </div>)}
+                {ItemSubTypes.map(type => <div>
+                    <button key={type} className={classNameType(type)} disabled={disabledType(type)} onClick={() => addFilter('subType', type)}>
+                        <div>
+                            <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.42)'} />
+                        </div>
+                    </button>
+                </div>)}
             </div>
-        )
-    }
+            <div style={{display: 'flex', flexDirection: 'column', width: 'calc(100% - 0px)', flex: 1, padding: 0, overflowY: 'auto', maxHeight: '100%', background: 'rgba(0,0,0,0.24)' }}>
+                {applyFilters(items, filters).map(w => (
+                    <div key={w.__uuid} className='Pack_Item'>
+                        <PackItem item={w} />
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
 }
 
 export default DropTarget('PackItem', itemSelectSidebarTarget, collect)(ItemSelectSidebar)

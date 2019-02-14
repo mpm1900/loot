@@ -61,7 +61,7 @@ export const Room = (props: any) => {
         flexDirection: 'column',
         flex: 1, 
         border: '1px solid rgba(255,255,255,0.12)', 
-        justifyContent: room.playerSessions.size > 1 ? 'space-between' : 'flex-start', 
+        justifyContent: 'flex-start', 
         boxSizing: 'border-box', 
         overflowY: 'auto', 
         background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)'
@@ -70,9 +70,7 @@ export const Room = (props: any) => {
         padding: 16,
         boxShadow: '1px 0px 5px black inset',
         overflow: 'hidden',
-        border: '1px solid rgba(255,255,255,0.24)',
         boxSizing: 'border-box',
-        width: 'calc(100% - 1px)',
         background: 'linear-gradient(135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 50%, hsl(0,0%,15%) 100%)',
         minHeight: 213,
         display: 'flex',

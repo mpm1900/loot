@@ -53,6 +53,7 @@ export default (state: SocketSessionsState = INITIAL_STATE, action: SocketReduxA
         case Actions.PARTY_UPDATE_CHARACTER: return Core.partyUpdateCharacter(state, action)
         case Actions.PARTY_SWAP_CHARACTERS: return Core.partySwapCharacters(state, action)
         case Actions.PARTY_UPDATE_ACTIVE_CHARACTER_ID: return Core.partyUpdateActiveCharacterId(state, action)
+        case Actions.PARTY_CLEAR_CHARACTERS: return Core.partyClearCharacters(state, action)
         default: return state
     }
 }

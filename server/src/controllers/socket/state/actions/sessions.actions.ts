@@ -19,6 +19,7 @@ export const PARTY_DELETE_CHARACTER = PREFIX + '_PARTY_DELETE_CHARACTER'
 export const PARTY_UPDATE_CHARACTER = PREFIX + '_PARTY_UPDATE_CHARACTER'
 export const PARTY_SWAP_CHARACTERS = PREFIX + '_PARTY_SWAP_CHARACTERS'
 export const PARTY_UPDATE_ACTIVE_CHARACTER_ID = PREFIX + '_PARTY_UPDATE_ACTIVE_CHARACTER_ID'
+export const PARTY_CLEAR_CHARACTERS = PREFIX + '_PARTY_CLEAR_CHARACTERS'
 
 export const partyAddCharacter = (sessionId: string, characterId: string): SocketReduxAction => ({
     type: PARTY_ADD_CHARACTER,
@@ -119,5 +120,12 @@ export const deleteItem = (sessionId: string, itemId: string): SocketReduxAction
     payload: {
         sessionId,
         itemId,
+    }
+})
+
+export const partyClearCharacters = (sessionId: string): SocketReduxAction => ({
+    type: PARTY_CLEAR_CHARACTERS,
+    payload: {
+        sessionId,
     }
 })

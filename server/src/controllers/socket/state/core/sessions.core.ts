@@ -1,6 +1,8 @@
 import { SocketSessionsState, defaultSocketSession } from '../reducers/sessions.state'
 import { v4 } from 'uuid'
-import { SocketReduxAction } from '../actions';
+import { SocketReduxAction } from '../actions'
+import { Character } from '../../../../types/character'
+import { List } from 'immutable';
 
 export const createSession = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     return state.push({
@@ -136,4 +138,15 @@ export const partySwapCharacters = (state: SocketSessionsState, action: SocketRe
             })
         }
     })
+}
+
+export const partyClearCharacters = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
+    const index = state.map(session => session.id).indexOf(action.payload.sessionId)
+    return state.update(index, session => ({
+        ...session,
+        party: session.party.with({
+            characters: List<Character>(),
+            activeCharacterId: null,
+        })
+    }))
 }

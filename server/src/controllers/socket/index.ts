@@ -5,7 +5,7 @@ import * as Utils from './util';
 import { Store } from 'redux';
 import { UserModel, IUserModel } from '../../models/user';
 import * as UserModelUtils from '../../models/user/user.util'
-import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId, partySwapCharacters, partyDeleteCharacter } from './state/actions/sessions.actions';
+import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId, partySwapCharacters, partyDeleteCharacter, partyClearCharacters } from './state/actions/sessions.actions';
 import { BasicCharacterPack } from '../../objects/packs';
 import { EquipItem } from '../../objects/equipItem';
 import { Mario, AnimeLady } from '../../objects/characters/mario.character';
@@ -154,6 +154,11 @@ const registerSessionSocketActions = async (socket: Socket, store: Store) => {
 
     socket.on('session__party__equip-item', ({ sessionId, characterId, itemId }) => {
         console.log(sessionId, characterId, itemId)
+    })
+
+    socket.on('session__party__clear-characters', ({ sessionId }) => {
+        store.dispatch(partyClearCharacters(sessionId))
+        blastSession(sessionId, socket, store)
     })
 }
 

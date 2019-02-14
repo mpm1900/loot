@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import './index.scss'
 
 export const Button = (props: any) => {
-    const [ isHovering, setIsHovering ] = useState(false)
     const { style, children, onClick, type = 'primary' } = props
     return (
         <div className='Button2'>
