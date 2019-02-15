@@ -1,8 +1,7 @@
 import React from 'react'
-import { CharacterCard } from '../../../Core/CharacterCard'
+import { DropTarget } from 'react-dnd'
+import CharacterChip from '../../../Core/CharacterChip'
 import './index.scss'
-import { DropTarget } from 'react-dnd';
-import CharacterChip from '../../../Core/CharacterChip';
 
 
 export const characterSidebarTarget = {
@@ -14,18 +13,18 @@ export const characterSidebarTarget = {
 export const CharacterSidebar = (props: any) => {
     const { party, characters, connectDropTarget } = props
 
-    const filteredCharacters = ((party, characters) => {
+    const filteredCharacters = () => {
         const partyCharacterIds = party.characters.map(c => c.__uuid)
         return characters.filter(c => !partyCharacterIds.contains(c.__uuid))
-    })(party, characters)
+    }
 
     return connectDropTarget(
         <div className='CharacterSidebar'>
-            {filteredCharacters.size === 0 ? 
+            {filteredCharacters().size === 0 ? 
                 <div className='CharacterSidebar__empty'>No Characters Available</div>: 
                 null
             }
-            {filteredCharacters.map(character => (
+            {filteredCharacters().map(character => (
                 <div key={character.__uuid}>
                     <CharacterChip character={character} showImage={true} />
                 </div>

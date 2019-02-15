@@ -2,8 +2,17 @@ import { List } from 'immutable'
 import * as Actions from '../actions/rooms.actions'
 import * as Core from '../core/rooms.core'
 import { SocketReduxAction } from '../actions'
-import { SocketSession } from './sessions.state';
-import { IUser } from '../../../../models/user';
+import { SocketSession } from './sessions.state'
+import { IUser } from '../../../../models/user'
+
+export enum SocketRoomPublicVisibility {
+    Open,
+    Restricted,
+    Locked,
+}
+export interface SocketRoomSettings {
+    visibility: SocketRoomPublicVisibility
+}
 
 export interface SocketRoom {
     id: string
@@ -13,6 +22,7 @@ export interface SocketRoom {
     readyUserIds: List<string>,
     spectatorIds: List<string>,
     messages: List<any>,
+    settings: SocketRoomSettings,
 }
 export interface PopulatedSocketRoom {
     id: string,
@@ -22,6 +32,7 @@ export interface PopulatedSocketRoom {
     readyUserIds: List<string>,
     spectatorIds: List<string>,
     messages: List<any>,
+    settings: SocketRoomSettings,
 }
 
 export type SocketRoomsState = List<SocketRoom>

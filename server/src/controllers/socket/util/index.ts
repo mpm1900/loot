@@ -80,6 +80,7 @@ export const populateRoom = async (room: SocketRoom, sessions: List<SocketSessio
         readyUserIds: room.readyUserIds,
         spectatorIds: room.spectatorIds,
         messages: room.messages,
+        settings: room.settings,
     }
 }
 
@@ -92,6 +93,7 @@ export const serializeRoom = (room: PopulatedSocketRoom): any => {
         readyUserIds: room.readyUserIds.toArray(),
         spectatorIds: room.spectatorIds.toArray(),
         messages: room.messages.toArray(),
+        settings: room.settings,
     }
 }
 
@@ -104,6 +106,7 @@ export const deserializeRoom = async (room: any): Promise<SocketRoom> => {
         userIds,
         readyUserIds: List(room.readyUserIds),
         spectatorIds: List(room.spectatorIds),
-        messages: List(room.messages)
+        messages: List(room.messages),
+        settings: room.settings,
     }
 }

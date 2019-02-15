@@ -30,7 +30,7 @@ export const CharacterAvatar = (props: CharacterAvatarPropTypes) => {
         boxSizing: 'border-box',
         height: 'calc(100% - 1px)',
         width: '100%',
-        display: 'flex'
+        display: 'flex',
     }
 
     const avatarStyle = {

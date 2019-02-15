@@ -7,7 +7,6 @@ import Room from './modules/BattleRoom'
 import Auth from './modules/Auth'
 import './App.scss'
 
-
 export default () => {
     return (
         <BrowserRouter>

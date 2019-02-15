@@ -20,17 +20,18 @@ const handleAuthAction = (state, action, socket) => {
 }
 
 const handleSessionAction = (state, action, socket) => {
+    const sessionId = state.session.sessionId
     switch (action.type) {
         case SessionActions.PARTY_UPDATE_ACTIVE_CHARACTER_ID: {
             socket.emit('session__party__update-active-character-id', {
-                sessionId: state.session.sessionId,
+                sessionId,
                 characterId: action.payload.characterId
             })
             break
         }
         case SessionActions.PARTY_SWAP_CHARACTERS: {
             socket.emit('session__party__swap-characters', {
-                sessionId: state.session.sessionId,
+                sessionId,
                 aIndex: action.payload.aIndex,
                 bIndex: action.payload.bIndex,
             })
@@ -38,52 +39,61 @@ const handleSessionAction = (state, action, socket) => {
         }
         case SessionActions.PARTY_UPDATE_CHARACTER: {
             socket.emit('session__party__update-character', {
-                sessionId: state.session.sessionId,
+                sessionId,
                 character: action.payload.character.serialize()
             })
             break
         }
         case SessionActions.PARTY_DELETE_CHARACTER: {
             socket.emit('session__party__delete-character', {
-                sessionId: state.session.sessionId,
+                sessionId,
                 characterId: action.payload.characterId,
             })
             break
         }
         case SessionActions.PARTY_ADD_CHARACTER: {
             socket.emit('session__party__add-character', {
-                sessionId: state.session.sessionId,
+                sessionId,
                 characterId: action.payload.characterId,
+            })
+            break
+        }
+        case SessionActions.PARTY_CLEAR_CHARACTERS: {
+            socket.emit('session__party__clear-characters', {
+                sessionId,
             })
         }
     }
 }
 
 const handleRoomAction = (state, action, socket) => {
+    const sessionId = state.session.sessionId
+    const roomId = state.room.id
+    const userId = state.session.userId
     switch (action.type) {
         case RoomActions.REQUEST_CREATE_ROOM: {
             socket.emit('room__request-create-room', {
-                sessionId: state.session.sessionId,
+                sessionId,
             })
             break
         }
         case RoomActions.REQUEST_JOIN_ROOM: {
             socket.emit('room__request-join-room', {
-                sessionId: state.session.sessionId,
+                sessionId,
                 roomId: action.payload.roomId,
             })
             break
         }
         case RoomActions.REQUEST_FIND_ROOM: {
             socket.emit('room__request-find-room', {
-                sessionId: state.session.sessionId,
+                sessionId,
             })
             break
         }
         case RoomActions.REQUEST_LEAVE_ROOM: {
             socket.emit('room__request-leave-room', {
-                sessionId: state.session.sessionId,
-                roomId: state.room.id,
+                sessionId,
+                roomId,
             })
             break
         }
@@ -91,24 +101,25 @@ const handleRoomAction = (state, action, socket) => {
             if (action.payload.message) {
                 socket.emit('room__request-send-message', {
                     message: action.payload.message,
-                    userId: state.session.userId,
-                    roomId: state.room.id,
+                    userId,
+                    roomId,
                 })
             }
             break
         }
         case RoomActions.READY_USER: {
             socket.emit('room__request-ready-user', {
-                userId: state.session.userId,
-                roomId: state.room.id,
+                userId,
+                roomId,
             })
             break
         }
         case RoomActions.CANCEL_READY: {
             socket.emit('room__request-cancel-ready', {
-                userId: state.session.userId,
-                roomId: state.room.id,
+                userId,
+                roomId,
             })
+            break
         }
     }
 }

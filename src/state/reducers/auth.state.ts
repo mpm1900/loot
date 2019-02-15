@@ -2,7 +2,6 @@ import { ClientReduxAction } from '../actions'
 import * as Actions from '../actions/auth.actions'
 import * as Core from '../core/auth.core'
 
-
 export type iClientAuth = {
     loggedIn: boolean
 }

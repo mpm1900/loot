@@ -91,5 +91,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
-
 const thing = '5c4bf6d181ab9b4cd45ecfac';

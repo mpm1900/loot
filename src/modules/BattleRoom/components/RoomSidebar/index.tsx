@@ -39,7 +39,7 @@ export const RoomSidebar = (props: any) => {
         <div className='RoomSidebar'>
             <TopBar style={{ borderLeft: 'none', borderRight: 'none' }}>
                 {keys.map(key => (
-                    <div style={selectStyle} onClick={() => setActiveKey(key)}>
+                    <div key={key} style={selectStyle} onClick={() => setActiveKey(key)}>
                         <Icon size={32} icon={keyIcons[key]} fill={fill(key)} />
                     </div>
                 ))}

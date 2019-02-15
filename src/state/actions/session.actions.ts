@@ -18,6 +18,7 @@ export const PARTY_DELETE_CHARACTER = PREFIX + '_PARTY_DELETE_CHARACTER'
 export const PARTY_UPDATE_CHARACTER = PREFIX + '_PARTY_UPDATE_CHARACTER'
 export const PARTY_SWAP_CHARACTERS = PREFIX + '_PARTY_SWAP_CHARACTERS'
 export const PARTY_UPDATE_ACTIVE_CHARACTER_ID = PREFIX + '_PARTY_UPDATE_ACTIVE_CHARACTER_ID'
+export const PARTY_CLEAR_CHARACTERS = PREFIX + '_PARTY_CLEAR_CHARACTERS'
 
 export const setState = (state: ClientSessionState): ClientReduxAction => ({
     type: SET_STATE,
@@ -62,6 +63,11 @@ export const partyUpdateActiveCharacterId = (characterId: string): ClientReduxAc
     payload: {
         characterId,
     }
+})
+export const partyClearCharacters = (): ClientReduxAction => ({
+    type: PARTY_CLEAR_CHARACTERS,
+    socket: false,
+    payload: { }
 })
 
 export const addPack = (pack: Pack): ClientReduxAction => ({

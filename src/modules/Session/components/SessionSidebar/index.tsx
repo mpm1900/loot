@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as SessionActions from '../../../../state/actions/session.actions'
+import ItemSelectSidebar from '../ItemSelectSidebar'
+import { TopBar } from '../../../Core/TopBar'
+import CharacterSidebar from '../CharacterSidebar'
 import './index.scss' 
-import ItemSelectSidebar from '../ItemSelectSidebar';
-import { TopBar } from '../../../Core/TopBar';
-import CharacterSidebar from '../CharacterSidebar';
 
 interface iSessionSidebarProps {
     session?: any

@@ -4,11 +4,9 @@ import * as SessionActions from '../../state/actions/session.actions'
 import { bindActionCreators } from 'redux'
 import CharacterSelect from './components/CharacterSelect'
 import { CharacterItemList } from '../Core/PackCharacterItemList'
-import { CharacterCard } from '../Core/CharacterCard'
 import { ClientSessionState } from '../../state/reducers/session.state'
 import SessionSidebar from './components/SessionSidebar'
 import { TopBar } from '../Core/TopBar'
-import { Icon } from '../Core/Icon'
 import { Button } from '../Core/Button'
 import { Character } from '../../types/character'
 import './index.scss'
@@ -29,28 +27,37 @@ interface PartyLoadoutPropTypes {
     onClose?: any,
     history: any,
     auth: ClientAuthState,
+    partyClearCharacters: any,
 }
 
-const SessionTopBar = (props: { isModal: boolean, history: any, onClose: any }) => {
-    const { isModal, history, onClose } = props
-    const fill = 'rgba(255,255,255,0.54)'
+const SessionTopBar = (props) => {
+    const { isModal, history, onClose, partyClearCharacters } = props
     return (
         <TopBar style={{borderBottom: 'none'}}>
             <strong>Session Party Loadout</strong>
-            { !isModal ? <div style={{ display: 'flex'}}>
-                <Button onClick={() => history.push('/battle/create')}>Create Room</Button>
-                <Button onClick={() => history.push('/battle/find')}>Find Room</Button>
-            </div> : null }
-            { isModal ? <Button type='warning' onClick={onClose}>Close</Button> : null }
+            <div style={{ display: 'flex'}}>
+                { !isModal ? [
+                    <Button onClick={() => history.push('/battle/create')}>Create Room</Button>,
+                    <Button onClick={() => history.push('/battle/find')}>Find Room</Button>,
+                    <Button type='warning' onClick={partyClearCharacters}>Reset Party</Button>,
+                ]: null }
+                { isModal ? <Button type='warning' onClick={onClose}>Close</Button> : null }
+            </div>
         </TopBar>
     )
 }
 
 const SessionActiveCharacter = (props: { character: Character }) => {
     const { character } = props
+    const style = {
+        display: 'flex', 
+        flex: 1, 
+        padding: 8, 
+        maxHeight: 'calc(100% - 136px)',
+        background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' 
+    }
     return (
-        <div style={{display: 'flex', flex: 1, padding: 8, maxHeight: 'calc(100% - 136px)', background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)' }}>
-            { /* <CharacterCard character={character} /> */ }
+        <div style={style}>
             <CharacterChip character={character} showImage={true} />
             <div style={{margin: '0', flex: 1, overflowY: 'auto'}}>
                 <CharacterItemList character={character} />
@@ -62,7 +69,7 @@ const SessionActiveCharacter = (props: { character: Character }) => {
 const Session = (props: PartyLoadoutPropTypes) => {
     const { 
         auth, history, session: { sessionId, party }, 
-        partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, 
+        partyUpdateActiveCharacterId, partySwapCharacters, partyAddCharacter, partyClearCharacters,
         onClose, isModal, viewOnly = false
     } = props
     const character = party.activeCharacter ? party.activeCharacter : null
@@ -73,7 +80,7 @@ const Session = (props: PartyLoadoutPropTypes) => {
 
     return (
         <div className='Session'>
-            <SessionTopBar isModal={isModal} history={history} onClose={onClose} />
+            <SessionTopBar isModal={isModal} history={history} onClose={onClose} partyClearCharacters={partyClearCharacters} />
             <div className='Session__main'>
                 <div className='Session__details'>
                     <CharacterSelect
@@ -103,5 +110,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     partyUpdateCharacter: SessionActions.partyUpdateCharacter,
     partyUpdateActiveCharacterId: SessionActions.partyUpdateActiveCharacterId,
     partySwapCharacters: SessionActions.partySwapCharacters,
+    partyClearCharacters: SessionActions.partyClearCharacters,
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Session)

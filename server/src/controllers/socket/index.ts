@@ -5,7 +5,7 @@ import * as Utils from './util';
 import { Store } from 'redux';
 import { UserModel, IUserModel } from '../../models/user';
 import * as UserModelUtils from '../../models/user/user.util'
-import { createSession, deleteSessionByUser, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId, partySwapCharacters, partyDeleteCharacter, partyClearCharacters } from './state/actions/sessions.actions';
+import { createSession, addPack, addCharacter, addItem, partyUpdateCharacter, partyAddCharacter, partyUpdateActiveCharacterId, partySwapCharacters, partyDeleteCharacter, partyClearCharacters } from './state/actions/sessions.actions';
 import { BasicCharacterPack } from '../../objects/packs';
 import { EquipItem } from '../../objects/equipItem';
 import { Mario, AnimeLady } from '../../objects/characters/mario.character';
@@ -15,7 +15,7 @@ import { DonaldDuck } from '../../objects/characters/duck.character';
 import { Pikachu } from '../../objects/characters/pikachu.character';
 import { Character } from '../../types/character';
 import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady } from './state/actions/rooms.actions';
-import { SocketRoom } from './state/reducers/rooms.state'
+import { SocketRoom, SocketRoomPublicVisibility } from './state/reducers/rooms.state'
 import { SocketErrors } from './types'
 import { PontiffSulyvahn } from '../../objects/characters/pontif.character';
 
@@ -219,7 +219,13 @@ const registerRoomSocketActions = async (socket: Socket, store: Store) => {
     })
 
     socket.on('room__request-find-room', async ({ sessionId }) => {
-        const room = store.getState().rooms.filter((r: SocketRoom) => r.userIds.size == 1).first()
+        const room = store.getState().rooms
+            .filter((r: SocketRoom) => (
+                r.userIds.size == 1 &&
+                r.settings.visibility === SocketRoomPublicVisibility.Open
+            ))
+            .first()
+
         if (room) {
             handleJoinRoom(socket, store, sessionId, room.id)
         } else {

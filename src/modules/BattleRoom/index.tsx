@@ -40,6 +40,14 @@ export const Room = (props: any) => {
         }
         return 'spectator'
     }
+    const getSessionIndex = (userId: string) => room.playerSessions.map(session => session.userId === userId).indexOf(userId)
+    const getActiveCharacter = (userId: string) => {
+        const session = room.playerSessions.get(getSessionIndex(userId))
+        if (session) {
+            return session.party.characters.get(0)
+        }
+        return null
+    }
 
     const battleBodyBorderStyle = { 
         display: 'flex', 
@@ -105,38 +113,23 @@ export const Room = (props: any) => {
         </TopBar>
     )
 
-    const RoomActionbar = () => (
-        <TopBar style={actionBarStyle}>
-            <div style={{ display: 'flex' }}>
-                <Button type='primary'>Weapon Attack</Button>
-                <Button type='important'>Skill 1</Button>
-                <Button type='important'>Skill 2</Button>
-                <Button type='important'>Skill 3</Button>
-            </div>
-            <div style={{ display: 'flex' }}>
-                <Button type='info'>Switch Heros</Button>
-            </div>
-        </TopBar>
-    )
-
-    const SessionModal = () => {
-        const style = {
-            content: {
-                background: 'white',
-                zIndex: 9999,
-                padding: 0,
-                display: 'flex',
-                flexDirection: 'column',
-            },
-            overlay: {
-                backgroundColor: 'rgba(0,0,0,0.52)'
-            }
-        }
-        
+    const RoomActionbar = () => {
+        const character = getActiveCharacter(session.userId)
         return (
-            <Modal isOpen={sessionModalOpen} onRequestClose={() => setSessionModalOpen(false)} style={style} >
-                <Session isModal={true} onClose={() => setSessionModalOpen(false)} />
-            </Modal>
+            <TopBar style={actionBarStyle}>
+                { character !== null ? 
+                    <div style={{ display: 'flex' }}>
+                        <Button type='primary'>Weapon Attack</Button>
+                        {character.skills.map(skill => (
+                            <Button key={skill.__uuid} type='important'>{skill.name}</Button>  
+                        ))}
+                    </div>: 
+                    null 
+                }
+                <div style={{ display: 'flex' }}>
+                    <Button type='info'>Switch Heros</Button>
+                </div>
+            </TopBar>
         )
     }
 
@@ -150,7 +143,7 @@ export const Room = (props: any) => {
                     <div style={characterListStyle as CSSProperties}>
                         <div className='Battle__activeUser'style={activeCharacterStyle as CSSProperties}>
                             {room.playerSessions.map((pSession, index) => (
-                                <div style={{ width: 'calc(50% - 8px)' }}>
+                                <div key={pSession.sessionId} style={{ width: 'calc(50% - 8px)' }}>
                                     <div className='Battle__user'>
                                         {pSession.party.characters.get(0) ? 
                                             <div>
@@ -168,10 +161,10 @@ export const Room = (props: any) => {
                         </div>
                         <div style={{ display: 'flex' }}>
                             {room.playerSessions.map((pSession, index) => (
-                                <div style={{ width: '50%', display: 'flex' }}>
+                                <div key={pSession.sessionId} style={{ width: '50%', display: 'flex' }}>
                                     <div className='Battle__user'>
                                         {pSession.party.characters.shift().map(character => 
-                                            <div style={{padding: 8}}>
+                                            <div key={character.__uuid} style={{padding: 8}}>
                                                 <BattleCharacter 
                                                     reverse={index === 1} 
                                                     active={false} 

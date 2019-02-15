@@ -42,7 +42,6 @@ export type ClientSessionState = iClientSession
 const INITIAL_STATE: ClientSessionState = defaultClientSession
 
 export const SessionReducer = (state: ClientSessionState = INITIAL_STATE, action: ClientReduxAction): ClientSessionState => {
-    // console.log('SESSION -', action.type)
     switch (action.type) {
         case Actions.SET_STATE: return Core.setState(state, action)
         default: return state
