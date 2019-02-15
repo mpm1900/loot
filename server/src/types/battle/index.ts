@@ -36,7 +36,6 @@ export class BattleState extends AppRecord implements iBattleState {
 
     public serialize() {
         return {
-            userIds: this.userIds.toArray(),
             parties: this.parties.map(party => party.serialize()).toArray(),
             turn: {
                 phase: this.turn.phase

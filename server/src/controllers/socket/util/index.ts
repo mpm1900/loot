@@ -7,6 +7,7 @@ import { Pack } from '../../../types/pack';
 import { SocketRoom, PopulatedSocketRoom } from '../state/reducers/rooms.state';
 import { IUser } from '../../../models/user';
 import { findMany } from '../../../models/user/user.util';
+import { BattleState } from '../../../types/battle';
 
 export const findSessionById = (sessions: List<SocketSession>, sessionId: string): SocketSession => {
     return sessions.find(session => session.id === sessionId)
@@ -81,6 +82,7 @@ export const populateRoom = async (room: SocketRoom, sessions: List<SocketSessio
         spectatorIds: room.spectatorIds,
         messages: room.messages,
         settings: room.settings,
+        battle: room.battle,
     }
 }
 
@@ -94,6 +96,7 @@ export const serializeRoom = (room: PopulatedSocketRoom): any => {
         spectatorIds: room.spectatorIds.toArray(),
         messages: room.messages.toArray(),
         settings: room.settings,
+        battle: room.battle ? room.battle.serialize() : null,
     }
 }
 
@@ -108,5 +111,6 @@ export const deserializeRoom = async (room: any): Promise<SocketRoom> => {
         spectatorIds: List(room.spectatorIds),
         messages: List(room.messages),
         settings: room.settings,
+        battle: BattleState.deserialize(room.battle),
     }
 }

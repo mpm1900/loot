@@ -115,6 +115,7 @@ export const Room = (props: any) => {
 
     const RoomActionbar = () => {
         const character = getActiveCharacter(session.userId)
+        if (room.battle === null) return null
         return (
             <TopBar style={actionBarStyle}>
                 { character !== null ? 

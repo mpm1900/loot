@@ -45,6 +45,7 @@ export const deserializeRoom = (room: any): ClientRoomState => {
         spectators: List(room.spectatorIds),
         messages: List(room.messages),
         connected: room.connected,
+        battle: room.battle,
     }
 }
 

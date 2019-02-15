@@ -13,6 +13,7 @@ export type sClientRoom = {
     playerSessions: sClientSession[],
     messages: any[],
     connected: boolean,
+    battle: any,
 }
 export type iClientRoom = {
     id: string,
@@ -23,6 +24,7 @@ export type iClientRoom = {
     playerSessions: List<iClientSession>,
     messages: List<any>,
     connected: boolean,
+    battle: any,
 }
 export const defaultClientRoom: iClientRoom = {
     id: '',
@@ -33,6 +35,7 @@ export const defaultClientRoom: iClientRoom = {
     playerSessions: List<iClientSession>(),
     messages: List(),
     connected: false,
+    battle: null,
 }
 
 export type ClientRoomState = iClientRoom

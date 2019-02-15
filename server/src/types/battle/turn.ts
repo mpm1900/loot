@@ -1,6 +1,7 @@
-import { List } from 'immutable'
+import { List, Map } from 'immutable'
 import { Party } from '../party'
-import { AppRecord } from '..';
+import { AppRecord } from '..'
+import { string } from 'prop-types';
 
 export type iBattleMove  = {
     type: iBattleMoveType
@@ -17,72 +18,19 @@ enum iBattleMoveType {
 }
 
 enum BattleTurnPhase {
-    // Cooldowns decremented
-    // Static/Status modifers decremented/removed
-    // Reset turn moves
     Upkeep,
-
-    // Each Player Chooses Their Move
-        // Fight (choose Skill or Weapon Attack)
-        // Use consumable Item
-        // Swap active character
-        // ??? some other option maybe
-    ChooseMove,
-
-    // Damage Phases
-        // Damage applied (Physical and Special/Elemental)
-        // Status damage applied
-            // Status modifiers added
-        // OnHit triggers applied
-        // Cooldowns Updated
-
-    // +2 Priority
-    Priority5,
-    // +1 Priority
-    Priority4,
-    // Default Priority
-    Priority3,
-    // -1 Priority
-    Priority2,
-    // -2 Priority
-    Priority1,
-
-    // Status modifiers applied
-    // If a character died, prompt for the next
-    // If a user has no characters, the battle is over
-    CleanUp_start,
-    CleanUp_request,
-    CleanUp_done,
-    Done,
+    Waiting,
+    Main,
 }
 
 export type iBattleTurn  = {
     phase: BattleTurnPhase,
-    moves: Map<string, iBattleMove>
-    // then loooottttts over methods for everything outlined
-    // in the phases, data will be given to this by the parent
-    decrementCooldowns: (parties: List<Party>) => List<Party>
-    decrementStaticModifiers: (parties: List<Party>) => List<Party>
-    decrementStatusModifiers: (parties: List<Party>) => List<Party>
-    resetMoves: () => iBattleTurn
-    // choose move methods, not sure how I'm going to do this one...
-    applyPhysicalDamage: (parties: List<Party>) => List<Party>
-    applyElementalDamage: (parties: List<Party>) => List<Party>
-    applyStatusDamage: (parties: List<Party>) => List<Party>
-    addStatusModifiers: (parties: List<Party>) => List<Party>
-    addStaticModifiers: (parties: List<Party>) => List<Party>
-    // on hit modifiers
-    updateCooldowns: (parties: List<Party>) => List<Party>
-    applyStatusModifiers: (parties: List<Party>) => List<Party>
-    checkActiveCharacters: (parties: List<Party>) => boolean
-    checkUsers: (parties: List<Party>) => boolean
-    requestSwap: (parties: List<Party>) => List<Party>
-    // to next phase
-    next: () => iBattleTurn,
+    moves: Map<string, iBattleMove>,
 }
 
-const defaultBattleTurn = {
-
+const defaultBattleTurn: iBattleTurn = {
+    phase: BattleTurnPhase.Upkeep,
+    moves: Map<string, iBattleMove>(),
 }
 
 export class BattleTurn extends AppRecord implements iBattleTurn {
@@ -131,13 +79,19 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
     public checkActiveCharacters(parties: List<Party>): boolean {
         return true
     }
-    public checkUsers(parties: List<Party>): boolean {
+    public checkUsers(): boolean {
         return true
     }
     public requestSwap(parties: List<Party>): List<Party> {
         return parties
     }
     public next() {
-        return this
+        let phase = BattleTurnPhase.Upkeep
+        if (this.phase === BattleTurnPhase.Upkeep)
+            phase = BattleTurnPhase.Waiting
+        if (this.phase === BattleTurnPhase.Waiting)
+            phase = BattleTurnPhase.Main
+
+        return this.with({ phase })
     }
 }

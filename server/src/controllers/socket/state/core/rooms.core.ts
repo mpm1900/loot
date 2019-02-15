@@ -1,7 +1,8 @@
 import { List, Map } from 'immutable'
 import { SocketRoomsState, SocketRoom, SocketRoomPublicVisibility } from '../reducers/rooms.state'
-import { SocketReduxAction } from '../actions';
-import shortid from 'shortid';
+import { SocketReduxAction } from '../actions'
+import shortid from 'shortid'
+import { BattleState } from '../../../../types/battle'
 
 export const createRoom = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
     return state.push({
@@ -14,7 +15,8 @@ export const createRoom = (state: SocketRoomsState, action: SocketReduxAction): 
         messages: List<any>(),
         settings: {
             visibility: SocketRoomPublicVisibility.Open,
-        }
+        },
+        battle: null,
     })
 }
 
@@ -87,6 +89,14 @@ export const readyUser = (state: SocketRoomsState, action: SocketReduxAction): S
         const userId = action.payload.userId
         if (!room.userIds.contains(userId)) return room
         if (room.readyUserIds.contains(userId)) return room
+        if (room.readyUserIds.size === 1) {
+            console.log('start battle')
+            return {
+                ...room,
+                readyUserIds: room.readyUserIds.push(userId),
+                battle: new BattleState(),
+            }
+        }
         return {
             ...room,
             readyUserIds: room.readyUserIds.push(userId)
