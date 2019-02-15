@@ -90,12 +90,14 @@ export const Room = (props: any) => {
                 <strong>{room.id}</strong>
             </div>
             <div style={{display: 'flex', alignItems: 'flex-end'}}>
-                <Input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />
-                <Button type='secondary' onClick={() => joinRoom(roomId)}>Join Room</Button>
+                { !room.battle ? [
+                    <Input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />,
+                    <Button type='secondary' onClick={() => joinRoom(roomId)}>Join Room</Button>
+                ]: null }
                 <Button type='secondary' onClick={() => history.push('/')}>Leave Room</Button>
                 <Button type='secondary' onClick={() => setSessionModalOpen(true)}>{!isReady(session.userId) ? 'Edit' : 'View'} Party</Button>
-                { isUser(session.userId) && !isReady(session.userId) ? <Button onClick={() => readyUser()}>Ready Up</Button> : null }
-                { isUser(session.userId) && isReady(session.userId) ? <Button onClick={() => cancelReady()} type='warning'>Cancel</Button> : null }
+                { isUser(session.userId) && !isReady(session.userId) && !room.battle ? <Button onClick={() => readyUser()}>Ready Up</Button> : null }
+                { isUser(session.userId) && isReady(session.userId) && !room.battle ? <Button onClick={() => cancelReady()} type='warning'>Cancel</Button> : null }
             </div>
         </TopBar>
     )
