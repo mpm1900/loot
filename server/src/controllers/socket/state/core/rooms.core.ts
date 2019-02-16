@@ -114,13 +114,21 @@ export const cancelReady = (state: SocketRoomsState, action: SocketReduxAction):
 export const initializeBattleState = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
     const index = state.map(room => room.id).indexOf(action.payload.roomId)
     if (index === -1) return state
+
+    const setActiveAsFirst = (party: Party): Party => {
+        if (party.characters.isEmpty()) return party;
+        return party.with({
+            activeCharacterId: party.characters.get(0).__uuid
+        })
+    }
+
     return state.update(index, (room: SocketRoom) => {
         const { sessions } = action.payload
         let parties = Map<string, Party>()
         room.readyUserIds.forEach(userId => {
             const session = sessions.find((s: SocketSession) => s.userId === userId)
             if (session) {
-                parties = parties.set(userId, session.party)
+                parties = parties.set(userId, setActiveAsFirst(session.party))
             }
         })
         return {

@@ -12,14 +12,6 @@
         overflow-y: auto;
     }
 
-    .Room__search {
-        height: 39px;
-        line-height: 48px;
-        border: 1px solid rgba(0,0,0,1);
-        width: 290px;
-        padding-left: 8px;
-    }
-
     &__sidebar {
         display: flex;
         flex-direction: column;

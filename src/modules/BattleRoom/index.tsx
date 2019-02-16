@@ -4,18 +4,17 @@ import { connect } from 'react-redux'
 import { BattleCharacter } from './components/BattleCharacter'
 import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser, cancelReady } from '../../state/actions/room.actions'
 import { TopBar } from '../Core/TopBar'
-import { Button } from '../Core/Button'
 import Modal from 'react-modal'
 import Session from '../Session'
-import { Input } from '../Core/Input'
 import { RoomSidebar } from './components/RoomSidebar'
 import { Party } from '../../types/party'
+import { RoomActionbar } from './components/RoomActionBar'
+import { RoomTopbar } from './components/RoomTopbar'
 import './index.scss'
 
 export const Room = (props: any) => {
-    const [ roomId, setRoomId ] = useState(null)
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
-    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location, readyUser, cancelReady } = props
+    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, location, readyUser, cancelReady } = props
 
     const getParty = (userId) => {
         if (room.battle) {
@@ -66,13 +65,6 @@ export const Room = (props: any) => {
         border: '1px solid black',
         boxSizing: 'border-box',
     }
-    const actionBarStyle = { 
-        background: 'linear-gradient(175deg, hsl(0,0%,25%) 0%,hsl(0,0%,20%) 100%)', 
-        borderLeft: 'none', 
-        borderRight: 'none', 
-        borderBottom: '1px solid black', 
-        justifyContent: 'flex-start' 
-    }
     const characterListStyle = {
         display: 'flex', 
         flexDirection: 'column',
@@ -93,27 +85,9 @@ export const Room = (props: any) => {
         display: 'flex',
     }
 
-    const RoomTopbar = () => (
-        <TopBar>
-            <div className='roomid'>
-                <strong>{room.id}</strong>
-            </div>
-            <div style={{display: 'flex', alignItems: 'flex-end'}}>
-                { !room.battle ? [
-                    <Input className='Room__search' placeholder={'enter room id'} value={roomId} onChange={event => setRoomId(event.target.value)} />,
-                    <Button type='secondary' onClick={() => joinRoom(roomId)}>Join Room</Button>
-                ]: null }
-                <Button type='secondary' onClick={() => history.push('/')}>Leave Room</Button>
-                <Button type='secondary' onClick={() => setSessionModalOpen(true)}>{!isReady(session.userId) ? 'Edit' : 'View'} Party</Button>
-                { isUser(session.userId) && !isReady(session.userId) && !room.battle ? <Button onClick={() => readyUser()}>Ready Up</Button> : null }
-                { isUser(session.userId) && isReady(session.userId) && !room.battle ? <Button onClick={() => cancelReady()} type='warning'>Cancel</Button> : null }
-            </div>
-        </TopBar>
-    )
-
     const RoomUserbar = () => (
         <TopBar condensed={true} style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
-            {room.playerSessions.map((pSession, index) => {
+            {room.playerSessions.map((pSession) => {
                 const user = room.users.find(u => u.id === pSession.userId)
                 return (
                     <span key={pSession.sessionId} className={'Battle__user--name' + ' ' + getUserClass(user)}>
@@ -124,34 +98,25 @@ export const Room = (props: any) => {
         </TopBar>
     )
 
-    const RoomActionbar = () => {
-        const character = getActiveCharacter(session.userId)
-        if (room.battle === null) return null
-        return (
-            <TopBar style={actionBarStyle}>
-                { character !== null ? 
-                    <div style={{ display: 'flex' }}>
-                        <Button type='primary'>Weapon Attack</Button>
-                        {character.skills.map(skill => (
-                            <Button key={skill.__uuid} type='important'>{skill.name}</Button>  
-                        ))}
-                    </div>: 
-                    null 
-                }
-                <div style={{ display: 'flex' }}>
-                    <Button type='info'>Switch Heros</Button>
-                </div>
-            </TopBar>
-        )
-    }
-
     return (
         room && room.playerSessions ? <div className='Battle'>
-            <RoomTopbar />
+            <RoomTopbar
+                room={room}
+                userId={session.userId}
+                history={history}
+                joinRoom={joinRoom}
+                isReady={isReady}
+                isUser={isUser}
+                setSessionModalOpen={setSessionModalOpen}
+                readyUser={readyUser}
+                cancelReady={cancelReady}
+            />
             <div className='Battle__body'>
                 <div style={battleBodyBorderStyle as CSSProperties}>
                     <RoomUserbar />
-                    <RoomActionbar /> 
+                    <RoomActionbar
+                        show={room.battle !== null}
+                        character={getActiveCharacter(session.userId)}  /> 
                     <div style={characterListStyle as CSSProperties}>
                         <div className='Battle__activeUser'style={activeCharacterStyle as CSSProperties}>
                             {room.users.map(u => u.id).map((userId,  index) => (
