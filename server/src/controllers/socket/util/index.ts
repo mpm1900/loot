@@ -72,7 +72,6 @@ export const deserializeSession = (sSession: sSocketSession): SocketSession => {
 
 export const populateRoom = async (room: SocketRoom, sessions: List<SocketSession>): Promise<PopulatedSocketRoom> => {
     const users = await findMany(room.userIds)
-    console.log('room', room, users)
     return {
         id: room.id,
         creatorId: room.creatorId,

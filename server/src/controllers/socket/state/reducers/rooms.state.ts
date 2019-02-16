@@ -4,6 +4,7 @@ import * as Core from '../core/rooms.core'
 import { SocketReduxAction } from '../actions'
 import { SocketSession } from './sessions.state'
 import { IUser } from '../../../../models/user'
+import { BattleState } from '../../../../types/battle';
 
 export enum SocketRoomPublicVisibility {
     Open,
@@ -23,6 +24,7 @@ export interface SocketRoom {
     spectatorIds: List<string>,
     messages: List<any>,
     settings: SocketRoomSettings,
+    battle: BattleState,
 }
 export interface PopulatedSocketRoom {
     id: string,
@@ -33,6 +35,7 @@ export interface PopulatedSocketRoom {
     spectatorIds: List<string>,
     messages: List<any>,
     settings: SocketRoomSettings,
+    battle: BattleState,
 }
 
 export type SocketRoomsState = List<SocketRoom>
@@ -50,6 +53,7 @@ export default (state: SocketRoomsState = INITIAL_STATE, action: SocketReduxActi
         case Actions.SEND_MESSAGE: return Core.sendMessage(state, action)
         case Actions.READY_USER: return Core.readyUser(state, action)
         case Actions.CANCEL_READY: return Core.cancelReady(state, action)
+        case Actions.INIT_BATTLE_STATE: return Core.initializeBattleState(state, action)
         default: return state
     }
 }

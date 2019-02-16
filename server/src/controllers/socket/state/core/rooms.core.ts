@@ -3,6 +3,9 @@ import { SocketRoomsState, SocketRoom, SocketRoomPublicVisibility } from '../red
 import { SocketReduxAction } from '../actions'
 import shortid from 'shortid'
 import { BattleState } from '../../../../types/battle'
+import { string } from 'prop-types';
+import { Party } from '../../../../types/party';
+import { SocketSession } from '../reducers/sessions.state';
 
 export const createRoom = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
     return state.push({
@@ -89,14 +92,6 @@ export const readyUser = (state: SocketRoomsState, action: SocketReduxAction): S
         const userId = action.payload.userId
         if (!room.userIds.contains(userId)) return room
         if (room.readyUserIds.contains(userId)) return room
-        if (room.readyUserIds.size === 1) {
-            console.log('start battle')
-            return {
-                ...room,
-                readyUserIds: room.readyUserIds.push(userId),
-                battle: new BattleState(),
-            }
-        }
         return {
             ...room,
             readyUserIds: room.readyUserIds.push(userId)
@@ -112,6 +107,25 @@ export const cancelReady = (state: SocketRoomsState, action: SocketReduxAction):
         return {
             ...room,
             readyUserIds: room.readyUserIds.filter(id => id !== userId)
+        }
+    })
+}
+
+export const initializeBattleState = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
+    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    if (index === -1) return state
+    return state.update(index, (room: SocketRoom) => {
+        const { sessions } = action.payload
+        let parties = Map<string, Party>()
+        room.readyUserIds.forEach(userId => {
+            const session = sessions.find((s: SocketSession) => s.userId === userId)
+            if (session) {
+                parties = parties.set(userId, session.party)
+            }
+        })
+        return {
+            ...room,
+            battle: new BattleState({ parties }),
         }
     })
 }

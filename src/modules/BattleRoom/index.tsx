@@ -1,21 +1,28 @@
 import React, { useEffect, useState, CSSProperties } from 'react'
-import './index.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { BattleCharacter } from './components/BattleCharacter'
 import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser, cancelReady } from '../../state/actions/room.actions'
 import { TopBar } from '../Core/TopBar'
-import '../../components/Icon/icons.svg'
 import { Button } from '../Core/Button'
 import Modal from 'react-modal'
 import Session from '../Session'
 import { Input } from '../Core/Input'
 import { RoomSidebar } from './components/RoomSidebar'
+import { Party } from '../../types/party'
+import './index.scss'
 
 export const Room = (props: any) => {
     const [ roomId, setRoomId ] = useState(null)
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
     const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, users, location, readyUser, cancelReady } = props
+
+    const getParty = (userId) => {
+        if (room.battle) {
+            return room.battle.parties.get(userId)
+        }
+        return session.party
+    }
 
     useEffect(() => {
         if (!session || !session.sessionId || !auth.loggedIn) return history ? history.push('/') : null
@@ -40,11 +47,13 @@ export const Room = (props: any) => {
         }
         return 'spectator'
     }
-    const getSessionIndex = (userId: string) => room.playerSessions.map(session => session.userId === userId).indexOf(userId)
     const getActiveCharacter = (userId: string) => {
-        const session = room.playerSessions.get(getSessionIndex(userId))
-        if (session) {
-            return session.party.characters.get(0)
+        const party: Party = getParty(userId)
+        if (party) {
+            if (room.battle) {
+                return party.activeCharacter
+            }
+            return party.characters.get(0)
         }
         return null
     }
@@ -145,15 +154,15 @@ export const Room = (props: any) => {
                     <RoomActionbar /> 
                     <div style={characterListStyle as CSSProperties}>
                         <div className='Battle__activeUser'style={activeCharacterStyle as CSSProperties}>
-                            {room.playerSessions.map((pSession, index) => (
-                                <div key={pSession.sessionId} style={{ width: 'calc(50% - 8px)' }}>
+                            {room.users.map(u => u.id).map((userId,  index) => (
+                                <div key={userId} style={{ width: 'calc(50% - 8px)' }}>
                                     <div className='Battle__user'>
-                                        {pSession.party.characters.get(0) ? 
+                                        {getActiveCharacter(userId) ? 
                                             <div>
                                                 <BattleCharacter 
                                                     reverse={index === 1} 
                                                     active={true} 
-                                                    character={pSession.party.characters.get(0)} secret={isSecret(pSession.userId)} 
+                                                    character={getActiveCharacter(userId)} secret={isSecret(userId)} 
                                                 />
                                             </div>: 
                                         null
@@ -163,15 +172,15 @@ export const Room = (props: any) => {
                             ))}
                         </div>
                         <div style={{ display: 'flex' }}>
-                            {room.playerSessions.map((pSession, index) => (
-                                <div key={pSession.sessionId} style={{ width: '50%', display: 'flex' }}>
+                            {room.users.map(u => u.id).map((userId, index) => (
+                                <div key={userId} style={{ width: '50%', display: 'flex' }}>
                                     <div className='Battle__user'>
-                                        {pSession.party.characters.shift().map(character => 
+                                        {getParty(userId).characters.shift().map(character => 
                                             <div key={character.__uuid} style={{padding: 8}}>
                                                 <BattleCharacter 
                                                     reverse={index === 1} 
                                                     active={false} 
-                                                    character={character} secret={isSecret(pSession.userId)} 
+                                                    character={character} secret={isSecret(userId)} 
                                                 />
                                             </div>
                                         )}

@@ -40,7 +40,6 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
-                
             </div>
             <div>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Head}>   

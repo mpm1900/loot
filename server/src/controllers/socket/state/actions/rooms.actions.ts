@@ -1,3 +1,7 @@
+import { List } from 'immutable'
+import { Party } from '../../../../types/party'
+import { SocketSession } from '../reducers/sessions.state';
+
 export const PREFIX = 'ROOMS'
 export const CREATE_ROOM = PREFIX + '_CREATE_ROOM'
 export const DELETE_ROOM = PREFIX + '_DELETE_ROOM'
@@ -8,6 +12,7 @@ export const REMOVE_EMPTY_ROOMS = PREFIX + '_REMOVE_EMPTY_ROOMS'
 export const SEND_MESSAGE = PREFIX + '_SEND_MESSAGE'
 export const READY_USER = PREFIX + '_READY_USER'
 export const CANCEL_READY = PREFIX + '_CANCEL_READY'
+export const INIT_BATTLE_STATE = PREFIX + '_INIT_BATTLE_STATE'
 
 export const createRoom = (userId: string = null) => ({
     type: CREATE_ROOM,
@@ -72,5 +77,13 @@ export const cancelReady = (userId: string, roomId: string) => ({
     payload: {
         userId,
         roomId,
+    }
+})
+
+export const initializeBattleState = (roomId: string, sessions: List<SocketSession>) => ({
+    type: INIT_BATTLE_STATE,
+    payload: {
+        roomId,
+        sessions,
     }
 })

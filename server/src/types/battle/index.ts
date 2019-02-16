@@ -22,7 +22,6 @@ const defaultBattleState = {
 }
 
 export class BattleState extends AppRecord implements iBattleState {
-    public readonly userIds: List<string>
     public readonly parties: Map<string, Party>
     public readonly turn: BattleTurn
     public readonly turnCount: number
@@ -35,20 +34,27 @@ export class BattleState extends AppRecord implements iBattleState {
     }
 
     public serialize() {
+        const parties: any = {}
+        this.parties.forEach((party, userId) => {
+            parties[userId] = party.serialize()
+        })
         return {
-            parties: this.parties.map(party => party.serialize()).toArray(),
-            turn: {
-                phase: this.turn.phase
-            },
+            parties,
+            turn: this.turn.serialize(),
             turnCount: this.turnCount,
             log: this.log,
         }
     }
 
     public static deserialize(sBattleState: any) {
+        if (!sBattleState) return sBattleState
+        let parties: Map<string, Party> = Map<string, Party>()
+        Object.keys(sBattleState.parties).forEach((userId) => {
+            parties = parties.set(userId, Party.deserialize(sBattleState.parties[userId]))
+        })
         return new BattleState({
-            parties: sBattleState.parties.map((sParty: sParty) => Party.deserialize(sParty)),
-            turn: sBattleState.turn,
+            parties,
+            turn: BattleTurn.deserialize(sBattleState.turn),
             turnCount: sBattleState.turnCount,
             log: sBattleState.log,
         })

@@ -18,6 +18,7 @@ import { ClientRoomState } from './state/reducers/room.state';
 import { loginSuccess, logoutSuccess } from './state/actions/auth.actions';
 import './index.css';
 import './components/Icon/icons.svg'
+import { BattleState } from './types/battle';
 
 const socket = io('http://localhost:3005')
 const store = makeStore(socket)
@@ -45,7 +46,7 @@ export const deserializeRoom = (room: any): ClientRoomState => {
         spectators: List(room.spectatorIds),
         messages: List(room.messages),
         connected: room.connected,
-        battle: room.battle,
+        battle: BattleState.deserialize(room.battle),
     }
 }
 
