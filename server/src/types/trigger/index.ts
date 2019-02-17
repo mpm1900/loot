@@ -3,14 +3,14 @@ import { Modifier, sModifier } from '../modifier';
 import { AppRecord } from '..';
 
 export enum TriggerType {
-    Default,
-    OnHit,
-    OnDamage,
-    OnEnter,
-    OnSwitch,
-    OnDeath,
-    OnTurnStart,
-    OnTurnEnd,
+    Default = 'DEF',
+    OnHit = 'OnHit',
+    OnDamage = 'OnDamage',
+    OnEnter = 'OnEnter',
+    OnSwitch = 'OnSwitch',
+    OnDeath = 'OnDeath',
+    OnTurnStart = 'OnTurnStart',
+    OnTurnEnd = 'OnTurnEnd',
 }
 
 export type sTrigger = {

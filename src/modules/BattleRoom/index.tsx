@@ -1,47 +1,22 @@
 import React, { useEffect, useState, CSSProperties } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { BattleCharacter } from './components/BattleCharacter'
 import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser, cancelReady } from '../../state/actions/room.actions'
-import { TopBar } from '../Core/TopBar'
 import Modal from 'react-modal'
 import Session from '../Session'
 import { RoomSidebar } from './components/RoomSidebar'
 import { Party } from '../../types/party'
 import { RoomActionbar } from './components/RoomActionBar'
 import { RoomTopbar } from './components/RoomTopbar'
-import './index.scss'
 import { RoomUserbar } from './components/RoomUserbar'
 import { RoomActiveCharacters } from './components/RoomActiveCharacters'
-
-const RoomBenchCharacters = (props) => {
-    const { room, getParty, isSecret } = props
-    return (
-        <div style={{ display: 'flex' }}>
-            {room.users.map((user, index) => (
-                <div key={user.id} style={{ width: '50%', display: 'flex' }}>
-                    <div className='Battle__user'>
-                        {getParty(user.id).characters.shift().map(character => 
-                            <div key={character.__uuid} style={{padding: 8}}>
-                                <BattleCharacter 
-                                    reverse={index === 1} 
-                                    active={false} 
-                                    character={character} 
-                                    secret={isSecret(user.id)} 
-                                    secretBars={isSecret(user.id)}
-                                />
-                            </div>
-                        )}
-                    </div>
-                </div>
-            ))}
-        </div>
-    )
-}
+import { RoomBenchCharacters } from './components/RoomBenchCharacters'
+import './index.scss'
 
 export const Room = (props: any) => {
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
     const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, location, readyUser, cancelReady } = props
+    if (!(room && room.playerSessions)) return null
     
     useEffect(() => {
         if (!session || !session.sessionId || !auth.loggedIn) return history ? history.push('/') : null
@@ -97,9 +72,21 @@ export const Room = (props: any) => {
         overflowY: 'auto', 
         background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)'
     }
+    const sessionModalStyle = {
+        content: {
+            background: 'white',
+            zIndex: 9999,
+            padding: 0,
+            display: 'flex',
+            flexDirection: 'column',
+        },
+        overlay: {
+            backgroundColor: 'rgba(0,0,0,0.52)'
+        }
+    }
 
     return (
-        room && room.playerSessions ? <div className='Battle'>
+        <div className='Battle'>
             <RoomTopbar
                 room={room}
                 userId={session.userId}
@@ -124,7 +111,7 @@ export const Room = (props: any) => {
                             getActiveCharacter={getActiveCharacter}
                             room={room}
                         />
-                        <RoomBenchCharacters 
+                        <RoomBenchCharacters
                             isSecret={isSecret}
                             getParty={getParty}
                             room={room}
@@ -136,22 +123,14 @@ export const Room = (props: any) => {
             <Modal
                 isOpen={sessionModalOpen}
                 onRequestClose={() => setSessionModalOpen(false)}
-                style={{
-                    content: {
-                        background: 'white',
-                        zIndex: 9999,
-                        padding: 0,
-                        display: 'flex',
-                        flexDirection: 'column',
-                    },
-                    overlay: {
-                        backgroundColor: 'rgba(0,0,0,0.52)'
-                    }
-                }}  
-            >
-                <Session isModal={true} viewOnly={isReady(session.userId)} onClose={() => setSessionModalOpen(false)} />
+                style={sessionModalStyle}>
+                <Session 
+                    isModal={true} 
+                    viewOnly={isReady(session.userId)} 
+                    onClose={() => setSessionModalOpen(false)}
+                />
             </Modal>
-        </div> : null
+        </div>
     )
 }
 

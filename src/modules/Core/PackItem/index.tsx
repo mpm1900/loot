@@ -132,7 +132,7 @@ export const EquipItem = (props: any) => {
                         <div className="PackItem__modifiers">
                             {item.triggers.map(trigger => (
                                 <div key={trigger.__uuid} className={"PackItem__modifier--" + (trigger.buff ? 'buff' : 'debuff')}>
-                                    ({(trigger.chance * 100).toFixed()}%) {trigger.description}
+                                    ({(trigger.chance * 100).toFixed()}% - {trigger.type}) {trigger.description}
                                 </div>
                             ))}
                         </div>: 

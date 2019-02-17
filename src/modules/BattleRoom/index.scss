@@ -11,35 +11,4 @@
         height: 100%;
         overflow-y: auto;
     }
-
-    &__sidebar {
-        display: flex;
-        flex-direction: column;
-        width: 407px;
-        height: 100%;
-        overflow-y: auto;
-        box-sizing: border-box;
-        border-left: 1px solid rgba(0,0,0,1);
-        border-right: 1px solid rgba(0,0,0,1);
-
-        &__body {
-            height: calc(100% - 58px);
-        }
-    }
-
-    &__user {
-        width: 100%;
-        &--name {
-            color: white;
-            font-weight: bold;
-            
-            &.creator {
-                color: hsl(40, 55, 60);
-            }
-
-            &.user {
-                color: hsl(268, 40%, 60%);
-            }
-        }
-    }
 }

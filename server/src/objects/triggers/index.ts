@@ -9,7 +9,7 @@ export const HealOnHit = (amount: number): Trigger => {
         type: TriggerType.OnHit,
         name: 'Heal On Hit',
         buff: true,
-        description: `+${amount} Health On Hit`,
+        description: `+${amount} Health`,
         modifiers: List.of<Modifier>(Heal(amount))
     })
 }
@@ -20,7 +20,7 @@ export const DamageOnDamage = (amount: number): Trigger => {
         type: TriggerType.OnDamage,
         name: 'Damage on Damage',
         buff: true,
-        description: `Deal ${amount} Damage When Damaged`,
+        description: `Deal ${amount} Damage`,
         targetModifiers: List.of<Modifier>(Heal(amount * -1))
     })
 }
