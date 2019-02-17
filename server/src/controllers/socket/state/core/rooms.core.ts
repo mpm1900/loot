@@ -151,11 +151,11 @@ export const battleSetSkill = (state: SocketRoomsState, action: SocketReduxActio
 
     return state.update(index, (room: SocketRoom) => {
         const { battle } = room
-        const { userId, skillId } = action.payload
+        const { userId, skillId, characterId } = action.payload
         return {
             ...room,
             battle: battle.with({
-                turn: battle.turn.addMove(userId, room.battle.parties, skillId),
+                turn: battle.turn.addMove(userId, room.battle.parties, skillId, characterId),
             }),
         }
     })

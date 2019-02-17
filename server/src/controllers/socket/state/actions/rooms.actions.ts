@@ -89,11 +89,12 @@ export const battleInitializeState = (roomId: string, sessions: List<SocketSessi
     }
 })
 
-export const battleSetSkill = (roomId: string, userId: string, skillId: string) => ({
+export const battleSetSkill = (roomId: string, userId: string, skillId: string, characterId: string) => ({
     type: BATTLE_SET_SKILL,
     payload: {
         roomId,
         userId,
         skillId,
+        characterId,
     }
 })

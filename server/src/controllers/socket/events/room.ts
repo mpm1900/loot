@@ -124,9 +124,9 @@ export const registerRoomSocketEvents = async (socket: Socket, store: Store) => 
         }
     })
 
-    socket.on('room__request-battle-set-skill', async ({ userId, skillId, roomId }) => {
+    socket.on('room__request-battle-set-skill', async ({ userId, skillId, characterId, roomId }) => {
         if (userId && skillId && roomId) {
-            store.dispatch(battleSetSkill(roomId, userId, skillId))
+            store.dispatch(battleSetSkill(roomId, userId, skillId, characterId))
             // check if all skills are added and progress the battle
             console.log('set skill', skillId)
             await blastRoom(roomId, socket, store)

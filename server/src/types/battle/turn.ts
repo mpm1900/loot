@@ -9,6 +9,11 @@ enum BattleTurnPhase {
     Main,
 }
 
+enum BattleStaticSkill {
+    WeaponAttack,
+    SwapCharacters,
+}
+
 export type sBattleTurn = {
     phase: BattleTurnPhase,
     moves: any,
@@ -16,17 +21,17 @@ export type sBattleTurn = {
 
 export type iBattleTurn  = {
     phase: BattleTurnPhase,
-    moves: Map<string, Skill>,
+    moves: Map<string, Skill | BattleStaticSkill>,
 }
 
 const defaultBattleTurn: iBattleTurn = {
     phase: BattleTurnPhase.Upkeep,
-    moves: Map<string, Skill>(),
+    moves: Map<string, Skill | BattleStaticSkill>(),
 }
 
 export class BattleTurn extends AppRecord implements iBattleTurn {
     public readonly phase: BattleTurnPhase
-    public readonly moves: Map<string, Skill>
+    public readonly moves: Map<string, Skill | BattleStaticSkill>
 
     constructor(args?: iBattleTurn) {
         args ?
@@ -44,7 +49,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
     public static deserialize(sBattleTurn: sBattleTurn): BattleTurn {
         return new BattleTurn({
             phase: sBattleTurn.phase,
-            moves: Map<string, Skill>(sBattleTurn.moves),
+            moves: Map<string, Skill | BattleStaticSkill>(sBattleTurn.moves),
         })
     }
 
@@ -62,12 +67,16 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             moves: Map<string, Skill>(),
         })
     }
-    public addMove(userId: string, parties: Map<string, Party>, skillId: string): BattleTurn {
+    public addMove(userId: string, parties: Map<string, Party>, skillId: string, characterId: string = null): BattleTurn {
         const party = parties.find(party => party.userId === userId)
         if (!party || !party.activeCharacter) return this
 
+        if (skillId === 'weapon') {
+            return this.with({
+                moves: this.moves.set(userId, BattleStaticSkill.WeaponAttack)
+            })
+        }
         // check for static skills
-            // weapon
             // swap
             // inspect?
             // more?
