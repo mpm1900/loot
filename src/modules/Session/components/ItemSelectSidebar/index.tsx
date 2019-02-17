@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { PackItem, ItemRarityColor } from '../../../Core/PackItem'
+import React, { useState, CSSProperties } from 'react'
+import ItemComponent, { ItemRarityColor } from '../../../Core/Item'
 import { DropTarget } from 'react-dnd'
 import { List } from 'immutable'
 import { Item, ItemSubTypes, ItemRarities, ItemSubType } from '../../../../types/item'
@@ -61,13 +61,24 @@ export const ItemSelectSidebar = (props) =>  {
     const disabledType = type => items.filter(item => item.subType === type).size === 0
     const classNameType = type => filters.map(f => f.value).contains(type) ? 'active' : ''
 
+    const style = {
+        display: 'flex',
+        flexDirection: 'column',
+        width: 'calc(100% - 0px)',
+        flex: 1, padding: 0, overflowY: 'auto',
+        maxHeight: '100%',
+        background: 'rgba(0,0,0,0.24)'
+    }
+
+    const iconStyle = { margin: '0 auto' }
+
     return connectDropTarget(
         <div className='ItemSelectSidebar'>
             <div className='ItemSelectSidebar__header'>
                 <div>
                     <button onClick={() => resetFilters()}>
                         <div>
-                            <Icon style={{margin: '0 auto'}} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} />
+                            <Icon style={iconStyle} icon='duration' size={42} fill={'rgba(255,255,255,0.54)'} />
                         </div>
                     </button>
                 </div>
@@ -79,15 +90,15 @@ export const ItemSelectSidebar = (props) =>  {
                 {ItemSubTypes.map(type => <div>
                     <button key={type} className={classNameType(type)} disabled={disabledType(type)} onClick={() => addFilter('subType', type)}>
                         <div>
-                            <Icon style={{margin: '0 auto'}} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.42)'} />
+                            <Icon style={iconStyle} icon={typeIconMap[type]} size={iconSize} fill={'rgba(255,255,255,0.42)'} />
                         </div>
                     </button>
                 </div>)}
             </div>
-            <div style={{display: 'flex', flexDirection: 'column', width: 'calc(100% - 0px)', flex: 1, padding: 0, overflowY: 'auto', maxHeight: '100%', background: 'rgba(0,0,0,0.24)' }}>
+            <div style={style as CSSProperties}>
                 {applyFilters(items, filters).map(w => (
-                    <div key={w.__uuid} className='Pack_Item'>
-                        <PackItem item={w} />
+                    <div key={w.__uuid} className='Item'>
+                        <ItemComponent item={w} />
                     </div>
                 ))}
             </div>

@@ -26,7 +26,7 @@ export const RoomActionbar = (props) => {
             </div>
             <div style={flex}>
                 {/* This button need to open a modal for the switch action */}
-                <Button type='info'>Switch Heros</Button>
+                <Button type='info' onClick={() => setSkill('swap')}>Switch Heros</Button>
             </div>
         </TopBar>
     )

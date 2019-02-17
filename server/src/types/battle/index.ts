@@ -73,10 +73,17 @@ export class BattleState extends AppRecord implements iBattleState {
     }
 
     public main(): BattleState {
-        return this
+        return this.with({
+            parties: this.turn.executeSkills(this.parties)
+        })
     }
 
     public cleanup(): BattleState {
         return this
+    }
+
+    public exec(): BattleState {
+        // TESTING METHOD ONLY
+        return this.main().cleanup().upkeep()
     }
 }

@@ -152,4 +152,4 @@ const mapDispatchToProps = (dispatch) => {
     }, dispatch)
 }
 const PackItemType = 'PackItem';
-export const PackItem = connect(mapStateToProps, mapDispatchToProps)(DragSource(PackItemType, packItemSource, collect)(EquipItem))
+export default connect(mapStateToProps, mapDispatchToProps)(DragSource(PackItemType, packItemSource, collect)(EquipItem))

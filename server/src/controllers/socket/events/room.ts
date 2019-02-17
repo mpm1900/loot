@@ -3,7 +3,7 @@ import { Store } from 'redux'
 import { SocketRoom, SocketRoomPublicVisibility } from '../state/reducers/rooms.state'
 import * as Utils from '../util'
 import { SocketErrors } from '../types'
-import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady, battleInitializeState, battleSetSkill } from '../state/actions/rooms.actions'
+import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady, battleInitializeState, battleSetSkill, battleExecuteMain } from '../state/actions/rooms.actions'
 import { partyUpdateActiveCharacterId } from '../state/actions/sessions.actions'
 import { blastSession } from './session'
 
@@ -137,6 +137,10 @@ export const registerRoomSocketEvents = async (socket: Socket, store: Store) => 
         if (userId && skillId && roomId) {
             store.dispatch(battleSetSkill(roomId, userId, skillId, characterId))
             // check if all skills are added and progress the battle
+            const room: SocketRoom = store.getState().rooms.find((r: SocketRoom) => r.id === roomId)
+            if (room.battle.turn.moves.size === room.battle.partyLimit) {
+                store.dispatch(battleExecuteMain(roomId))
+            }
             await blastRoom(roomId, socket, store)
         }
     })

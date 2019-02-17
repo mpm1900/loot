@@ -76,6 +76,11 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
                 moves: this.moves.set(userId, BattleStaticSkill.WeaponAttack)
             })
         }
+        if (skillId === 'swap') {
+            return this.with({
+                moves: this.moves.set(userId, BattleStaticSkill.SwapCharacters)
+            })
+        }
         // check for static skills
             // swap
             // inspect?
@@ -87,19 +92,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             moves: this.moves.set(userId, skill)
         })
     }
-    public applyPhysicalDamage(parties: List<Party>): List<Party> {
-        return parties
-    }
-    public applyElementalDamage(parties: List<Party>): List<Party> {
-        return parties
-    }
-    public applyStatusDamage(parties: List<Party>): List<Party> {
-        return parties
-    }
-    public addStatusModifiers(parties: List<Party>): List<Party> {
-        return parties
-    }
-    public addStaticModifiers(parties: List<Party>): List<Party> {
+    public executeSkills(parties: Map<string, Party>): Map<string, Party> {
         return parties
     }
     public updateCooldowns(parties: List<Party>): List<Party> {
@@ -111,7 +104,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
     public checkActiveCharacters(parties: List<Party>): boolean {
         return true
     }
-    public checkUsers(): boolean {
+    public checkParties(): boolean {
         return true
     }
     public requestSwap(parties: List<Party>): List<Party> {

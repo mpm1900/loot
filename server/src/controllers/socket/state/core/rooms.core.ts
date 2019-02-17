@@ -166,5 +166,10 @@ export const battleExecuteMain = (state: SocketRoomsState, action: SocketReduxAc
     const index = state.map(room => room.id).indexOf(roomId)
     if (index === -1) return state
 
-    return state
+    return state.update(index, (room: SocketRoom) => {
+        return {
+            ...room,
+            battle: room.battle.exec()
+        }
+    })
 }
