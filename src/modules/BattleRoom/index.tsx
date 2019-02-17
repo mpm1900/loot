@@ -37,7 +37,7 @@ export const Room = (props: any) => {
     const isReady = (userId) => room.readyUserIds.contains(userId)
     const isSecret = (userId) => userId !== session.userId
     const hasChosenSkill = (userId) => {
-        if (!room || !room.battle || !room.battle.turn.moves) return false
+        if (!room || !room.battle || !room.battle.turn.skillIds) return false
         return !(room.battle.turn.skillIds.get(userId) == null)
     }
     const showActionBar = (room.battle !== null && !hasChosenSkill(session.userId))
