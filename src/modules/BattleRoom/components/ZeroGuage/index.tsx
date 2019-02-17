@@ -16,12 +16,12 @@ const getDefaultColor = (ratio: number) => {
 }
 
 export const ZeroGuage = (props: any) => {
-    const { value, max, height = 40, children, fills, className } = props
+    const { value, max, height = 40, children, fills, className, reverse = false } = props
     const bg = fills ? 
         `rgb(${pickHex(fills[0], fills[1], value / max)})`:
         `rgb(${getDefaultColor(value / max)})`
         
-    const fillStyle = { width: `${100 * value / max}%`, height: height - 2, backgroundColor: bg }
+    const fillStyle = { width: `${max === 0 ? 0 : (100 * value / max)}%`, height: height - 2, backgroundColor: bg, right: reverse ? 0 : null, left: reverse ? null : 0 }
     const contentStyle = { height: height - 2, lineHeight: `${height}px` }
     return (
         <div className={"ZeroGuage " + className} style={{ height }}>

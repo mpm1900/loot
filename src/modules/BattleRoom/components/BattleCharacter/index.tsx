@@ -31,13 +31,13 @@ const CharacterDetails = (props) => {
     return (
         <div className='BattleCharacter__main'>
             <div className='BattleCharacter__main__name' style={{ padding, textAlign }}>{character.name}</div>
-            <ZeroGuage className={reverse ? 'reverse' : ''} value={character.getArmor()} max={character.getArmor()} height={24} fills={fills}>
+            <ZeroGuage className={reverse ? 'reverse' : ''} value={character.getArmor()} max={character.getArmor()} height={24} fills={fills} reverse={reverse}>
                 {!secretBars ? <div className='BattleCharacter__main__armor'>
                     <Icon icon='shield' size={16} fill={'white'} />
                     <div style={{ marginLeft: 4 }}>{character.getArmor()} / {character.getArmor()}</div>
                 </div>: null}
             </ZeroGuage>
-            <ZeroGuage className={reverse ? 'reverse' : ''} value={character.health} max={character.maxHealth}>
+            <ZeroGuage className={reverse ? 'reverse' : ''} value={character.health} max={character.maxHealth} reverse={reverse}>
                 {!secretBars ? <div className='BattleCharacter__main__health'>
                     <Icon icon='heart-beats' size={20} fill={'white'} />
                     <div style={{ marginLeft: 4 }}>{character.health} / {character.maxHealth}</div>

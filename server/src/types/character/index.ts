@@ -248,18 +248,6 @@ export class Character extends AppRecord implements iCharacter {
         })
     }
 
-    setHealth(value: number, withMaxHealth: boolean = false): Character {
-        let _this = this.with({})
-        if (withMaxHealth) _this =
-            _this.with({ maxHealth: value })
-        _this = _this.with({ health: value })
-        if (_this.health > _this.maxHealth)
-            _this = _this.with({ health: _this.maxHealth })
-        if (_this.health < 0)
-            _this = _this.with({ health: 0 })
-        return _this
-    }
-
     equipWeapon(item: Item): Character {
         if (item.type === ItemType.Equipable && item.subType === ItemSubType.Weapon) {
             return this.with({

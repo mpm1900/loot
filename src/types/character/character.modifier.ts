@@ -38,10 +38,10 @@ export const HealthMod = (amount: number, operation: CharacterModifierOperation 
     type: healthModType,
     payload: { amount, operation }
 })
-const HEALTH_MOD = (character: Character, modifier: iCharacterModifier): Character => character.setHealth(
-    applyOperation(character.maxHealth, modifier.payload.amount, modifier.payload.operation),
-    true
-)
+const HEALTH_MOD = (character: Character, modifier: iCharacterModifier): Character => character.with({
+    maxHealth: applyOperation(character.maxHealth, modifier.payload.amount, modifier.payload.operation),
+    health: applyOperation(character.health, modifier.payload.amount, modifier.payload.operation)
+})
 
 const armorModType = 'ARMOR_MOD'
 export const ArmorMod = (amount: number, operation: CharacterModifierOperation = CharacterModifierOperation.ADD) => ({
