@@ -121,9 +121,9 @@ export const EquipItem = (props: any) => {
                         null 
                     }
                 </div>: null */}
-                {<div style={{ display: 'flex' }}>
+                {<div style={{ display: 'flex', marginTop: 12, boxShadow: '0px 0px 2px rgba(0,0,0,1) inset' }}>
                     { item.modifiers && item.modifiers.size > 0 ? 
-                    <div className="PackItem__modifiers" style={{marginRight: item.triggers.size > 0 ? 4 : 0}}>
+                    <div className="PackItem__modifiers">
                         { item.modifiers.map(mod => (
                             <div key={mod.__uuid} className={"PackItem__modifier--" + (mod.buff ? 'buff' : 'debuff')}>{mod.description}</div>
                         )) }

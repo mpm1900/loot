@@ -9,7 +9,7 @@ export const RoomBenchCharacters = (props) => {
             {room.users.map((user, index) => (
                 <div key={user.id} style={style as CSSProperties}>
                     {getParty(user.id).characters.shift().map(character => 
-                        <div key={character.__uuid} style={{ padding: 8, flex: 1 }}>
+                        <div key={character.__uuid} style={{ padding: 8 }}>
                             <BattleCharacter
                                 reverse={index === 1} 
                                 active={false} 

@@ -147,13 +147,13 @@
 
     .PackItem__modifiers {
         background-color: rgba(0,0,0,0.46);
-        box-shadow: 0px 0px 2px rgba(0,0,0,1) inset;
+        // box-shadow: 0px 0px 2px rgba(0,0,0,1) inset;
         box-sizing: border-box;
         color: black;
         padding: 8px 16px;
         text-indent: -8px;
         letter-spacing: 1px;
-        margin-top: 8px;
+        // margin-top: 8px;
         flex: 1;
 
         .PackItem__modifier--buff {

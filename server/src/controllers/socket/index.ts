@@ -14,7 +14,7 @@ import { Shrek } from '../../objects/characters/shrek.character';
 import { DonaldDuck } from '../../objects/characters/duck.character';
 import { Pikachu } from '../../objects/characters/pikachu.character';
 import { Character } from '../../types/character';
-import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady, initializeBattleState } from './state/actions/rooms.actions';
+import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady, battleInitializeState } from './state/actions/rooms.actions';
 import { SocketRoom, SocketRoomPublicVisibility } from './state/reducers/rooms.state'
 import { SocketErrors } from './types'
 import { PontiffSulyvahn } from '../../objects/characters/pontif.character';
@@ -250,9 +250,8 @@ const registerRoomSocketActions = async (socket: Socket, store: Store) => {
         if (userId && roomId) {
             store.dispatch(readyUser(userId, roomId))
             const room: SocketRoom = store.getState().rooms.find((r: SocketRoom) => r.id === roomId)
-            if (room.readyUserIds.size === 2) {
-                console.log('start battle')
-                store.dispatch(initializeBattleState(roomId, store.getState().sessions))
+            if (room.readyUserIds.size === room.sessionLimit) {
+                store.dispatch(battleInitializeState(roomId, store.getState().sessions))
             }
             await blastRoom(roomId, socket, store)
         }

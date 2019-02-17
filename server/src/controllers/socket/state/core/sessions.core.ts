@@ -3,6 +3,7 @@ import { v4 } from 'uuid'
 import { SocketReduxAction } from '../actions'
 import { Character } from '../../../../types/character'
 import { List } from 'immutable';
+import { Party } from '../../../../types/party'
 
 export const createSession = (state: SocketSessionsState, action: SocketReduxAction): SocketSessionsState => {
     return state.push({
@@ -10,6 +11,7 @@ export const createSession = (state: SocketSessionsState, action: SocketReduxAct
         id: v4(),
         userId: action.payload.userId,
         socketId: action.payload.socketId,
+        party: new Party({ userId: action.payload.userId })
     })
 }
 

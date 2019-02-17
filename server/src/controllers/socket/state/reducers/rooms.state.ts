@@ -19,6 +19,7 @@ export interface SocketRoom {
     id: string
     creatorId: string,
     playerSessionIds: List<string>,
+    sessionLimit: number,
     userIds: List<string>,
     readyUserIds: List<string>,
     spectatorIds: List<string>,
@@ -30,6 +31,7 @@ export interface PopulatedSocketRoom {
     id: string,
     creatorId: string, // this can be a user if needed
     playerSessions: List<SocketSession>,
+    sessionLimit: number,
     users: List<IUser>,
     readyUserIds: List<string>,
     spectatorIds: List<string>,
@@ -53,7 +55,7 @@ export default (state: SocketRoomsState = INITIAL_STATE, action: SocketReduxActi
         case Actions.SEND_MESSAGE: return Core.sendMessage(state, action)
         case Actions.READY_USER: return Core.readyUser(state, action)
         case Actions.CANCEL_READY: return Core.cancelReady(state, action)
-        case Actions.INIT_BATTLE_STATE: return Core.initializeBattleState(state, action)
+        case Actions.BATTLE_INIT_STATE: return Core.battleInitializeState(state, action)
         default: return state
     }
 }

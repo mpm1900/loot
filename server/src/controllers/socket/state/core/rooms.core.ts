@@ -3,15 +3,15 @@ import { SocketRoomsState, SocketRoom, SocketRoomPublicVisibility } from '../red
 import { SocketReduxAction } from '../actions'
 import shortid from 'shortid'
 import { BattleState } from '../../../../types/battle'
-import { string } from 'prop-types';
-import { Party } from '../../../../types/party';
-import { SocketSession } from '../reducers/sessions.state';
+import { Party } from '../../../../types/party'
+import { SocketSession } from '../reducers/sessions.state'
 
 export const createRoom = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
     return state.push({
         id: shortid.generate(),
         creatorId: action.payload.userId,
         playerSessionIds: List<string>(),
+        sessionLimit: 2,
         userIds: List<string>(),
         readyUserIds: List<string>(),
         spectatorIds: List<string>(),
@@ -28,7 +28,8 @@ export const deleteRoom = (state: SocketRoomsState, action: SocketReduxAction): 
 }
 
 export const joinRoomAsUser = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
-    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
     if (index === -1) return state
     return state.update(index, room => ({
         ...room,
@@ -38,7 +39,8 @@ export const joinRoomAsUser = (state: SocketRoomsState, action: SocketReduxActio
 }
 
 export const joinRoomAsSpectator = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
-    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
     if (index === -1) return state
     return state.update(index, room => ({
         ...room,
@@ -72,7 +74,8 @@ export const removeEmptyRooms = (state: SocketRoomsState, action: SocketReduxAct
 }
 
 export const sendMessage = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
-    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
     if (index === -1) return state
     return state.update(index, (room: SocketRoom) => {
         return {
@@ -86,7 +89,8 @@ export const sendMessage = (state: SocketRoomsState, action: SocketReduxAction):
 }
 
 export const readyUser = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
-    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
     if (index === -1) return state
     return state.update(index, (room: SocketRoom) => {
         const userId = action.payload.userId
@@ -100,7 +104,8 @@ export const readyUser = (state: SocketRoomsState, action: SocketReduxAction): S
 }
 
 export const cancelReady = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
-    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
     if (index === -1) return state
     return state.update(index, (room: SocketRoom) => {
         const userId = action.payload.userId
@@ -111,8 +116,9 @@ export const cancelReady = (state: SocketRoomsState, action: SocketReduxAction):
     })
 }
 
-export const initializeBattleState = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
-    const index = state.map(room => room.id).indexOf(action.payload.roomId)
+export const battleInitializeState = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
     if (index === -1) return state
 
     const setActiveAsFirst = (party: Party): Party => {
@@ -134,6 +140,23 @@ export const initializeBattleState = (state: SocketRoomsState, action: SocketRed
         return {
             ...room,
             battle: new BattleState({ parties }),
+        }
+    })
+}
+
+export const battleSetSkill = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
+    if (index === -1) return state
+
+    return state.update(index, (room: SocketRoom) => {
+        const { battle } = room
+        const { userId, skillId } = action.payload
+        return {
+            ...room,
+            battle: battle.with({
+                turn: battle.turn.addMove(userId, room.battle.parties, skillId),
+            }),
         }
     })
 }
