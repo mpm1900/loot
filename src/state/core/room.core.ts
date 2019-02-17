@@ -1,5 +1,5 @@
-import { ClientRoomState } from "../reducers/room.state";
-import { ClientReduxAction } from "../actions";
+import { ClientRoomState } from "../reducers/room.state"
+import { ClientReduxAction } from "../actions"
 
 export const setState = (state: ClientRoomState, action: ClientReduxAction): ClientRoomState => {
     return {
