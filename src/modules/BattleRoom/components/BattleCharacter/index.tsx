@@ -23,7 +23,8 @@ const HiddenCharacterDetails = (props) => {
 }
 
 const CharacterDetails = (props) => {
-    const { reverse, secretBars, character } = props
+    const { reverse, secretBars } = props
+    const character = props.character.withStaticModifiers()
     const padding = reverse ? '0 8px 0 0' : '0 0 0 8px'
     const textAlign = reverse ? 'right' : 'left'
     const fills = [[63,177,162],[70, 130, 180]]

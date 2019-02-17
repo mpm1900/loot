@@ -1,7 +1,7 @@
-import { AppRecord } from '..';
-import { Character, sCharacter } from '../character';
-import { List } from 'immutable';
-import { Item, ItemSubType } from '../item';
+import { AppRecord } from '..'
+import { Character, sCharacter, iCharacter } from '../character'
+import { List } from 'immutable'
+import { Item, ItemSubType } from '../item'
 
 export type sParty = {
     userId: string,
@@ -91,6 +91,10 @@ export class Party extends AppRecord implements iParty {
         return this.with({
             characters: this.characters.update(index, _ => character)
         })
+    }
+    updateCharacterWith(id: string, character: iCharacter) {
+        const index = this.characters.map(c => c.__uuid).indexOf(id)
+        return this.updateCharacter(index, this.characters.get(index).with(character))
     }
     removeCharacterItem(index: number, itemSubType: ItemSubType) {
         return this.with({

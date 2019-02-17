@@ -155,7 +155,7 @@ export const battleSetSkill = (state: SocketRoomsState, action: SocketReduxActio
         return {
             ...room,
             battle: battle.with({
-                turn: battle.turn.addMove(userId, room.battle.parties, skillId, characterId),
+                turn: battle.turn.addSkill(userId, room.battle.parties, skillId, characterId),
             }),
         }
     })

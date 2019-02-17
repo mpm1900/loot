@@ -1,19 +1,22 @@
-import { AppRecord } from '..';
-import { Character, sCharacter } from '../character';
-import { List } from 'immutable';
-import { Item, ItemSubType } from '../item';
+import { AppRecord } from '..'
+import { Character, sCharacter } from '../character'
+import { List } from 'immutable'
+import { Item, ItemSubType } from '../item'
 
 export type sParty = {
+    userId: string,
     characters: sCharacter[],
     activeCharacterId: string,
     characterLimit: number,
 }
 export type iParty = {
+    userId?: string,
     characters?: List<Character>,
     activeCharacterId?: string,
     characterLimit?: number,
 }
 const defaultParty: iParty = {
+    userId: '',
     characters: List<Character>(),
     activeCharacterId: '',
     characterLimit: 6,
@@ -21,6 +24,7 @@ const defaultParty: iParty = {
 export class Party extends AppRecord implements iParty {
 
     // attributes and getters
+    public readonly userId: string
     public readonly characters: List<Character>
     public readonly activeCharacterId: string
     public readonly characterLimit: number
@@ -49,6 +53,7 @@ export class Party extends AppRecord implements iParty {
 
     serialize(): sParty {
         return {
+            userId: this.userId,
             characters: this.characters.map(character => character.serialize()).toArray(),
             activeCharacterId: this.activeCharacterId,
             characterLimit: this.characterLimit,
@@ -57,6 +62,7 @@ export class Party extends AppRecord implements iParty {
 
     static deserialize(sParty: sParty): Party {
         return new Party({
+            userId: sParty.userId,
             characters: List<Character>(sParty.characters.map(sCharacter => Character.deserialize(sCharacter))),
             activeCharacterId: sParty.activeCharacterId,
             characterLimit: sParty.characterLimit,

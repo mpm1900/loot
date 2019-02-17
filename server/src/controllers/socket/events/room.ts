@@ -138,7 +138,7 @@ export const registerRoomSocketEvents = async (socket: Socket, store: Store) => 
             store.dispatch(battleSetSkill(roomId, userId, skillId, characterId))
             // check if all skills are added and progress the battle
             const room: SocketRoom = store.getState().rooms.find((r: SocketRoom) => r.id === roomId)
-            if (room.battle.turn.moves.size === room.battle.partyLimit) {
+            if (room.battle.turn.skillIds.size === room.battle.partyLimit) {
                 store.dispatch(battleExecuteMain(roomId))
             }
             await blastRoom(roomId, socket, store)

@@ -68,7 +68,7 @@ export class BattleState extends AppRecord implements iBattleState {
         _this = _this.with({ parties: _this.turn.decrementCooldowns(_this.parties) })
         _this = _this.with({ parties: _this.turn.decrementStaticModifiers(_this.parties) })
         _this = _this.with({ parties: _this.turn.decrementStatusModifiers(_this.parties) })
-        _this = _this.with({ turn: _this.turn.resetMoves() })
+        _this = _this.with({ turn: _this.turn.resetSkills() })
         return _this
     }
 

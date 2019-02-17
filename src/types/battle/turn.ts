@@ -1,21 +1,8 @@
 import { List, Map } from 'immutable'
 import { Party } from '../party'
 import { AppRecord } from '..'
-import { string } from 'prop-types';
-
-export type iBattleMove  = {
-    type: iBattleMoveType
-    skillId: string,
-    characterId: string,
-    itemId: number,
-}
-
-enum iBattleMoveType {
-    Fight,
-    Skill,
-    Swap,
-    Item,
-}
+import { Skill } from '../skill'
+import { Character } from '../character'
 
 enum BattleTurnPhase {
     Upkeep,
@@ -23,24 +10,29 @@ enum BattleTurnPhase {
     Main,
 }
 
+enum BattleStaticSkill {
+    WeaponAttack,
+    SwapCharacters,
+}
+
 export type sBattleTurn = {
     phase: BattleTurnPhase,
-    moves: any,
+    skillIds: any,
 }
 
 export type iBattleTurn  = {
     phase: BattleTurnPhase,
-    moves: Map<string, iBattleMove>,
+    skillIds: Map<string, string | BattleStaticSkill>,
 }
 
 const defaultBattleTurn: iBattleTurn = {
     phase: BattleTurnPhase.Upkeep,
-    moves: Map<string, iBattleMove>(),
+    skillIds: Map<string, string | BattleStaticSkill>(),
 }
 
 export class BattleTurn extends AppRecord implements iBattleTurn {
     public readonly phase: BattleTurnPhase
-    public readonly moves: Map<string, iBattleMove>
+    public readonly skillIds: Map<string, string | BattleStaticSkill>
 
     constructor(args?: iBattleTurn) {
         args ?
@@ -51,14 +43,14 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
     public serialize(): sBattleTurn {
         return {
             phase: this.phase,
-            moves: this.moves.toJS(),
+            skillIds: this.skillIds.toJS(),
         }
     }
 
     public static deserialize(sBattleTurn: sBattleTurn): BattleTurn {
         return new BattleTurn({
             phase: sBattleTurn.phase,
-            moves: Map<string, iBattleMove>(sBattleTurn.moves),
+            skillIds: Map<string, string | BattleStaticSkill>(sBattleTurn.skillIds),
         })
     }
 
@@ -72,21 +64,56 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
         return parties
     }
     public resetMoves(): BattleTurn {
-        return this
+        return this.with({
+            skillIds: Map<string, string | BattleStaticSkill>(),
+        })
     }
-    public applyPhysicalDamage(parties: List<Party>): List<Party> {
-        return parties
+    public addSkill(userId: string, parties: Map<string, Party>, skillId: string, characterId: string = null): BattleTurn {
+        const party = parties.find(party => party.userId === userId)
+        if (!party || !party.activeCharacter) return this
+
+        if (skillId === 'weapon') {
+            return this.with({
+                skillIds: this.skillIds.set(userId, BattleStaticSkill.WeaponAttack)
+            })
+        }
+        if (skillId === 'swap') {
+            return this.with({
+                skillIds: this.skillIds.set(userId, BattleStaticSkill.SwapCharacters)
+            })
+        }
+        // check for static skills
+            // swap
+            // inspect?
+            // more?
+
+        const skill = party.activeCharacter.skills.find(skill => skill.__uuid === skillId)
+        if (!skill) return this
+        return this.with({
+            skillIds: this.skillIds.set(userId, skillId)
+        })
     }
-    public applyElementalDamage(parties: List<Party>): List<Party> {
-        return parties
-    }
-    public applyStatusDamage(parties: List<Party>): List<Party> {
-        return parties
-    }
-    public addStatusModifiers(parties: List<Party>): List<Party> {
-        return parties
-    }
-    public addStaticModifiers(parties: List<Party>): List<Party> {
+    public executeSkills(parties: Map<string, Party>): Map<string, Party> {
+        let speeds: List<any> = List()
+        let activeCharacters: Map<string, Character> = Map<string, Character>()
+        parties.forEach((party, userId) => {
+            const activeCharacter = party.activeCharacter.withStaticModifiers()
+            speeds = speeds.push({ userId, speed: activeCharacter.speed })
+            activeCharacters = activeCharacters.set(userId, activeCharacter)
+        })
+        speeds = speeds.sort((a, b) => {
+            return b.speed - a.speed
+        })
+        console.log(speeds.toJS())
+        speeds.map(s => s.userId).forEach((userId, index) => {
+            const source = activeCharacters.get(userId)
+            const target = index === 0 ?
+                activeCharacters.get(speeds.get(1).userId) :
+                activeCharacters.get(speeds.get(0).userId)
+
+            console.log('source', index, source.name)
+            console.log('target', index, target.name)
+        })
         return parties
     }
     public updateCooldowns(parties: List<Party>): List<Party> {
@@ -98,7 +125,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
     public checkActiveCharacters(parties: List<Party>): boolean {
         return true
     }
-    public checkUsers(): boolean {
+    public checkParties(): boolean {
         return true
     }
     public requestSwap(parties: List<Party>): List<Party> {
