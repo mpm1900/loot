@@ -1,7 +1,7 @@
 import { Pack } from '../../../../types/pack'
-import { Character } from '../../../../types/character';
-import { Item } from '../../../../types/item';
-import { SocketReduxAction } from '.';
+import { Character } from '../../../../types/character'
+import { Item } from '../../../../types/item'
+import { SocketReduxAction } from '.'
 
 export const PREFIX = 'SESSIONS'
 export const CREATE_SESSION = PREFIX + '_CREATE_SESSION'

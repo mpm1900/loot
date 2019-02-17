@@ -1,4 +1,4 @@
-import { Choose, RangeFunc, RangeFuncChoose, RandInt } from '../../../types/random'
+import { Choose, RandInt } from '../../../types/random'
 import { List } from 'immutable'
 import { Item, ItemRarity, ItemType, ItemSubType } from '../../../types/item'
 import { ArmorUp } from '../../modifiers/armor.mod'
@@ -12,34 +12,33 @@ import { ItemStats } from '../../../types/item/item.stats'
 import { SpecialUp } from '../../modifiers/special.mod'
 import { getArmorValue } from '../../stats'
 
-export const UniqueCharm = (level: number) => (Choose(List.of(
-    PendantOfYahoel(level)
+export const UniquekHelmet = (level: number) => (Choose(List.of(
+    MitreOfMarbas(level)
 ), 1)).first()
 
-export const PendantOfYahoel = (level: number) => {
-    const armorRange = getArmorValue(ItemRarity.Unique, ItemSubType.Charm)
+export const MitreOfMarbas = (level: number) => {
+    const armorRange = getArmorValue(ItemRarity.Unique, ItemSubType.Head)
     return new Item({
-        name: 'Pendant of Yahoel',
-        description: 'Known as the pendant to blind the chaos.',
+        name: 'Mitre of Marbas',
+        description: 'Also, he’s able to cause illness or endow the magician with health.',
         image: '-- IMAGE URL --',
         level,
-        type: ItemType.Equipable,
-        subType: ItemSubType.Charm,
         rarity: ItemRarity.Unique,
+        type: ItemType.Equipable,
+        subType: ItemSubType.Head,
         stats: new ItemStats({
             armor: RandInt(armorRange[0], armorRange[1]),
         }),
         modifiers: Choose(
             List.of<Modifier>(
-                ArmorUp(RandInt(10, 50)),
-                SpeedUp(RandInt(10, 50)),
-                HealthUp(RandInt(10, 50)),
-                PoisonResistanceUp(RandInt(10, 50)),
-                WeaponPowerUp(RandInt(10, 50)),
-                SpecialUp(RandInt(10, 50)),
-                StrengthUp(RandInt(10, 50))
-            ),
-            4
-        )
+                    ArmorUp(RandInt(10, 50)),
+                    SpeedUp(RandInt(10, 50)),
+                    HealthUp(RandInt(10, 50)),
+                    PoisonResistanceUp(RandInt(10, 50)),
+                    WeaponPowerUp(RandInt(10, 50)),
+                    SpecialUp(RandInt(10, 50)),
+                    StrengthUp(RandInt(10, 50)),
+                ),
+            4)
     })
 }

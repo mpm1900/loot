@@ -1,11 +1,11 @@
-import { RandInt } from '../../types/random';
-import { Skill } from '../../types/skill';
-import { ElementType, Element, WaterElement } from '../../types/element';
-import { Character } from '../../types/character';
-import { Modifier } from '../../types/modifier';
-import { List } from 'immutable';
-import { Guage } from '../../types/guage';
-import { FLOODSpray } from '../skills';
+import { RandInt } from '../../types/random'
+import { Skill } from '../../types/skill'
+import { ElementType, Element, WaterElement } from '../../types/element'
+import { Character } from '../../types/character'
+import { Modifier } from '../../types/modifier'
+import { List } from 'immutable'
+import { Guage } from '../../types/guage'
+import { FLOODSpray } from '../skills'
 // import duckImage from './img/duck.character.png'
 
 

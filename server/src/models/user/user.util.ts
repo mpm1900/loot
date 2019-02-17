@@ -1,6 +1,6 @@
 import { UserModel, IUserModel } from '.'
-import { List } from 'immutable';
-import { Types } from 'mongoose';
+import { List } from 'immutable'
+import { Types } from 'mongoose'
 
 export const updateUserSocketId = async (userId: string, socketId: string): Promise<IUserModel> => {
     const user: IUserModel = await UserModel.findById(userId)

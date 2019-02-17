@@ -2,6 +2,7 @@ import { Socket } from 'socket.io'
 import { Store } from 'redux'
 import * as Utils from '../util'
 import { Character } from '../../../types/character'
+import { Events as RoomEvents } from './room'
 import {
     partyUpdateCharacter,
     partyAddCharacter,
@@ -33,8 +34,8 @@ export const blastSession = async (sessionId: string, socket: Socket, store: Sto
             rooms.forEach(async room => {
                 if (room) {
                     const state =  Utils.serializeRoom(await Utils.populateRoom(room, sessions))
-                    socket.emit('initialize-state__room', { state })
-                    socket.to(room.id).emit('initialize-state__room', { state })
+                    socket.emit(RoomEvents.SET_STATE, { state })
+                    socket.to(room.id).emit(RoomEvents.SET_STATE, { state })
                 }
             })
         }

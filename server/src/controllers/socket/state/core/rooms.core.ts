@@ -160,3 +160,11 @@ export const battleSetSkill = (state: SocketRoomsState, action: SocketReduxActio
         }
     })
 }
+
+export const battleExecuteMain = (state: SocketRoomsState, action: SocketReduxAction): SocketRoomsState => {
+    const { roomId } = action.payload
+    const index = state.map(room => room.id).indexOf(roomId)
+    if (index === -1) return state
+
+    return state
+}

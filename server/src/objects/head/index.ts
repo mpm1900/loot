@@ -2,6 +2,7 @@ import { ItemRarity, getRarity } from '../../types/item'
 import { UncommonHelmet } from './uncommon/helmet.item'
 import { RareHelmet } from './rare/helmet.item'
 import { MasterworkHelmet } from './masterwork/helmet.item'
+import { UniquekHelmet } from './unique'
 
 
 export const Head = (level: number) => {
@@ -13,7 +14,7 @@ export const Head = (level: number) => {
         if (rarity === ItemRarity.Uncommon) returnValue =  UncommonHelmet(level)
         if (rarity === ItemRarity.Rare) returnValue = RareHelmet(level)
         if (rarity === ItemRarity.Masterwork) returnValue = MasterworkHelmet(level)
-        // if (rarity === ItemRarity.Unique) returnValue = UniqueCharm(level)
+        if (rarity === ItemRarity.Unique) returnValue = UniquekHelmet(level)
         // if (rarity === ItemRarities.BlackMarket) returnValue = BlackMarketWeapon(level)
     }
     // console.log(returnValue)

@@ -4,7 +4,7 @@ import * as Core from '../core/rooms.core'
 import { SocketReduxAction } from '../actions'
 import { SocketSession } from './sessions.state'
 import { IUser } from '../../../../models/user'
-import { BattleState } from '../../../../types/battle';
+import { BattleState } from '../../../../types/battle'
 
 export enum SocketRoomPublicVisibility {
     Open,
@@ -57,6 +57,7 @@ export default (state: SocketRoomsState = INITIAL_STATE, action: SocketReduxActi
         case Actions.CANCEL_READY: return Core.cancelReady(state, action)
         case Actions.BATTLE_INIT_STATE: return Core.battleInitializeState(state, action)
         case Actions.BATTLE_SET_SKILL: return Core.battleSetSkill(state, action)
+        case Actions.BATTLE_EXEC_MAIN: return Core.battleExecuteMain(state, action)
         default: return state
     }
 }

@@ -1,8 +1,8 @@
 import socketIO, { Socket, Server as SocketServer } from 'socket.io'
 import { Server } from 'http';
 import { makeStore } from './state'
-import { authorizeConnection } from './socket';
-import { createConnection } from './socket';
+import { authorizeConnection } from './socket'
+import { createConnection } from './socket'
 
 export default (server: Server) => {
     const io: SocketServer = socketIO(server)

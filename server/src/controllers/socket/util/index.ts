@@ -1,13 +1,12 @@
 import { List } from 'immutable'
-import { SocketSession, sSocketSession } from '../state/reducers/sessions.state';
-import { Character } from '../../../types/character';
-import { Item } from '../../../types/item';
-import { Party } from '../../../types/party';
-import { Pack } from '../../../types/pack';
-import { SocketRoom, PopulatedSocketRoom } from '../state/reducers/rooms.state';
-import { IUser } from '../../../models/user';
-import { findMany } from '../../../models/user/user.util';
-import { BattleState } from '../../../types/battle';
+import { SocketSession, sSocketSession } from '../state/reducers/sessions.state'
+import { Character } from '../../../types/character'
+import { Item } from '../../../types/item'
+import { Party } from '../../../types/party'
+import { Pack } from '../../../types/pack'
+import { SocketRoom, PopulatedSocketRoom } from '../state/reducers/rooms.state'
+import { findMany } from '../../../models/user/user.util'
+import { BattleState } from '../../../types/battle'
 
 export const findSessionById = (sessions: List<SocketSession>, sessionId: string): SocketSession => {
     return sessions.find(session => session.id === sessionId)
