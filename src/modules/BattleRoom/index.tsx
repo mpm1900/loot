@@ -11,29 +11,51 @@ import { Party } from '../../types/party'
 import { RoomActionbar } from './components/RoomActionBar'
 import { RoomTopbar } from './components/RoomTopbar'
 import './index.scss'
+import { RoomUserbar } from './components/RoomUserbar'
+import { RoomActiveCharacters } from './components/RoomActiveCharacters'
+
+const RoomBenchCharacters = (props) => {
+    const { room, getParty, isSecret } = props
+    return (
+        <div style={{ display: 'flex' }}>
+            {room.users.map((user, index) => (
+                <div key={user.id} style={{ width: '50%', display: 'flex' }}>
+                    <div className='Battle__user'>
+                        {getParty(user.id).characters.shift().map(character => 
+                            <div key={character.__uuid} style={{padding: 8}}>
+                                <BattleCharacter 
+                                    reverse={index === 1} 
+                                    active={false} 
+                                    character={character} 
+                                    secret={isSecret(user.id)} 
+                                    secretBars={isSecret(user.id)}
+                                />
+                            </div>
+                        )}
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
 
 export const Room = (props: any) => {
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
     const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, location, readyUser, cancelReady } = props
-
-    const getParty = (userId) => {
-        if (room.battle) {
-            return room.battle.parties.get(userId)
-        }
-        return session.party
-    }
-
+    
     useEffect(() => {
         if (!session || !session.sessionId || !auth.loggedIn) return history ? history.push('/') : null
     })
 
     useEffect(() => {
-        if (location.pathname === '/battle/create')
-            requestCreateRoom()
-        if (location.pathname === '/battle/find')
-            requestFindRoom()
+        if (location.pathname === '/battle/create') requestCreateRoom()
+        if (location.pathname === '/battle/find') requestFindRoom()
         return () => { requestLeaveRoom() }
     }, [])
+
+    const getParty = (userId) => room.battle ?
+        room.battle.parties.get(userId):
+        (room.playerSessions.find(session => session.userId === userId) || {}).party
 
     const joinRoom = (roomId) => roomId ? requestJoinRoom(roomId) : null
     const isUser = (userId) => room.users.map(u => u.id).contains(userId)
@@ -75,28 +97,6 @@ export const Room = (props: any) => {
         overflowY: 'auto', 
         background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)'
     }
-    const activeCharacterStyle = {
-        padding: 16,
-        boxShadow: '1px 0px 5px black inset',
-        overflow: 'hidden',
-        boxSizing: 'border-box',
-        background: 'linear-gradient(135deg, hsl(0,0%,20%) 0%,hsl(0,0%,10%) 50%, hsl(0,0%,15%) 100%)',
-        minHeight: 213,
-        display: 'flex',
-    }
-
-    const RoomUserbar = () => (
-        <TopBar condensed={true} style={{ borderTop: 'none', borderLeft: 'none', borderRight: 'none' }}>
-            {room.playerSessions.map((pSession) => {
-                const user = room.users.find(u => u.id === pSession.userId)
-                return (
-                    <span key={pSession.sessionId} className={'Battle__user--name' + ' ' + getUserClass(user)}>
-                        {isReady(user.id) ? 'READY' : null} {user.username}
-                    </span>
-                )
-                })}
-        </TopBar>
-    )
 
     return (
         room && room.playerSessions ? <div className='Battle'>
@@ -113,46 +113,22 @@ export const Room = (props: any) => {
             />
             <div className='Battle__body'>
                 <div style={battleBodyBorderStyle as CSSProperties}>
-                    <RoomUserbar />
+                    <RoomUserbar room={room} isReady={isReady} getUserClass={getUserClass} />
                     <RoomActionbar
                         show={room.battle !== null}
-                        character={getActiveCharacter(session.userId)}  /> 
+                        character={getActiveCharacter(session.userId)}
+                    /> 
                     <div style={characterListStyle as CSSProperties}>
-                        <div className='Battle__activeUser'style={activeCharacterStyle as CSSProperties}>
-                            {room.users.map(u => u.id).map((userId,  index) => (
-                                <div key={userId} style={{ width: 'calc(50% - 8px)' }}>
-                                    <div className='Battle__user'>
-                                        {getActiveCharacter(userId) ? 
-                                            <div>
-                                                <BattleCharacter 
-                                                    reverse={index === 1} 
-                                                    active={true} 
-                                                    character={getActiveCharacter(userId)} secret={isSecret(userId)} 
-                                                />
-                                            </div>: 
-                                        null
-                                        }
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            {room.users.map(u => u.id).map((userId, index) => (
-                                <div key={userId} style={{ width: '50%', display: 'flex' }}>
-                                    <div className='Battle__user'>
-                                        {getParty(userId).characters.shift().map(character => 
-                                            <div key={character.__uuid} style={{padding: 8}}>
-                                                <BattleCharacter 
-                                                    reverse={index === 1} 
-                                                    active={false} 
-                                                    character={character} secret={isSecret(userId)} 
-                                                />
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <RoomActiveCharacters 
+                            isSecret={isSecret}
+                            getActiveCharacter={getActiveCharacter}
+                            room={room}
+                        />
+                        <RoomBenchCharacters 
+                            isSecret={isSecret}
+                            getParty={getParty}
+                            room={room}
+                        />
                     </div>
                 </div>
                 <RoomSidebar />

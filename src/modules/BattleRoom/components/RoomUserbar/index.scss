@@ -1,0 +1,13 @@
+
+.RoomUserbar__name {
+    color: white;
+    font-weight: bold;
+    
+    &.creator {
+        color: hsl(40, 55, 60);
+    }
+
+    &.user {
+        color: hsl(268, 40%, 60%);
+    }
+}
