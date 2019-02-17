@@ -3,9 +3,9 @@ import { Guage, sGuage } from '../guage'
 import { Modifier, sModifier } from '../modifier'
 import { ElementType, Element, sElement, ElementTypes } from '../element'
 import { AppRecord } from '..'
-import { element } from 'prop-types';
 
 export type sSkill = {
+    __uuid: string,
     name: string,
     description: string,
     cooldown: sGuage,
@@ -16,6 +16,7 @@ export type sSkill = {
     elementTypes: ElementType[],
 }
 export type iSkill = {
+    __uuid?: string,
     name?: string,
     description?: string,
     cooldown?: Guage,
@@ -70,6 +71,7 @@ export class Skill extends AppRecord implements iSkill {
 
     serialize(): sSkill {
         return {
+            __uuid: this.__uuid,
             name: this.name,
             description: this.description,
             cooldown: this.cooldown.serialize(),
@@ -83,6 +85,7 @@ export class Skill extends AppRecord implements iSkill {
 
     static deserialize(sSkill: sSkill): Skill {
         return new Skill({
+            __uuid: sSkill.__uuid,
             name: sSkill.name,
             description: sSkill.description,
             cooldown: Guage.deserialize(sSkill.cooldown),

@@ -4,12 +4,9 @@ import { Button } from '../../../Core/Button'
 import './index.scss'
 
 export const RoomActionbar = (props) => {
-    const { character, show } = props
+    const { character, show, setSkill } = props
     if (!show || !character) return null
 
-    const chooseSkill = (skillId: string) => {
-
-    }
 
     const actionBarStyle = { 
         background: 'linear-gradient(175deg, hsl(0,0%,25%) 0%,hsl(0,0%,20%) 100%)', 
@@ -22,9 +19,9 @@ export const RoomActionbar = (props) => {
     return (
         <TopBar style={actionBarStyle}>
             <div style={flex}>
-                <Button type='primary' onClick={() => chooseSkill('weapon')}>Weapon Attack</Button>
+                <Button type='primary' onClick={() => setSkill('weapon')}>Weapon Attack</Button>
                 {character.skills.map(skill => (
-                    <Button key={skill.__uuid} type='important' onClick={() => chooseSkill(skill.__uuid)}>{skill.name}</Button>  
+                    <Button key={skill.__uuid} type='important' onClick={() => setSkill(skill.__uuid)}>{skill.name}</Button>  
                 ))}
             </div>
             <div style={flex}>

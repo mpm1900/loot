@@ -1,7 +1,7 @@
 import React, { useEffect, useState, CSSProperties } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser, cancelReady } from '../../state/actions/room.actions'
+import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser, cancelReady, setSkill } from '../../state/actions/room.actions'
 import Modal from 'react-modal'
 import Session from '../Session'
 import { RoomSidebar } from './components/RoomSidebar'
@@ -15,7 +15,7 @@ import './index.scss'
 
 export const Room = (props: any) => {
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
-    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, location, readyUser, cancelReady } = props
+    const { auth, session, history, requestCreateRoom, requestJoinRoom, requestLeaveRoom, requestFindRoom, room, location, readyUser, cancelReady, setSkill } = props
     if (!(room && room.playerSessions)) return null
     
     useEffect(() => {
@@ -36,6 +36,11 @@ export const Room = (props: any) => {
     const isUser = (userId) => room.users.map(u => u.id).contains(userId)
     const isReady = (userId) => room.readyUserIds.contains(userId)
     const isSecret = (userId) => userId !== session.userId
+    const hasChosenSkill = (userId) => {
+        if (!room || !room.battle || !room.battle.turn.moves) return false
+        return !(room.battle.turn.moves.get(userId) == null)
+    }
+    const showActionBar = (room.battle !== null && !hasChosenSkill(session.userId))
     const getUserClass = (user) => {
         if (user) {
             if (user.id === room.creatorId) return 'creator'
@@ -102,8 +107,9 @@ export const Room = (props: any) => {
                 <div style={battleBodyBorderStyle as CSSProperties}>
                     <RoomUserbar room={room} isReady={isReady} getUserClass={getUserClass} />
                     <RoomActionbar
-                        show={room.battle !== null}
+                        show={showActionBar}
                         character={getActiveCharacter(session.userId)}
+                        setSkill={setSkill}
                     /> 
                     <div style={characterListStyle as CSSProperties}>
                         <RoomActiveCharacters 
@@ -142,5 +148,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     requestFindRoom,
     readyUser,
     cancelReady,
+    setSkill,
 }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Room)

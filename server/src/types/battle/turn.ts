@@ -3,20 +3,6 @@ import { Party } from '../party'
 import { AppRecord } from '..'
 import { Skill } from '../skill'
 
-export type iBattleMove  = {
-    type: iBattleMoveType
-    skillId: string,
-    characterId: string,
-    itemId: number,
-}
-
-enum iBattleMoveType {
-    Fight,
-    Skill,
-    Swap,
-    Item,
-}
-
 enum BattleTurnPhase {
     Upkeep,
     Waiting,
@@ -72,11 +58,20 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
         return parties
     }
     public resetMoves(): BattleTurn {
-        return this
+        return this.with({
+            moves: Map<string, Skill>(),
+        })
     }
-    public addMove(userId: string, parties: Map<string, Party>, skillId: string) {
+    public addMove(userId: string, parties: Map<string, Party>, skillId: string): BattleTurn {
         const party = parties.find(party => party.userId === userId)
-        if (!party) return this
+        if (!party || !party.activeCharacter) return this
+
+        // check for static skills
+            // weapon
+            // swap
+            // inspect?
+            // more?
+
         const skill = party.activeCharacter.skills.find(skill => skill.__uuid === skillId)
         if (!skill) return this
         return this.with({

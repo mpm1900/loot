@@ -121,6 +121,13 @@ const handleRoomAction = (state, action, socket) => {
             })
             break
         }
+        case RoomActions.SET_SKILL: {
+            socket.emit('room__request-battle-set-skill', {
+                roomId,
+                userId,
+                skillId: action.payload.skillId,
+            })
+        }
     }
 }
 

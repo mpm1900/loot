@@ -12,6 +12,7 @@ export const REQUEST_LEAVE_ROOM = PREFIX + 'REQUEST_LEAVE_ROOM'
 export const SEND_MESSAGE = PREFIX + 'SEND_MESSAGE'
 export const READY_USER = PREFIX + 'READY_USER'
 export const CANCEL_READY = PREFIX + 'CANCEL_READY'
+export const SET_SKILL = PREFIX + 'SET_SKILL'
 
 export const setState = (state: ClientRoomState): ClientReduxAction => ({
     type: SET_STATE,
@@ -65,4 +66,12 @@ export const cancelReady = () => ({
     type: CANCEL_READY,
     socket: false,
     payload: { }
+})
+
+export const setSkill = (skillId: string) => ({
+    type: SET_SKILL,
+    socket: false,
+    payload: {
+        skillId,
+    }
 })

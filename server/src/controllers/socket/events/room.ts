@@ -7,12 +7,16 @@ import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRo
 import { partyUpdateActiveCharacterId } from '../state/actions/sessions.actions'
 import { blastSession } from './session'
 
+export const Events = {
+    SET_STATE: 'initialize-state__room',
+}
+
 export const blastRoom = async (roomId: string, socket: Socket, store: Store) => {
     const room = store.getState().rooms.filter((r: SocketRoom) => r.id === roomId).first()
     if (room) {
         const state = Utils.serializeRoom(await Utils.populateRoom(room, store.getState().sessions))
-        socket.emit('initialize-state__room', { state })
-        socket.to(room.id).emit('initialize-state__room', { state })
+        socket.emit(Events.SET_STATE, { state })
+        socket.to(room.id).emit(Events.SET_STATE, { state })
     }
 }
 
@@ -35,7 +39,10 @@ export const handleLeaveRooms = async (socket: Socket, store: Store, userId: str
     const sessions = store.getState().sessions
     rooms = rooms.map(room => Utils.findRoomById(store.getState().rooms, room.id))
     rooms.forEach(async r => {
-        if (r) socket.to(r.id).emit('initialize-state__room', { state: Utils.serializeRoom(await Utils.populateRoom(r, sessions)) })
+        if (!r) return
+        socket.to(r.id).emit(Events.SET_STATE, {
+            state: Utils.serializeRoom(await Utils.populateRoom(r, sessions))
+        })
     })
 }
 
@@ -117,10 +124,11 @@ export const registerRoomSocketEvents = async (socket: Socket, store: Store) => 
         }
     })
 
-    socket.on('room__request-battle-set-move', async ({ userId, skillId, roomId }) => {
+    socket.on('room__request-battle-set-skill', async ({ userId, skillId, roomId }) => {
         if (userId && skillId && roomId) {
             store.dispatch(battleSetSkill(roomId, userId, skillId))
             // check if all skills are added and progress the battle
+            console.log('set skill', skillId)
             await blastRoom(roomId, socket, store)
         }
     })
