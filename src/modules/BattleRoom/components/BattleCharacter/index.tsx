@@ -40,7 +40,7 @@ const CharacterDetails = (props) => {
             <ZeroGuage className={reverse ? 'reverse' : ''} value={character.health} max={character.maxHealth} reverse={reverse}>
                 {!secretBars ? <div className='BattleCharacter__main__health'>
                     <Icon icon='heart-beats' size={20} fill={'white'} />
-                    <div style={{ marginLeft: 4 }}>{character.health} / {character.maxHealth}</div>
+                    <div style={{ marginLeft: 4 }}>{character.health > 0 ? character.health : 0} / {character.maxHealth}</div>
                 </div> : null }
             </ZeroGuage>
         </div>

@@ -3,6 +3,9 @@ import { Party } from '../party'
 import { AppRecord } from '..'
 import { Skill } from '../skill'
 import { Character } from '../character'
+import { Item } from '../item';
+import { RandFloat } from '../random';
+import { calculateArmorDamage } from './utils';
 
 enum BattleTurnPhase {
     Upkeep,
@@ -105,22 +108,35 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             return b.speed - a.speed
         })
         speeds.map(s => s.userId).forEach((userId, index) => {
+            parties.forEach((party, userId) => {
+                const activeCharacter = party.activeCharacter.withStaticModifiers()
+                activeCharacters = activeCharacters.set(userId, activeCharacter)
+            })
             const otherUserId = index === 0 ?
                 speeds.get(1).userId :
                 speeds.get(0).userId
             const source = activeCharacters.get(userId)
             const target = activeCharacters.get(otherUserId)
+            if (source.health <= 0) return
+            console.log('source health:', source.health)
 
             if (this.skillIds.get(userId) === BattleStaticSkill.WeaponAttack) {
-                const power = source.weapon ? source.weapon.stats.power : 0
-                const armor = target.getArmor()
-                let armorDamage = 0
-                if (power > armor) {
-                    armorDamage = armor
-                } else {
-                    armorDamage = power
+
+                const getPower = (weapon: Item) => {
+                    if (!weapon || !weapon.stats) return 0
+                    const accRoll = RandFloat(0, 1)
+                    const affRoll = RandFloat(0, 1)
+                    if (accRoll > weapon.stats.accuracy) {
+                        console.log('MISSED', weapon.stats.accuracy, accRoll)
+                        return 0
+                    }
+                    if (affRoll < weapon.stats.affinity) return weapon.stats.power * weapon.stats.criticalRatio
+                    return weapon.stats.power
                 }
-                if (armorDamage > armor) armorDamage = armor
+
+                const power = Math.round(source.weapon ? getPower(source.weapon) : 0)
+                const armor = target.getArmor()
+                const armorDamage = calculateArmorDamage(power, armor)
                 const healthDamage = power - armorDamage
                 console.log(source.name)
                 console.log('power', power)

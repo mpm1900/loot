@@ -21,7 +21,8 @@ export const ZeroGuage = (props: any) => {
         `rgb(${pickHex(fills[0], fills[1], value / max)})`:
         `rgb(${getDefaultColor(value / max)})`
         
-    const fillStyle = { width: `${(max === 0 || value < 0) ? 0 : (100 * value / max)}%`, height: height - 2, backgroundColor: bg, right: reverse ? 0 : null, left: reverse ? null : 0 }
+    const width =  `${(max === 0 || value < 0) ? 0 : (100 * value / max)}%`
+    const fillStyle = { minWidth: width, maxWidth: width, height: height - 2, backgroundColor: bg, right: reverse ? 0 : null, left: reverse ? null : 0 }
     const contentStyle = { height: height - 2, lineHeight: `${height}px` }
     return (
         <div className={"ZeroGuage " + className} style={{ height }}>
