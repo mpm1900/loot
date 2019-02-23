@@ -68,10 +68,11 @@ export const cancelReady = () => ({
     payload: { }
 })
 
-export const setSkill = (skillId: string) => ({
+export const setSkill = (skillId: string, characterId = null) => ({
     type: SET_SKILL,
     socket: false,
     payload: {
         skillId,
+        characterId,
     }
 })

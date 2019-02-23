@@ -2,7 +2,7 @@ import React, { useEffect, useState, CSSProperties } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { requestCreateRoom, requestLeaveRoom, requestJoinRoom, requestFindRoom, readyUser, cancelReady, setSkill } from '../../state/actions/room.actions'
-import Modal from 'react-modal'
+import Modal from '../Core/Modal'
 import Session from '../Session'
 import { RoomSidebar } from './components/RoomSidebar'
 import { Party } from '../../types/party'
@@ -12,6 +12,7 @@ import { RoomUserbar } from './components/RoomUserbar'
 import { RoomActiveCharacters } from './components/RoomActiveCharacters'
 import { RoomBenchCharacters } from './components/RoomBenchCharacters'
 import './index.scss'
+import { List } from 'immutable';
 
 export const Room = (props: any) => {
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
@@ -77,18 +78,6 @@ export const Room = (props: any) => {
         overflowY: 'auto', 
         background: 'linear-gradient(175deg, hsl(0,0%,27%) 0%,hsl(0,0%,22%) 100%)'
     }
-    const sessionModalStyle = {
-        content: {
-            background: 'white',
-            zIndex: 9999,
-            padding: 0,
-            display: 'flex',
-            flexDirection: 'column',
-        },
-        overlay: {
-            backgroundColor: 'rgba(0,0,0,0.52)'
-        }
-    }
 
     return (
         <div className='Battle'>
@@ -110,6 +99,7 @@ export const Room = (props: any) => {
                         show={showActionBar}
                         character={getActiveCharacter(session.userId)}
                         setSkill={setSkill}
+                        characters={getParty(session.userId) ? getParty(session.userId).characters : List()}
                     /> 
                     <div style={characterListStyle as CSSProperties}>
                         <RoomActiveCharacters 
@@ -121,6 +111,7 @@ export const Room = (props: any) => {
                             isSecret={isSecret}
                             getParty={getParty}
                             room={room}
+                            getActiveCharacter={getActiveCharacter}
                         />
                     </div>
                 </div>
@@ -128,8 +119,7 @@ export const Room = (props: any) => {
             </div>
             <Modal
                 isOpen={sessionModalOpen}
-                onRequestClose={() => setSessionModalOpen(false)}
-                style={sessionModalStyle}>
+                onRequestClose={() => setSessionModalOpen(false)}>
                 <Session 
                     isModal={true} 
                     viewOnly={isReady(session.userId)} 

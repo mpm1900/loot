@@ -13,9 +13,14 @@ enum BattleTurnPhase {
     Main,
 }
 
-enum BattleStaticSkill {
+enum BattleStaticSkillType {
     WeaponAttack,
     SwapCharacters,
+}
+
+type BattleStaticSkill = {
+    type: BattleStaticSkillType,
+    value: any
 }
 
 export type sBattleTurn = {
@@ -72,17 +77,24 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
         })
     }
     public addSkill(userId: string, parties: Map<string, Party>, skillId: string, characterId: string = null): BattleTurn {
+        console.log('add skill', characterId)
         const party = parties.find(party => party.userId === userId)
         if (!party || !party.activeCharacter) return this
 
         if (skillId === 'weapon') {
             return this.with({
-                skillIds: this.skillIds.set(userId, BattleStaticSkill.WeaponAttack)
+                skillIds: this.skillIds.set(userId, {
+                    type: BattleStaticSkillType.WeaponAttack,
+                    value: null,
+                })
             })
         }
         if (skillId === 'swap') {
             return this.with({
-                skillIds: this.skillIds.set(userId, BattleStaticSkill.SwapCharacters)
+                skillIds: this.skillIds.set(userId, {
+                    type: BattleStaticSkillType.SwapCharacters,
+                    value: characterId,
+                })
             })
         }
         // check for static skills
@@ -120,8 +132,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             if (source.health <= 0) return
             console.log('source health:', source.health)
 
-            if (this.skillIds.get(userId) === BattleStaticSkill.WeaponAttack) {
-
+            if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.WeaponAttack) {
                 const getPower = (weapon: Item) => {
                     if (!weapon || !weapon.stats) return 0
                     const accRoll = RandFloat(0, 1)
@@ -146,6 +157,12 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
                 parties = parties.set(otherUserId, parties.get(otherUserId).updateCharacterWith(target.__uuid, {
                     armor: parties.get(otherUserId).activeCharacter.armor - armorDamage,
                     health: parties.get(otherUserId).activeCharacter.health - healthDamage
+                }))
+            }
+
+            if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.SwapCharacters) {
+                parties = parties.set(userId, parties.get(userId).with({
+                    activeCharacterId: (this.skillIds.get(userId) as BattleStaticSkill).value
                 }))
             }
         })
