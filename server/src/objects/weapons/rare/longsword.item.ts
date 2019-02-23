@@ -11,7 +11,7 @@ import { SpeedUp } from '../../modifiers/speed.mod'
 import { PoisonResistanceUp } from '../../modifiers/status.mod'
 import { FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement } from '../../../types/element'
 import { SpecialUp } from '../../modifiers/special.mod'
-import { getWeaponAccuracy, getWeaponPower } from '../../../objects/stats'
+import { getWeaponAccuracy, getWeaponPower, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats'
 
 
 const base = (level: number): iItem => ({
@@ -45,12 +45,13 @@ const base = (level: number): iItem => ({
 const baseStats = (level: number) => {
     const powerRange: [number, number] = getWeaponPower(ItemRarity.Rare, ItemWeaponType.Longsword)
     const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Rare, ItemWeaponType.Longsword)
+    const affinityRange: [number, number] = getWeaponAffinity(ItemRarity.Rare, ItemWeaponType.Longsword)
+    const criticalRatioRange: [number, number] = getWeaponCriticalRatio(ItemRarity.Rare, ItemWeaponType.Longsword)
     return {
         power: RandInt(...powerRange),
-        range: 2,
         accuracy: RandFloat(...accuracyRange),
-        affinity: RandFloat(0, 0.5),
-        criticalRatio: RandFloat(1, 2)
+        affinity: RandFloat(...affinityRange),
+        criticalRatio: RandFloat(...criticalRatioRange)
     }
 }
 

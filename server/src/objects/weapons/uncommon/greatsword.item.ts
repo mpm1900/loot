@@ -6,7 +6,7 @@ import { Modifier } from '../../../types/modifier'
 import { ArmorUp } from '../../modifiers/armor.mod'
 import { StrengthUp } from '../../modifiers/strength.mod'
 import { SpeedDown } from '../../modifiers/speed.mod'
-import { getWeaponPower, getWeaponAccuracy } from '../../../objects/stats';
+import { getWeaponPower, getWeaponAccuracy, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats';
 
 const base = (level: number) => ({
     image: '-- IMAGE URL --',
@@ -23,20 +23,19 @@ const base = (level: number) => ({
             ),
             1
         )
-        .concat(RangeFuncChoose(5, 20, SpeedDown, 1))
+        .concat(SpeedDown(RandInt(5, 20)))
 })
 
 const baseStats = (level: number): iItemStats => {
     const powerRange: [number, number] = getWeaponPower(ItemRarity.Uncommon, ItemWeaponType.Greatsword)
     const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Uncommon, ItemWeaponType.Greatsword)
+    const affinityRange: [number, number] = getWeaponAffinity(ItemRarity.Uncommon, ItemWeaponType.Greatsword)
+    const criticalRatioRange: [number, number] = getWeaponCriticalRatio(ItemRarity.Uncommon, ItemWeaponType.Greatsword)
     return {
         power: RandInt(...powerRange),
-        range: 2,
-        status: null,
-        element: null,
         accuracy: RandFloat(...accuracyRange),
-        affinity: RandFloat(0, 0.3),
-        criticalRatio: RandFloat(1, 2.5)
+        affinity: RandFloat(...affinityRange),
+        criticalRatio: RandFloat(...criticalRatioRange)
     }
 }
 

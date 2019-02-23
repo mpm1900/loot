@@ -1,5 +1,5 @@
 import { List } from 'immutable'
-import { Choose, RandInt, RandFloat, RangeFuncChoose } from '../../../types/random'
+import { Choose, RandInt, RandFloat } from '../../../types/random'
 import { Item, ItemRarity, ItemType, ItemSubType, iItem, ItemWeaponType } from '../../../types/item'
 import { ItemStats } from '../../../types/item/item.stats'
 import { ArmorUp } from '../../modifiers/armor.mod'
@@ -10,7 +10,7 @@ import { SpeedUp, SpeedDown } from '../../modifiers/speed.mod'
 import { PoisonResistanceUp } from '../../modifiers/status.mod'
 import { FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement } from '../../../types/element'
 import { SpecialUp } from '../../modifiers/special.mod'
-import { getWeaponPower, getWeaponAccuracy } from '../../../objects/stats'
+import { getWeaponPower, getWeaponAccuracy, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats'
 
 
 const base = (level: number): iItem => ({
@@ -36,18 +36,19 @@ const base = (level: number): iItem => ({
             ]),
             RandInt(3, 5)
         )
-        .concat(RangeFuncChoose(10, 50, SpeedDown, 1))
+        .concat(SpeedDown(RandInt(10, 50)))
 })
 
 const baseStats = (level: number) => {
     const powerRange: [number, number] = getWeaponPower(ItemRarity.Masterwork, ItemWeaponType.Greatsword)
     const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Masterwork, ItemWeaponType.Greatsword)
+    const affinityRange: [number, number] = getWeaponAffinity(ItemRarity.Masterwork, ItemWeaponType.Greatsword)
+    const criticalRatioRange: [number, number] = getWeaponCriticalRatio(ItemRarity.Masterwork, ItemWeaponType.Greatsword)
     return {
         power: RandInt(...powerRange),
-        range: 2,
         accuracy: RandFloat(...accuracyRange),
-        affinity: RandFloat(0, 0.2),
-        criticalRatio: RandFloat(1, 3)
+        affinity: RandFloat(...affinityRange),
+        criticalRatio: RandFloat(...criticalRatioRange)
     }
 }
 

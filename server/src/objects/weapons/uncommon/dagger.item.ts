@@ -6,6 +6,7 @@ import { Modifier } from '../../../types/modifier'
 import { ArmorUp } from '../../modifiers/armor.mod'
 import { StrengthUp } from '../../modifiers/strength.mod'
 import { getWeaponPower, getWeaponAccuracy, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats'
+import { SpeedUp } from '../../../objects/modifiers/speed.mod';
 
 const base = (level: number) => ({
     image: '-- IMAGE URL --',
@@ -13,7 +14,7 @@ const base = (level: number) => ({
     level,
     type: ItemType.Equipable,
     subType: ItemSubType.Weapon,
-    weaponType: ItemWeaponType.Longsword,
+    weaponType: ItemWeaponType.Dagger,
     modifiers:
         Choose(
             List.of<Modifier>(
@@ -22,13 +23,14 @@ const base = (level: number) => ({
             ),
             1
         )
+        .concat(SpeedUp(RandInt(1, 20)))
 })
 
 const baseStats = (level: number): iItemStats => {
-    const powerRange: [number, number] = getWeaponPower(ItemRarity.Uncommon, ItemWeaponType.Longsword)
-    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Uncommon, ItemWeaponType.Longsword)
-    const affinityRange: [number, number] = getWeaponAffinity(ItemRarity.Uncommon, ItemWeaponType.Longsword)
-    const criticalRatioRange: [number, number] = getWeaponCriticalRatio(ItemRarity.Uncommon, ItemWeaponType.Longsword)
+    const powerRange: [number, number] = getWeaponPower(ItemRarity.Uncommon, ItemWeaponType.Dagger)
+    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Uncommon, ItemWeaponType.Dagger)
+    const affinityRange: [number, number] = getWeaponAffinity(ItemRarity.Uncommon, ItemWeaponType.Dagger)
+    const criticalRatioRange: [number, number] = getWeaponCriticalRatio(ItemRarity.Uncommon, ItemWeaponType.Dagger)
     return {
         power: RandInt(...powerRange),
         accuracy: RandFloat(...accuracyRange),
@@ -37,15 +39,15 @@ const baseStats = (level: number): iItemStats => {
     }
 }
 
-export const UncommonLongsword = (level: number) => new Item({
+export const UncommonDagger = (level: number) => new Item({
     ...base(level),
     name: Choose(List.of(
-        'Rusty Longsword',
-        'Hard Metal Longsword',
-        'Stone Forged Longsword',
-        'Royal Longsword',
-        'Eternal Longsword',
+        'Rusty Dagger',
+        'Hard Metal Dagger',
+        'Stone Forged Dagger',
+        'Royal Dagger',
+        'Eternal Dagger',
     ), 1).first(),
-    description: 'Longsword made from another plane.',
+    description: 'Dagger made from another plane.',
     stats: new ItemStats({ ...baseStats(level) }),
 })

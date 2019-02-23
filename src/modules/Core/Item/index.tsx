@@ -17,6 +17,7 @@ const TypeIconTable = {
     [ItemSubType.Gloves]: 'gauntlet',
     [ItemWeaponType.Greatsword]: 'relic-blade',
     [ItemWeaponType.Longsword]: 'gladius',
+    [ItemWeaponType.Dagger]: 'bone-knife'
 }
 
 export const ItemRarityColor = {

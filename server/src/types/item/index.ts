@@ -37,6 +37,7 @@ export enum ItemWeaponType {
     NotAWeapon = 'NotAWeapon',
     Greatsword = 'Greatsword',
     Longsword = 'Longsword',
+    Dagger = 'Dagger',
 }
 
 export enum ItemRarity {
