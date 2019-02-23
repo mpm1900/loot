@@ -1,6 +1,5 @@
 import { AppRecord } from '..'
-import { Character } from '../character'
-import { List } from 'immutable'
+import { List, Map } from 'immutable'
 import { iCharacterModifier } from '../character/character.modifier'
 
 export enum ModifierType {
@@ -10,6 +9,13 @@ export enum ModifierType {
     Mutation = 'Mutation',
 }
 
+export enum ModifierPayloadKey {
+    Amount = 'amount'
+}
+export const ModifierPayloadKeys = List.of<ModifierPayloadKey>(
+    ModifierPayloadKey.Amount,
+)
+
 export type sModifier = {
     name: string,
     description: string,
@@ -18,6 +24,7 @@ export type sModifier = {
     buff: boolean,
     affectedKeys: string[],
     mods: iCharacterModifier[],
+    payload: any,
 }
 export type iModifier = {
     name?: string,
@@ -27,6 +34,7 @@ export type iModifier = {
     buff?: boolean,
     affectedKeys?: List<string>,
     mods?: List<iCharacterModifier>,
+    payload?: Map<ModifierPayloadKey, any>,
 }
 export const defaultModifier: iModifier = {
     name: '',
@@ -36,6 +44,7 @@ export const defaultModifier: iModifier = {
     buff: false,
     affectedKeys: List<string>(),
     mods: List<iCharacterModifier>(),
+    payload: Map<ModifierPayloadKey, any>(),
 }
 export class Modifier extends AppRecord implements iModifier {
     public readonly name: string
@@ -45,6 +54,7 @@ export class Modifier extends AppRecord implements iModifier {
     public readonly buff: boolean
     public readonly affectedKeys: List<string>
     public readonly mods: List<iCharacterModifier>
+    public readonly payload: Map<ModifierPayloadKey, any>
 
     constructor(args?: iModifier) {
         args ?
@@ -64,7 +74,8 @@ export class Modifier extends AppRecord implements iModifier {
             type: this.type,
             buff: this.buff,
             affectedKeys: this.affectedKeys.toArray(),
-            mods: this.mods.toArray()
+            mods: this.mods.toArray(),
+            payload: this.payload.toJS(),
         }
     }
 
@@ -76,7 +87,8 @@ export class Modifier extends AppRecord implements iModifier {
             type: sModifier.type,
             buff: sModifier.buff,
             affectedKeys: List<string>(sModifier.affectedKeys),
-            mods: List<iCharacterModifier>(sModifier.mods)
+            mods: List<iCharacterModifier>(sModifier.mods),
+            payload: Map<ModifierPayloadKey, any>(sModifier.payload),
         })
     }
 }

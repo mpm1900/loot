@@ -24,7 +24,7 @@ const base = (level: number): iItem => ({
             WeaponPowerUp(RandInt(5, 20)),
             HealthUp(RandInt(5, 20)),
         ),
-        1
+        2
     )
     .concat(RangeFuncChoose(5, 20, SpeedDown, 1)) as List<Modifier>
 })

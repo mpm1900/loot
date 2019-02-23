@@ -1,7 +1,6 @@
-import { ModifierType, Modifier } from "../../types/modifier";
-import { Character } from "../../types/character";
-import { List } from "immutable";
-import { iCharacterModifier, ArmorMod } from "../../types/character/character.modifier";
+import { List } from 'immutable'
+import { ModifierType, Modifier } from '../../types/modifier'
+import { iCharacterModifier, ArmorMod } from '../../types/character/character.modifier'
 
 export const ArmorUp = (amount: number) => new Modifier({
     name: 'Armor Up',

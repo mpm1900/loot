@@ -1,5 +1,4 @@
-import { Modifier, ModifierType } from "../../types/modifier";
-import { Character } from "../../types/character";
+import { Modifier, ModifierType } from '../../types/modifier'
 
 
 export const DamageBuff = (amount: number) => new Modifier({
