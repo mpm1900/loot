@@ -6,6 +6,7 @@ import { Modifier } from '../../../types/modifier'
 import { ArmorUp } from '../../modifiers/armor.mod'
 import { StrengthUp } from '../../modifiers/strength.mod'
 import { getWeaponPower, getWeaponAccuracy, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats'
+import { FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement } from '../../../types/element'
 import { SpeedUp } from '../../../objects/modifiers/speed.mod'
 import { HealthUp } from '../../../objects/modifiers/health.mod'
 import { WeaponPowerUp } from '../../../objects/modifiers/weapon.mod'
@@ -19,6 +20,10 @@ const base = (level: number) => ({
     type: ItemType.Equipable,
     subType: ItemSubType.Weapon,
     weaponType: ItemWeaponType.Dagger,
+    elements: Choose(
+        List.of(FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement).map(f => f(RandInt(5, 40))),
+        RandInt(0, 3)
+    ),
     modifiers:
         Choose(
             List.of<Modifier>(

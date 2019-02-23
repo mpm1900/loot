@@ -126,14 +126,14 @@ export const EquipItem = (props: any) => {
                     { item.modifiers && item.modifiers.size > 0 ? 
                     <div className="PackItem__modifiers">
                         { item.modifiers.map(mod => (
-                            <div key={mod.__uuid} className={"PackItem__modifier--" + (mod.buff ? 'buff' : 'debuff')}>{mod.description}</div>
+                            <div key={mod.__uuid} className={"PackItem__modifier--" + (mod.buff ? 'buff' : 'debuff')}>{mod.description}, </div>
                         )) }
                     </div>: null }
                     { item.triggers && item.triggers.size > 0 ? 
                         <div className="PackItem__modifiers">
                             {item.triggers.map(trigger => (
                                 <div key={trigger.__uuid} className={"PackItem__modifier--" + (trigger.buff ? 'buff' : 'debuff')}>
-                                    ({(trigger.chance * 100).toFixed()}% - {trigger.type}) {trigger.description}
+                                    ({(trigger.chance * 100).toFixed()}% - {trigger.type}) {trigger.description}, 
                                 </div>
                             ))}
                         </div>: 

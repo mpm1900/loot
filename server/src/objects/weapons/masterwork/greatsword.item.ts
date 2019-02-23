@@ -21,7 +21,7 @@ const base = (level: number): iItem => ({
     subType: ItemSubType.Weapon,
     weaponType: ItemWeaponType.Greatsword,
     elements: Choose(
-        List.of(FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement).map(f => f(20)),
+        List.of(FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement).map(f => f(RandInt(5, 40))),
         RandInt(0, 3)
     ),
     modifiers: Choose(
