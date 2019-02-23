@@ -10,7 +10,7 @@ import { SpeedUp, SpeedDown } from '../../modifiers/speed.mod'
 import { PoisonResistanceUp } from '../../modifiers/status.mod'
 import { FireElement, WaterElement, ThunderElement, DragonElement, LightElement, DarkElement } from '../../../types/element'
 import { SpecialUp } from '../../modifiers/special.mod'
-import { getWeaponPower } from '../../../objects/stats'
+import { getWeaponPower, getWeaponAccuracy } from '../../../objects/stats'
 
 
 const base = (level: number): iItem => ({
@@ -41,10 +41,11 @@ const base = (level: number): iItem => ({
 
 const baseStats = (level: number) => {
     const powerRange: [number, number] = getWeaponPower(ItemRarity.Masterwork, ItemWeaponType.Greatsword)
+    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Masterwork, ItemWeaponType.Greatsword)
     return {
         power: RandInt(...powerRange),
         range: 2,
-        accuracy: RandFloat(0.7, 0.85),
+        accuracy: RandFloat(...accuracyRange),
         affinity: RandFloat(0, 0.2),
         criticalRatio: RandFloat(1, 3)
     }

@@ -16,7 +16,7 @@ import { getWeaponAccuracy, getWeaponPower } from '../../../objects/stats'
 
 const base = (level: number): iItem => ({
     image: '-- IMAGE URL --',
-    rarity: ItemRarity.Masterwork,
+    rarity: ItemRarity.Rare,
     level,
     type: ItemType.Equipable,
     subType: ItemSubType.Weapon,
@@ -29,22 +29,22 @@ const base = (level: number): iItem => ({
         .concat(
             Choose(
                 List([
-                    ArmorUp(RandInt(5, 40)),
-                    StrengthUp(RandInt(5, 40)),
-                    HealthUp(RandInt(5, 40)),
-                    WeaponPowerUp(RandInt(5, 40)),
-                    SpecialUp(RandInt(5, 40)),
-                    PoisonResistanceUp(RandInt(1, 20)),
+                    ArmorUp(RandInt(5, 20)),
+                    StrengthUp(RandInt(5, 20)),
+                    HealthUp(RandInt(5, 20)),
+                    WeaponPowerUp(RandInt(5, 20)),
+                    SpecialUp(RandInt(5, 20)),
+                    PoisonResistanceUp(RandInt(5, 20)),
                     SpeedUp(RandInt(5, 20))
                 ]),
-                RandInt(3, 5)
+                2
             )
         )
 })
 
 const baseStats = (level: number) => {
-    const powerRange: [number, number] = getWeaponPower(ItemRarity.Masterwork, ItemWeaponType.Longsword)
-    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Masterwork, ItemWeaponType.Longsword)
+    const powerRange: [number, number] = getWeaponPower(ItemRarity.Rare, ItemWeaponType.Longsword)
+    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Rare, ItemWeaponType.Longsword)
     return {
         power: RandInt(...powerRange),
         range: 2,
@@ -54,9 +54,9 @@ const baseStats = (level: number) => {
     }
 }
 
-export const MasterworkLongsword = (level: number) => new Item({
+export const RareLongsword = (level: number) => new Item({
     ...base(level),
-    name: 'Masterwork Longsword',
+    name: 'Rare Longsword',
     description: 'A long sword, ready for battle, crafted by a master blacksmith',
     stats: new ItemStats({
         ...baseStats(level),

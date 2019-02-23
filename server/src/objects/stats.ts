@@ -1,6 +1,9 @@
 import { ItemRarity, Item, ItemSubType, ItemWeaponType } from '../types/item'
 
-const addRange = (r1: [number, number], r2: [number, number]): [number, number] => [r1[0] + r2[0], r1[1] + r2[1]]
+const addRange = (
+    r1: [number, number],
+    r2: [number, number]
+): [number, number] => [(r1[0] + r2[0]), (r1[1] + r2[1])]
 
 const baseBody: [number, number]      = [12, 18]
 const baseCharm: [number, number]     = [8, 12]
@@ -19,7 +22,6 @@ const armorRarityOffsets: any = {
 
 const baseGreatswordPower: [number, number]    = [150, 250]
 const baseLongswordPower: [number, number]     = [50, 100]
-
 const weaponPowerRarityOffsets: any = {
        [ItemRarity.Uncommon]: {
         [ItemWeaponType.Greatsword]:    [10, 10],
@@ -36,6 +38,24 @@ const weaponPowerRarityOffsets: any = {
     }
 }
 
+const baseGreatswordAccuracy: [number, number]  = [0.55, 0.75]
+const baseLongswordAccuracy: [number, number]   = [0.80, 0.95]
+const weaponAccuracyRarityOffsets: any = {
+    [ItemRarity.Uncommon]: {
+        [ItemWeaponType.Greatsword]:    [0, 0],
+        [ItemWeaponType.Longsword]:     [0, 0],
+    }, [ItemRarity.Rare]: {
+        [ItemWeaponType.Greatsword]:    [0, 0],
+        [ItemWeaponType.Longsword]:     [0, 0],
+    }, [ItemRarity.Masterwork]: {
+        [ItemWeaponType.Greatsword]:    [0.05, 0.05],
+        [ItemWeaponType.Longsword]:     [0.05, 0.05],
+    }, [ItemRarity.Unique]: {
+        [ItemWeaponType.Greatsword]:    [0.05, 0.05],
+        [ItemWeaponType.Longsword]:     [0.05, 0.05],
+    },
+}
+
 export const getArmorValue = (rarity: ItemRarity, itemSubType: ItemSubType): [number, number] => {
     const offset = armorRarityOffsets[rarity]
     switch (itemSubType) {
@@ -45,13 +65,24 @@ export const getArmorValue = (rarity: ItemRarity, itemSubType: ItemSubType): [nu
         case ItemSubType.Gloves: return addRange(baseGloves, offset)
         case ItemSubType.Head: return addRange(baseHead, offset)
         case ItemSubType.Ring: return addRange(baseRing, offset)
+        default: return [0, 0]
     }
 }
 
-export const getWeaponPower = (rarity: ItemRarity, itemWeaponType: ItemWeaponType) => {
+export const getWeaponPower = (rarity: ItemRarity, itemWeaponType: ItemWeaponType): [number, number] => {
     const offset = weaponPowerRarityOffsets[rarity][itemWeaponType]
     switch (itemWeaponType) {
         case ItemWeaponType.Greatsword: return addRange(baseGreatswordPower, offset)
         case ItemWeaponType.Longsword: return addRange(baseLongswordPower, offset)
+        default: return [0, 0]
+    }
+}
+
+export const getWeaponAccuracy = (rarity: ItemRarity, itemWeaponType: ItemWeaponType): [number, number] => {
+    const offset = weaponAccuracyRarityOffsets[rarity][itemWeaponType]
+    switch (itemWeaponType) {
+        case ItemWeaponType.Greatsword: return addRange(baseGreatswordAccuracy, offset)
+        case ItemWeaponType.Longsword: return addRange(baseLongswordAccuracy, offset)
+        default: return [0, 0]
     }
 }

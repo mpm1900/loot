@@ -1,7 +1,7 @@
 import { List } from 'immutable'
-import { MasterworkGreatword } from './greatsword.item'
 import { Choose } from '../../../types/random'
-import { MasterworkLongsword } from './longsword.item';
+import { MasterworkGreatword } from './greatsword.item'
+import { MasterworkLongsword } from './longsword.item'
 
 export const MasterworkWeapon = (level: number) => Choose(List.of(
     MasterworkGreatword(level),

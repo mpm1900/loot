@@ -8,7 +8,7 @@ import { StrengthUp } from '../../modifiers/strength.mod'
 import { HealthUp } from '../../modifiers/health.mod'
 import { WeaponPowerUp } from '../../modifiers/weapon.mod'
 import { SpeedDown } from '../../modifiers/speed.mod'
-import { getWeaponPower } from '../../../objects/stats'
+import { getWeaponPower, getWeaponAccuracy } from '../../../objects/stats'
 
 const base = (level: number): iItem => ({
     image: '-- IMAGE URL --',
@@ -31,12 +31,13 @@ const base = (level: number): iItem => ({
 
 const baseStats = (level: number): iItemStats => {
     const powerRange: [number, number] = getWeaponPower(ItemRarity.Rare, ItemWeaponType.Greatsword)
+    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Rare, ItemWeaponType.Greatsword)
     return {
         power: RandInt(...powerRange),
         range: 2,
         status: null,
         element: null,
-        accuracy: RandFloat(0.7, 0.85),
+        accuracy: RandFloat(...accuracyRange),
         affinity: RandFloat(0, 0.3),
         criticalRatio: RandFloat(1, 2.5)
     }

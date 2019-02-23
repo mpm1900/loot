@@ -1,12 +1,11 @@
 import { List } from 'immutable'
-import { Choose, RandInt, RandFloat, RangeFuncChoose } from '../../../types/random'
+import { Choose, RandInt, RandFloat } from '../../../types/random'
 import { Item, ItemRarity, ItemType, ItemSubType, ItemWeaponType } from '../../../types/item'
 import { ItemStats, iItemStats } from '../../../types/item/item.stats'
 import { Modifier } from '../../../types/modifier'
 import { ArmorUp } from '../../modifiers/armor.mod'
 import { StrengthUp } from '../../modifiers/strength.mod'
-import { SpeedDown } from '../../modifiers/speed.mod'
-import { getWeaponPower, getWeaponAccuracy } from '../../../objects/stats';
+import { getWeaponPower, getWeaponAccuracy } from '../../../objects/stats'
 
 const base = (level: number) => ({
     image: '-- IMAGE URL --',
@@ -14,7 +13,7 @@ const base = (level: number) => ({
     level,
     type: ItemType.Equipable,
     subType: ItemSubType.Weapon,
-    weaponType: ItemWeaponType.Greatsword,
+    weaponType: ItemWeaponType.Longsword,
     modifiers:
         Choose(
             List.of<Modifier>(
@@ -23,12 +22,11 @@ const base = (level: number) => ({
             ),
             1
         )
-        .concat(RangeFuncChoose(5, 20, SpeedDown, 1))
 })
 
 const baseStats = (level: number): iItemStats => {
-    const powerRange: [number, number] = getWeaponPower(ItemRarity.Uncommon, ItemWeaponType.Greatsword)
-    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Uncommon, ItemWeaponType.Greatsword)
+    const powerRange: [number, number] = getWeaponPower(ItemRarity.Uncommon, ItemWeaponType.Longsword)
+    const accuracyRange: [number, number] = getWeaponAccuracy(ItemRarity.Uncommon, ItemWeaponType.Longsword)
     return {
         power: RandInt(...powerRange),
         range: 2,
@@ -40,15 +38,15 @@ const baseStats = (level: number): iItemStats => {
     }
 }
 
-export const UncommonGreatsword = (level: number) => new Item({
+export const UncommonLongsword = (level: number) => new Item({
     ...base(level),
     name: Choose(List.of(
-        'Rusty Greatsword',
-        'Hard Metal Greatsword',
-        'Stone Forged Greatsword',
-        'Royal Greatsword',
-        'Eternal Greatsword',
+        'Rusty Longsword',
+        'Hard Metal Longsword',
+        'Stone Forged Longsword',
+        'Royal Longsword',
+        'Eternal Longsword',
     ), 1).first(),
-    description: 'Greatsword made from another plane.',
+    description: 'Longsword made from another plane.',
     stats: new ItemStats({ ...baseStats(level) }),
 })
