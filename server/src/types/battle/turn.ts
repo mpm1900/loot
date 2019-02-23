@@ -5,7 +5,8 @@ import { Skill } from '../skill'
 import { Character } from '../character'
 import { Item } from '../item';
 import { RandFloat } from '../random';
-import { calculateArmorDamage } from './utils';
+import { calculateArmorDamage, getPower } from './utils';
+import { TriggerType } from '../trigger';
 
 enum BattleTurnPhase {
     Upkeep,
@@ -98,7 +99,6 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             })
         }
         // check for static skills
-            // swap
             // inspect?
             // more?
 
@@ -131,21 +131,8 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             const target = activeCharacters.get(otherUserId)
             if (source.health <= 0) return
             console.log('source health:', source.health)
-
             if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.WeaponAttack) {
-                const getPower = (weapon: Item) => {
-                    if (!weapon || !weapon.stats) return 0
-                    const accRoll = RandFloat(0, 1)
-                    const affRoll = RandFloat(0, 1)
-                    if (accRoll > weapon.stats.accuracy) {
-                        console.log('MISSED', weapon.stats.accuracy, accRoll)
-                        return 0
-                    }
-                    if (affRoll < weapon.stats.affinity) return weapon.stats.power * weapon.stats.criticalRatio
-                    return weapon.stats.power
-                }
-
-                const power = Math.round(source.weapon ? getPower(source.weapon) : 0)
+                const power = source.weapon ? getPower(source.weapon) : 0
                 const armor = target.getArmor()
                 const armorDamage = calculateArmorDamage(power, armor)
                 const healthDamage = power - armorDamage
@@ -158,6 +145,13 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
                     armor: parties.get(otherUserId).activeCharacter.armor - armorDamage,
                     health: parties.get(otherUserId).activeCharacter.health - healthDamage
                 }))
+                // check on hit triggers
+                source.weapon.triggers
+                    .filter(trigger => trigger.type === TriggerType.OnHit)
+                    .forEach(trigger => {
+                        // roll for chance
+                        // run the mutation
+                    })
             }
 
             if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.SwapCharacters) {

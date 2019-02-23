@@ -22,7 +22,7 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
             <div>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Weapon}>
                     <div className='PackCharacterItemList__weapon'>{character.weapon ? 
-                        <Item item={character.withStaticModifiers().weapon} source={character} />: 
+                        <Item item={character.withStaticModifiers().weapon} source={character} showDescription={true} />: 
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
@@ -30,13 +30,13 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
             <div>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Charm}>
                     <div className='PackCharacterItemList__charm'>{character.charm ? 
-                        <Item item={character.withStaticModifiers().charm} source={character} showDescription={false} />: 
+                        <Item item={character.withStaticModifiers().charm} source={character} showDescription={true} />: 
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Ring}>
                     <div className='PackCharacterItemList__ring'>{character.ring ? 
-                        <Item item={character.withStaticModifiers().ring} source={character} showDescription={false}/>: 
+                        <Item item={character.withStaticModifiers().ring} source={character} showDescription={true}/>: 
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
@@ -44,13 +44,13 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
             <div>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Head}>   
                     <div className='PackCharacterItemList__head'>{character.head ? 
-                        <Item item={character.withStaticModifiers().head} source={character} showDescription={false} />: 
+                        <Item item={character.withStaticModifiers().head} source={character} showDescription={true} />: 
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Body}>
                 <div className='PackCharacterItemList__body'>{character.body ? 
-                        <Item item={character.withStaticModifiers().body} source={character} showDescription={false} />: 
+                        <Item item={character.withStaticModifiers().body} source={character} showDescription={true} />: 
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
@@ -58,13 +58,13 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
             <div>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Footwear}>
                     <div className='PackCharacterItemList__footwear'>{character.footwear ? 
-                        <Item item={character.withStaticModifiers().footwear} source={character} showDescription={false} />: 
+                        <Item item={character.withStaticModifiers().footwear} source={character} showDescription={true} />: 
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
                 <EquipItemDropTarget character={character} itemType={ItemSubType.Gloves}>
                     <div className='PackCharacterItemList__gloves'>{character.gloves ? 
-                        <Item item={character.withStaticModifiers().gloves} source={character} showDescription={false} />: 
+                        <Item item={character.withStaticModifiers().gloves} source={character} showDescription={true} />: 
                         <div style={fillerStyle}></div>
                     }</div>
                 </EquipItemDropTarget>
