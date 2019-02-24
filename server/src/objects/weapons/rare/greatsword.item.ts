@@ -1,14 +1,9 @@
-import { List } from 'immutable'
-import { Choose, RandInt, RandFloat } from '../../../types/random'
+import { RandInt, RandFloat } from '../../../types/random'
 import { Item, ItemRarity, ItemType, ItemSubType, iItem, ItemWeaponType } from '../../../types/item'
 import { ItemStats, iItemStats } from '../../../types/item/item.stats'
-import { Modifier } from '../../../types/modifier'
-import { ArmorUp } from '../../modifiers/armor.mod'
-import { StrengthUp } from '../../modifiers/strength.mod'
-import { HealthUp } from '../../modifiers/health.mod'
-import { WeaponPowerUp } from '../../modifiers/weapon.mod'
-import { SpeedDown } from '../../modifiers/speed.mod'
 import { getWeaponPower, getWeaponAccuracy, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats'
+import { getModifiers } from '../../../objects/modifiers'
+import { getWeaponName } from '../../../objects/names'
 
 const base = (level: number): iItem => ({
     image: '-- IMAGE URL --',
@@ -17,16 +12,7 @@ const base = (level: number): iItem => ({
     type: ItemType.Equipable,
     subType: ItemSubType.Weapon,
     weaponType: ItemWeaponType.Greatsword,
-    modifiers: Choose(
-        List.of<Modifier>(
-            ArmorUp(RandInt(5, 20)),
-            StrengthUp(RandInt(5, 20)),
-            WeaponPowerUp(RandInt(5, 20)),
-            HealthUp(RandInt(5, 20)),
-        ),
-        2
-    )
-    .concat(SpeedDown(RandInt(5, 20)))
+    modifiers: getModifiers(ItemRarity.Rare, ItemWeaponType.Greatsword),
 })
 
 const baseStats = (level: number): iItemStats => {
@@ -42,15 +28,9 @@ const baseStats = (level: number): iItemStats => {
     }
 }
 
-export const RareGreatsword = (level: number) => new Item({
+export const RareGreatsword = (level: number): Item => new Item({
     ...base(level),
-    name: Choose(List.of(
-        'Rusty Greatsword',
-        'Hard Metal Greatsword',
-        'Stone Forged Greatsword',
-        'Royal Greatsword',
-        'Eternal Greatsword',
-    ), 1).first(),
+    name: getWeaponName(ItemRarity.Rare, ItemWeaponType.Greatsword),
     description: 'Greatsword made from another plane.',
     stats: new ItemStats({ ...baseStats(level) }),
 })

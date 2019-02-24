@@ -1,12 +1,9 @@
-import { List } from 'immutable'
-import { Choose, RandInt, RandFloat, RangeFuncChoose } from '../../../types/random'
+import { RandInt, RandFloat } from '../../../types/random'
 import { Item, ItemRarity, ItemType, ItemSubType, ItemWeaponType } from '../../../types/item'
 import { ItemStats, iItemStats } from '../../../types/item/item.stats'
-import { Modifier } from '../../../types/modifier'
-import { ArmorUp } from '../../modifiers/armor.mod'
-import { StrengthUp } from '../../modifiers/strength.mod'
-import { SpeedDown } from '../../modifiers/speed.mod'
-import { getWeaponPower, getWeaponAccuracy, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats';
+import { getWeaponPower, getWeaponAccuracy, getWeaponAffinity, getWeaponCriticalRatio } from '../../../objects/stats'
+import { getModifiers } from '../../../objects/modifiers'
+import { getWeaponName } from '../../../objects/names'
 
 const base = (level: number) => ({
     image: '-- IMAGE URL --',
@@ -15,15 +12,7 @@ const base = (level: number) => ({
     type: ItemType.Equipable,
     subType: ItemSubType.Weapon,
     weaponType: ItemWeaponType.Greatsword,
-    modifiers:
-        Choose(
-            List.of<Modifier>(
-                ArmorUp(RandInt(1, 20)),
-                StrengthUp(RandInt(1, 20)),
-            ),
-            1
-        )
-        .concat(SpeedDown(RandInt(5, 20)))
+    modifiers: getModifiers(ItemRarity.Uncommon, ItemWeaponType.Greatsword)
 })
 
 const baseStats = (level: number): iItemStats => {
@@ -41,13 +30,7 @@ const baseStats = (level: number): iItemStats => {
 
 export const UncommonGreatsword = (level: number) => new Item({
     ...base(level),
-    name: Choose(List.of(
-        'Rusty Greatsword',
-        'Hard Metal Greatsword',
-        'Stone Forged Greatsword',
-        'Royal Greatsword',
-        'Eternal Greatsword',
-    ), 1).first(),
+    name: getWeaponName(ItemRarity.Uncommon, ItemWeaponType.Greatsword),
     description: 'Greatsword made from another plane.',
     stats: new ItemStats({ ...baseStats(level) }),
 })
