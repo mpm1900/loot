@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import Modal from '../../../Core/Modal'
 import { TopBar } from '../../../Core/TopBar'
 import { Button } from '../../../Core/Button'
+import { BattleCharacter } from '../BattleCharacter'
 import './index.scss'
-import { BattleCharacter } from '../BattleCharacter';
 
 export const RoomActionbar = (props) => {
     const { character, show, setSkill, characters } = props

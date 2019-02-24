@@ -13,11 +13,37 @@ const baseHead: [number, number]      = [8, 12]
 const baseRing: [number, number]      = [8, 12]
 
 const armorRarityOffsets: any = {
-    [ItemRarity.Uncommon]:      [4, 10],
-    [ItemRarity.Rare]:          [8, 20],
-    [ItemRarity.Masterwork]:    [12, 30],
+    [ItemRarity.Uncommon]: {
+        [ItemSubType.Charm]:    [4, 10],
+        [ItemSubType.Ring]:     [4, 10],
+        [ItemSubType.Head]:     [4, 10],
+        [ItemSubType.Body]:     [4, 10],
+        [ItemSubType.Footwear]: [4, 10],
+        [ItemSubType.Gloves]:   [4, 10],
+    }, [ItemRarity.Rare]: {
+        [ItemSubType.Charm]:    [8, 20],
+        [ItemSubType.Ring]:     [8, 20],
+        [ItemSubType.Head]:     [8, 20],
+        [ItemSubType.Body]:     [8, 20],
+        [ItemSubType.Footwear]: [8, 20],
+        [ItemSubType.Gloves]:   [8, 20],
+    }, [ItemRarity.Masterwork]: {
+        [ItemSubType.Charm]:    [12, 30],
+        [ItemSubType.Ring]:     [12, 30],
+        [ItemSubType.Head]:     [12, 30],
+        [ItemSubType.Body]:     [12, 30],
+        [ItemSubType.Footwear]: [12, 30],
+        [ItemSubType.Gloves]:   [12, 30],
+    },
     // unique items are allowed to break this rule
-    [ItemRarity.Unique]:        [30, 50],
+    [ItemRarity.Unique]: {
+        [ItemSubType.Charm]:    [30, 50],
+        [ItemSubType.Ring]:     [30, 50],
+        [ItemSubType.Head]:     [30, 50],
+        [ItemSubType.Body]:     [30, 50],
+        [ItemSubType.Footwear]: [30, 50],
+        [ItemSubType.Gloves]:   [30, 50],
+    },
 }
 
 const baseGreatswordPower: [number, number]    = [150, 250]
@@ -117,7 +143,7 @@ const weaponCriticalRatioRarityOffsets: any = {
 }
 
 export const getArmorValue = (rarity: ItemRarity, itemSubType: ItemSubType): [number, number] => {
-    const offset = armorRarityOffsets[rarity]
+    const offset = armorRarityOffsets[rarity][itemSubType]
     switch (itemSubType) {
         case ItemSubType.Body: return addRange(baseBody, offset)
         case ItemSubType.Charm: return addRange(baseCharm, offset)

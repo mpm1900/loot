@@ -11,8 +11,8 @@ import { RoomTopbar } from './components/RoomTopbar'
 import { RoomUserbar } from './components/RoomUserbar'
 import { RoomActiveCharacters } from './components/RoomActiveCharacters'
 import { RoomBenchCharacters } from './components/RoomBenchCharacters'
+import { List } from 'immutable'
 import './index.scss'
-import { List } from 'immutable';
 
 export const Room = (props: any) => {
     const [ sessionModalOpen, setSessionModalOpen ] = useState(false)
