@@ -1,7 +1,6 @@
-import { Modifier, ModifierType } from "../../types/modifier";
-import { Character } from "../../types/character";
-import { iCharacterModifier, SpecialMod } from "../../types/character/character.modifier";
-import { List } from "immutable";
+import { Modifier, ModifierType } from '../../types/modifier'
+import { iCharacterModifier, SpecialMod } from '../../types/character/character.modifier'
+import { List } from 'immutable'
 
 export const SpecialUp = (amount: number, turns = 0) => new Modifier({
     name: 'Special Up',

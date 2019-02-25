@@ -167,6 +167,7 @@ export class Item extends AppRecord implements iItem {
     }
 
     serialize(): sItem {
+        console.log(this.name)
         return {
             __uuid: this.__uuid,
             __name: this.__name,

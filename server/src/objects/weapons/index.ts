@@ -17,11 +17,10 @@ export const RandomWeapon = (level: number, rarity: ItemRarity, weaponType: Item
     const description = getWeaponDescription(rarity, weaponType)
     const modifiers = getWeaponModifiers(rarity, weaponType)
     return new Item({
-        image: '-- IMAGE URL --',
-        rarity,
-        level,
         type: ItemType.Equipable,
         subType: ItemSubType.Weapon,
+        rarity,
+        level,
         weaponType,
         elements,
         modifiers,
@@ -32,7 +31,6 @@ export const RandomWeapon = (level: number, rarity: ItemRarity, weaponType: Item
 }
 export const WeaponTypes = [ItemWeaponType.Greatsword, ItemWeaponType.Longsword, ItemWeaponType.Dagger]
 const randomWeaponType = () => Choose(List(WeaponTypes), 1).first()
-
 export const Weapon = (level: number) => {
     let rarity;
     let returnValue;

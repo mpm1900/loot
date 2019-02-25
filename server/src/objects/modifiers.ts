@@ -1,9 +1,9 @@
-import { ItemRarity, ItemWeaponType } from '../types/item'
+import { List } from 'immutable'
+import { ItemRarity, ItemWeaponType, ItemSubType } from '../types/item'
 import { ArmorUp } from './modifiers/armor.mod'
 import { StrengthUp } from './modifiers/strength.mod'
 import { SpeedDown, SpeedUp } from './modifiers/speed.mod'
 import { Choose, RandInt } from '../types/random'
-import { List } from 'immutable'
 import { WeaponPowerUp } from './modifiers/weapon.mod'
 import { HealthUp } from './modifiers/health.mod'
 import { SpecialUp } from './modifiers/special.mod'
@@ -62,35 +62,116 @@ export const randomWeaponCountRanges: any = {
 export const staticWeaponModifers: any = {
     [ItemRarity.Uncommon]: {
         [ItemWeaponType.Greatsword]:    [ SpeedDown ],
-        [ItemWeaponType.Longsword]:     [] as any[],
+        [ItemWeaponType.Longsword]:     [],
         [ItemWeaponType.Dagger]:        [ SpeedUp ],
     },
     [ItemRarity.Rare]: {
         [ItemWeaponType.Greatsword]:    [ SpeedDown ],
-        [ItemWeaponType.Longsword]:     [] as any[],
+        [ItemWeaponType.Longsword]:     [],
         [ItemWeaponType.Dagger]:        [ SpeedUp ],
     },
     [ItemRarity.Masterwork]: {
         [ItemWeaponType.Greatsword]:    [ SpeedDown ],
-        [ItemWeaponType.Longsword]:     [] as any[],
+        [ItemWeaponType.Longsword]:     [],
         [ItemWeaponType.Dagger]:        [ SpeedUp ],
     },
 }
 export const staticWeaponRanges: any = {
     [ItemRarity.Uncommon]: {
         [ItemWeaponType.Greatsword]:    [ [5, 20] ],
-        [ItemWeaponType.Longsword]:     [] as any[],
+        [ItemWeaponType.Longsword]:     [],
         [ItemWeaponType.Dagger]:        [ [5, 20] ],
     },
     [ItemRarity.Rare]: {
         [ItemWeaponType.Greatsword]:    [ [5, 20] ],
-        [ItemWeaponType.Longsword]:     [] as any[],
+        [ItemWeaponType.Longsword]:     [],
         [ItemWeaponType.Dagger]:        [ [5, 20] ],
     },
     [ItemRarity.Masterwork]: {
         [ItemWeaponType.Greatsword]:    [ [5, 40] ],
-        [ItemWeaponType.Longsword]:     [] as any[],
+        [ItemWeaponType.Longsword]:     [],
         [ItemWeaponType.Dagger]:        [ [5, 40] ],
+    },
+}
+
+export const randomArmorModifiers: any = {
+    [ItemRarity.Uncommon]: {
+        [ItemSubType.Charm]:    [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Ring]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Head]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Body]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Footwear]: [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Gloves]:   [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+    },
+    [ItemRarity.Rare]: {
+        [ItemSubType.Charm]:    [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Ring]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Head]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Body]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Footwear]: [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Gloves]:   [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+    },
+    [ItemRarity.Masterwork]: {
+        [ItemSubType.Charm]:    [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Ring]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Head]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Body]:     [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Footwear]: [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+        [ItemSubType.Gloves]:   [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
+    },
+}
+
+export const randomArmorRanges: any = {
+    [ItemRarity.Uncommon]: {
+        [ItemSubType.Charm]:    [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Ring]:     [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Head]:     [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Body]:     [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Footwear]: [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Gloves]:   [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+    },
+    [ItemRarity.Rare]: {
+        [ItemSubType.Charm]:    [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Ring]:     [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Head]:     [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Body]:     [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Footwear]: [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+        [ItemSubType.Gloves]:   [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
+    },
+    [ItemRarity.Masterwork]: {
+        [ItemSubType.Charm]:    [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
+        [ItemSubType.Ring]:     [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
+        [ItemSubType.Head]:     [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
+        [ItemSubType.Body]:     [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
+        [ItemSubType.Footwear]: [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
+        [ItemSubType.Gloves]:   [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
+    },
+}
+
+export const randomArmorCountRanges: any = {
+    [ItemRarity.Uncommon]: {
+        [ItemSubType.Charm]:    [1, 1],
+        [ItemSubType.Ring]:     [1, 1],
+        [ItemSubType.Head]:     [1, 1],
+        [ItemSubType.Body]:     [1, 1],
+        [ItemSubType.Footwear]: [1, 1],
+        [ItemSubType.Gloves]:   [1, 1],
+    },
+    [ItemRarity.Rare]: {
+        [ItemSubType.Charm]:    [2, 2],
+        [ItemSubType.Ring]:     [2, 2],
+        [ItemSubType.Head]:     [2, 2],
+        [ItemSubType.Body]:     [2, 2],
+        [ItemSubType.Footwear]: [2, 2],
+        [ItemSubType.Gloves]:   [2, 2],
+    },
+    [ItemRarity.Masterwork]: {
+        [ItemSubType.Charm]:    [3, 5],
+        [ItemSubType.Ring]:     [3, 5],
+        [ItemSubType.Head]:     [3, 5],
+        [ItemSubType.Body]:     [3, 5],
+        [ItemSubType.Footwear]: [3, 5],
+        [ItemSubType.Gloves]:   [3, 5],
     },
 }
 
@@ -105,4 +186,14 @@ export const getWeaponModifiers = (rarity: ItemRarity, weaponType: ItemWeaponTyp
         f(RandInt(...(staticWeaponRanges[rarity][weaponType][i] as [number, number])))
     )))
     return randomModifiers.concat(staticModifiers)
+}
+
+export const getArmorModifiers = (rarity: ItemRarity, subType: ItemSubType) => {
+    const randomModifiers = Choose(
+        List(randomArmorModifiers[rarity][subType].map((f: Function, i: number) => (
+            f(RandInt(...(randomArmorRanges[rarity][subType][i] as [number, number])))
+        ))),
+        RandInt(...randomArmorCountRanges[rarity][subType] as [number, number])
+    )
+    return randomModifiers
 }

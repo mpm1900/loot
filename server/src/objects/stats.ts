@@ -23,14 +23,16 @@ const armorRarityOffsets: any = {
         [ItemSubType.Body]:     [4, 10],
         [ItemSubType.Footwear]: [4, 10],
         [ItemSubType.Gloves]:   [4, 10],
-    }, [ItemRarity.Rare]: {
+    },
+    [ItemRarity.Rare]: {
         [ItemSubType.Charm]:    [8, 20],
         [ItemSubType.Ring]:     [8, 20],
         [ItemSubType.Head]:     [8, 20],
         [ItemSubType.Body]:     [8, 20],
         [ItemSubType.Footwear]: [8, 20],
         [ItemSubType.Gloves]:   [8, 20],
-    }, [ItemRarity.Masterwork]: {
+    },
+    [ItemRarity.Masterwork]: {
         [ItemSubType.Charm]:    [12, 30],
         [ItemSubType.Ring]:     [12, 30],
         [ItemSubType.Head]:     [12, 30],
@@ -53,20 +55,23 @@ const baseGreatswordPower: [number, number]    = [150, 250]
 const baseLongswordPower: [number, number]     = [50, 100]
 const baseDaggerPower: [number, number]        = [20, 40]
 const weaponPowerRarityOffsets: any = {
-       [ItemRarity.Uncommon]: {
+    [ItemRarity.Uncommon]: {
         [ItemWeaponType.Greatsword]:    [10, 10],
         [ItemWeaponType.Longsword]:     [10, 10],
         [ItemWeaponType.Dagger]:        [8, 20],
-    }, [ItemRarity.Rare]: {
+    },
+    [ItemRarity.Rare]: {
         [ItemWeaponType.Greatsword]:    [25, 35],
         [ItemWeaponType.Longsword]:     [25, 35],
         [ItemWeaponType.Dagger]:        [20, 50],
-    }, [ItemRarity.Masterwork]: {
+    },
+    [ItemRarity.Masterwork]: {
         [ItemWeaponType.Greatsword]:    [50, 60],
         [ItemWeaponType.Longsword]:     [50, 60],
         [ItemWeaponType.Dagger]:        [30, 100],
-        // unique items are allowed to break this rule
-    }, [ItemRarity.Unique]: {
+    },
+    // unique items are allowed to break this rule
+    [ItemRarity.Unique]: {
         [ItemWeaponType.Greatsword]:    [100, 110],
         [ItemWeaponType.Longsword]:     [100, 110],
         [ItemWeaponType.Dagger]:        [50, 200],
@@ -81,16 +86,19 @@ const weaponAccuracyRarityOffsets: any = {
         [ItemWeaponType.Greatsword]:    [0, 0],
         [ItemWeaponType.Longsword]:     [0, 0],
         [ItemWeaponType.Dagger]:        [0, 0],
-    }, [ItemRarity.Rare]: {
+    },
+    [ItemRarity.Rare]: {
         [ItemWeaponType.Greatsword]:    [0, 0],
         [ItemWeaponType.Longsword]:     [0, 0],
         [ItemWeaponType.Dagger]:        [0, 0],
-    }, [ItemRarity.Masterwork]: {
+    },
+    [ItemRarity.Masterwork]: {
         [ItemWeaponType.Greatsword]:    [0.05, 0.05],
         [ItemWeaponType.Longsword]:     [0.05, 0.05],
         [ItemWeaponType.Dagger]:        [0.05, 0.05],
-        // unique items are allowed to break this rule
-    }, [ItemRarity.Unique]: {
+    },
+    // unique items are allowed to break this rule
+    [ItemRarity.Unique]: {
         [ItemWeaponType.Greatsword]:    [0.05, 0.05],
         [ItemWeaponType.Longsword]:     [0.05, 0.05],
         [ItemWeaponType.Dagger]:        [0.05, 0.05],
@@ -105,16 +113,19 @@ const weaponAffinityRarityOffsets: any = {
         [ItemWeaponType.Greatsword]:    [0, 0],
         [ItemWeaponType.Longsword]:     [0, 0],
         [ItemWeaponType.Dagger]:        [0, 0.05],
-    }, [ItemRarity.Rare]: {
+    },
+    [ItemRarity.Rare]: {
         [ItemWeaponType.Greatsword]:    [0, 0],
         [ItemWeaponType.Longsword]:     [0, 0],
         [ItemWeaponType.Dagger]:        [0, 0.10],
-    }, [ItemRarity.Masterwork]: {
+    },
+    [ItemRarity.Masterwork]: {
         [ItemWeaponType.Greatsword]:    [0.05, 0.05],
         [ItemWeaponType.Longsword]:     [0.05, 0.05],
         [ItemWeaponType.Dagger]:        [0.05, 0.20],
-        // unique items are allowed to break this rule
-    }, [ItemRarity.Unique]: {
+    },
+    // unique items are allowed to break this rule
+    [ItemRarity.Unique]: {
         [ItemWeaponType.Greatsword]:    [0.05, 0.05],
         [ItemWeaponType.Longsword]:     [0.15, 0.05],
         [ItemWeaponType.Dagger]:        [0.15, 0.30],
@@ -129,16 +140,19 @@ const weaponCriticalRatioRarityOffsets: any = {
         [ItemWeaponType.Greatsword]:    [0, 0],
         [ItemWeaponType.Longsword]:     [0, 0],
         [ItemWeaponType.Dagger]:        [0, 0],
-    }, [ItemRarity.Rare]: {
+    },
+    [ItemRarity.Rare]: {
         [ItemWeaponType.Greatsword]:    [0, 0],
         [ItemWeaponType.Longsword]:     [0, 0],
         [ItemWeaponType.Dagger]:        [0, 0],
-    }, [ItemRarity.Masterwork]: {
+    },
+    [ItemRarity.Masterwork]: {
         [ItemWeaponType.Greatsword]:    [0.05, 0.50],
         [ItemWeaponType.Longsword]:     [0.05, 0.05],
         [ItemWeaponType.Dagger]:        [0.05, 0.50],
-        // unique items are allowed to break this rule
-    }, [ItemRarity.Unique]: {
+    },
+    // unique items are allowed to break this rule
+    [ItemRarity.Unique]: {
         [ItemWeaponType.Greatsword]:    [0.05, 0.50],
         [ItemWeaponType.Longsword]:     [0.05, 0.05],
         [ItemWeaponType.Dagger]:        [0.05, 0.75],
