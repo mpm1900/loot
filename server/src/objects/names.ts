@@ -18,19 +18,19 @@ export const weaponTypes: any = {
 export const armorPrefixes: any = {
     [ItemRarity.Uncommon]: {
         [ItemSubType.Charm]:    [ 'Uncommon', 'Broken', 'Fading'],
-        [ItemSubType.Ring]:     [],
-        [ItemSubType.Head]:     [],
-        [ItemSubType.Body]:     [],
-        [ItemSubType.Footwear]: [],
-        [ItemSubType.Gloves]:   [],
+        [ItemSubType.Ring]:     [ 'Uncommon' ],
+        [ItemSubType.Head]:     [ 'Uncommon' ],
+        [ItemSubType.Body]:     [ 'Uncommon' ],
+        [ItemSubType.Footwear]: [ 'Uncommon' ],
+        [ItemSubType.Gloves]:   [ 'Uncommon', 'Leather' ],
     },
     [ItemRarity.Rare]: {
-        [ItemSubType.Charm]:    [],
-        [ItemSubType.Ring]:     [],
-        [ItemSubType.Head]:     [],
-        [ItemSubType.Body]:     [],
-        [ItemSubType.Footwear]: [],
-        [ItemSubType.Gloves]:   [],
+        [ItemSubType.Charm]:    [ 'Rare', 'Blessed', 'Magical' ],
+        [ItemSubType.Ring]:     [ 'Rare', 'Blessed', 'Magical' ],
+        [ItemSubType.Head]:     [ 'Rare', 'Blessed', 'Magical' ],
+        [ItemSubType.Body]:     [ 'Rare', 'Blessed', 'Magical' ],
+        [ItemSubType.Footwear]: [ 'Rare', 'Blessed', 'Magical' ],
+        [ItemSubType.Gloves]:   [ 'Rare', 'Blessed', 'Magical' ],
     },
     [ItemRarity.Masterwork]: {
         [ItemSubType.Charm]:    [ 'Masterwork', 'Epic', 'Lengendary' ],
@@ -65,5 +65,12 @@ export const getWeaponName = (rarity: ItemRarity, weaponType: ItemWeaponType, el
     if (elements.size > 0) {
         return `${prefix} ${(elements.first() as Element).type} ${type}`
     }
+    return `${prefix} ${type}`
+}
+
+export const getArmorName = (rarity: ItemRarity, subType: ItemSubType, prefix: string = null, suffix: string = null) => {
+    prefix = prefix || Choose(List(armorPrefixes[rarity][subType]), 1).first()
+    const type = Choose(List(armorTypes[subType]), 1).first()
+    if (suffix) return `${prefix} ${type} ${suffix}`
     return `${prefix} ${type}`
 }

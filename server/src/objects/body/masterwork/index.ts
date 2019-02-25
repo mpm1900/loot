@@ -20,7 +20,7 @@ export const MasterworkArmor = (level: number) => {
     const range = getArmorValue(ItemRarity.Masterwork, ItemSubType.Body)
     return new Item({
         name: 'Masterwork Armor',
-        description: 'A masterfully made armor.',
+        description: 'A piece of masterfully made armor.',
         image: '-- IMAGE URL --',
         level,
         rarity: ItemRarity.Masterwork,

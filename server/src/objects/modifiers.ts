@@ -54,7 +54,7 @@ export const randomWeaponCountRanges: any = {
         [ItemWeaponType.Dagger]:        [2, 2],
     },
     [ItemRarity.Masterwork]: {
-        [ItemWeaponType.Greatsword]:    [3, 5],
+        [ItemWeaponType.Greatsword]:    [3, 4],
         [ItemWeaponType.Longsword]:     [3, 5],
         [ItemWeaponType.Dagger]:        [3, 5],
     },
@@ -120,7 +120,6 @@ export const randomArmorModifiers: any = {
         [ItemSubType.Gloves]:   [ ArmorUp, SpeedUp, HealthUp, StrengthUp, SpecialUp, WeaponPowerUp ],
     },
 }
-
 export const randomArmorRanges: any = {
     [ItemRarity.Uncommon]: {
         [ItemSubType.Charm]:    [ [1, 20], [1, 20], [1, 20], [1, 20], [1, 20] ],
@@ -147,7 +146,6 @@ export const randomArmorRanges: any = {
         [ItemSubType.Gloves]:   [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
     },
 }
-
 export const randomArmorCountRanges: any = {
     [ItemRarity.Uncommon]: {
         [ItemSubType.Charm]:    [1, 1],
@@ -172,6 +170,33 @@ export const randomArmorCountRanges: any = {
         [ItemSubType.Body]:     [3, 5],
         [ItemSubType.Footwear]: [3, 5],
         [ItemSubType.Gloves]:   [3, 5],
+    },
+}
+
+export const specializedArmorRanges: any = {
+    [ItemRarity.Uncommon]: {
+        [ItemSubType.Charm]:    [5, 25],
+        [ItemSubType.Ring]:     [5, 25],
+        [ItemSubType.Head]:     [5, 25],
+        [ItemSubType.Body]:     [5, 25],
+        [ItemSubType.Footwear]: [5, 25],
+        [ItemSubType.Gloves]:   [5, 25],
+    },
+    [ItemRarity.Rare]: {
+        [ItemSubType.Charm]:    [5, 35],
+        [ItemSubType.Ring]:     [5, 35],
+        [ItemSubType.Head]:     [5, 35],
+        [ItemSubType.Body]:     [5, 35],
+        [ItemSubType.Footwear]: [5, 35],
+        [ItemSubType.Gloves]:   [5, 35],
+    },
+    [ItemRarity.Masterwork]: {
+        [ItemSubType.Charm]:    [5, 75],
+        [ItemSubType.Ring]:     [5, 75],
+        [ItemSubType.Head]:     [5, 75],
+        [ItemSubType.Body]:     [5, 75],
+        [ItemSubType.Footwear]: [5, 75],
+        [ItemSubType.Gloves]:   [5, 75],
     },
 }
 

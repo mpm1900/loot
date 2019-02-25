@@ -168,24 +168,29 @@ export class Item extends AppRecord implements iItem {
 
     serialize(): sItem {
         console.log(this.name)
-        return {
-            __uuid: this.__uuid,
-            __name: this.__name,
-            name: this.name,
-            description: this.description,
-            image: this.image,
-            type: this.type,
-            subType: this.subType,
-            weaponType: this.weaponType,
-            level: this.level,
-            rarity: this.rarity,
-            parentId: this.parentId,
-            parentType: this.parentType,
-            parentIndex: this.parentIndex,
-            modifiers: this.modifiers.map(modifier => modifier.serialize()).toArray(),
-            triggers: this.triggers.map(trigger => trigger.serialize()).toArray(),
-            stats: this.stats.serialize(),
-            elements: this.elements.map(element => element.serialize()).toArray(),
+        try {
+            return {
+                __uuid: this.__uuid,
+                __name: this.__name,
+                name: this.name,
+                description: this.description,
+                image: this.image,
+                type: this.type,
+                subType: this.subType,
+                weaponType: this.weaponType,
+                level: this.level,
+                rarity: this.rarity,
+                parentId: this.parentId,
+                parentType: this.parentType,
+                parentIndex: this.parentIndex,
+                modifiers: this.modifiers.map(modifier => modifier.serialize()).toArray(),
+                triggers: this.triggers.map(trigger => trigger.serialize()).toArray(),
+                stats: this.stats.serialize(),
+                elements: this.elements.map(element => element.serialize()).toArray(),
+            }
+        } catch (error) {
+            console.log(this.toJS())
+            console.error(error)
         }
     }
 

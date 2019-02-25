@@ -224,3 +224,10 @@ export const getWeaponStats = (rarity: ItemRarity, weaponType: ItemWeaponType): 
         criticalRatio: RandFloat(...criticalRatioRange)
     }
 }
+
+export const getArmorStats = (rarity: ItemRarity, subType: ItemSubType): iItemStats => {
+    const armorRange = getArmorValue(rarity, subType) as [number, number]
+    return {
+        armor: RandInt(...armorRange),
+    }
+}
