@@ -1,4 +1,7 @@
 import { ItemRarity, ItemSubType, ItemWeaponType } from '../types/item'
+import { iItemStats } from '../types/item/item.stats'
+import { RandInt } from '../types/random'
+import { RandFloat } from '../types/random'
 
 const addRange = (
     r1: [number, number],
@@ -192,5 +195,18 @@ export const getWeaponCriticalRatio = (rarity: ItemRarity, itemWeaponType: ItemW
         case ItemWeaponType.Longsword: return addRange(baseLongswordCriticalRatio, offset)
         case ItemWeaponType.Dagger: return addRange(baseDaggerCriticalRatio, offset)
         default: return [0, 0]
+    }
+}
+
+export const getWeaponStats = (rarity: ItemRarity, weaponType: ItemWeaponType): iItemStats => {
+    const powerRange: [number, number] = getWeaponPower(rarity, weaponType)
+    const accuracyRange: [number, number] = getWeaponAccuracy(rarity, weaponType)
+    const affinityRange: [number, number] = getWeaponAffinity(rarity, weaponType)
+    const criticalRatioRange: [number, number] = getWeaponCriticalRatio(rarity, weaponType)
+    return {
+        power: RandInt(...powerRange),
+        accuracy: RandFloat(...accuracyRange),
+        affinity: RandFloat(...affinityRange),
+        criticalRatio: RandFloat(...criticalRatioRange)
     }
 }

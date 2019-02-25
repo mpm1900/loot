@@ -37,9 +37,9 @@ export const randomWeaponRanges: any = {
         [ItemWeaponType.Dagger]:        [ [5, 20], [5, 20], [5, 20], [5, 20], [5, 20] ],
     },
     [ItemRarity.Masterwork]: {
-        [ItemWeaponType.Greatsword]:    [ [5, 40], [5, 40], [5, 40], [5, 40] ],
-        [ItemWeaponType.Longsword]:     [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
-        [ItemWeaponType.Dagger]:        [ [5, 40], [5, 40], [5, 40], [5, 40], [5, 40] ],
+        [ItemWeaponType.Greatsword]:    [ [10, 40], [10, 40], [10, 40], [10, 40] ],
+        [ItemWeaponType.Longsword]:     [ [10, 40], [10, 40], [10, 40], [10, 40], [10, 40], [10, 40] ],
+        [ItemWeaponType.Dagger]:        [ [10, 40], [10, 40], [10, 40], [10, 40], [10, 40] ],
     },
 }
 export const randomWeaponCountRanges: any = {
@@ -94,16 +94,15 @@ export const staticWeaponRanges: any = {
     },
 }
 
-export const getModifiers = (rarity: ItemRarity, itemType: ItemWeaponType) => {
+export const getWeaponModifiers = (rarity: ItemRarity, weaponType: ItemWeaponType) => {
     const randomModifiers = Choose(
-        List(randomWeaponModifiers[rarity][itemType].map((f: Function, i: number) => (
-            f(RandInt(...(randomWeaponRanges[rarity][itemType][i] as [number, number])))
+        List(randomWeaponModifiers[rarity][weaponType].map((f: Function, i: number) => (
+            f(RandInt(...(randomWeaponRanges[rarity][weaponType][i] as [number, number])))
         ))),
-        RandInt(...randomWeaponCountRanges[rarity][itemType] as [number, number])
+        RandInt(...randomWeaponCountRanges[rarity][weaponType] as [number, number])
     )
-    const staticModifiers = List(staticWeaponModifers[rarity][itemType].map((f: any, i: number) => (
-        f(RandInt(...(staticWeaponRanges[rarity][itemType][i] as [number, number])))
+    const staticModifiers = List(staticWeaponModifers[rarity][weaponType].map((f: any, i: number) => (
+        f(RandInt(...(staticWeaponRanges[rarity][weaponType][i] as [number, number])))
     )))
-    console.log(randomModifiers.toJS())
     return randomModifiers.concat(staticModifiers)
 }

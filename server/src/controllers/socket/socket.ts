@@ -77,7 +77,7 @@ export const initializeSessionState = async (socket: Socket, store: Store, sessi
         const ps = PontiffSulyvahn(100)
         store.dispatch(addCharacter(session.id, ps))
 
-        const itemCount = 70
+        const itemCount = 300
         for (let i = 0; i < itemCount; i++) {
             const item = EquipItem(100)
             store.dispatch(addItem(session.id, item))
