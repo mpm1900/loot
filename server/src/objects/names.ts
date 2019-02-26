@@ -18,15 +18,15 @@ export const weaponTypes: any = {
 export const armorPrefixes: any = {
     [ItemRarity.Uncommon]: {
         [ItemSubType.Charm]:    [ 'Uncommon', 'Broken', 'Fading'],
-        [ItemSubType.Ring]:     [ 'Uncommon' ],
-        [ItemSubType.Head]:     [ 'Uncommon' ],
-        [ItemSubType.Body]:     [ 'Uncommon' ],
-        [ItemSubType.Footwear]: [ 'Uncommon' ],
+        [ItemSubType.Ring]:     [ 'Uncommon', 'Iron', 'Steel' ],
+        [ItemSubType.Head]:     [ 'Uncommon', 'Leather' ],
+        [ItemSubType.Body]:     [ 'Uncommon', 'Leather' ],
+        [ItemSubType.Footwear]: [ 'Uncommon', 'Leather' ],
         [ItemSubType.Gloves]:   [ 'Uncommon', 'Leather' ],
     },
     [ItemRarity.Rare]: {
-        [ItemSubType.Charm]:    [ 'Rare', 'Blessed', 'Magical' ],
-        [ItemSubType.Ring]:     [ 'Rare', 'Blessed', 'Magical' ],
+        [ItemSubType.Charm]:    [ 'Rare', 'Blessed', 'Magical', 'Silver' ],
+        [ItemSubType.Ring]:     [ 'Rare', 'Blessed', 'Magical', 'Silver' ],
         [ItemSubType.Head]:     [ 'Rare', 'Blessed', 'Magical' ],
         [ItemSubType.Body]:     [ 'Rare', 'Blessed', 'Magical' ],
         [ItemSubType.Footwear]: [ 'Rare', 'Blessed', 'Magical' ],

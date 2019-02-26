@@ -141,7 +141,7 @@ export class Item extends AppRecord implements iItem {
     public readonly subType: ItemSubType
     public readonly weaponType: ItemWeaponType
     public readonly level: number
-    public readonly rarity: ItemRarity.Default
+    public readonly rarity: ItemRarity
     public readonly parentId: string
     public readonly parentType: string
     public readonly parentIndex: number

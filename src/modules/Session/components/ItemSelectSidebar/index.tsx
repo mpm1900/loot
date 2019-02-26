@@ -1,8 +1,8 @@
-import React, { useState, CSSProperties } from 'react'
+import React, { useState, CSSProperties, DetailedReactHTMLElement } from 'react'
 import ItemComponent, { ItemRarityColor } from '../../../Core/Item'
 import { DropTarget } from 'react-dnd'
 import { List } from 'immutable'
-import { Item, ItemSubTypes, ItemRarities, ItemSubType } from '../../../../types/item'
+import { Item, ItemSubTypes, ItemRarities, ItemSubType, ItemRarity } from '../../../../types/item'
 import { Icon } from '../../../Core/Icon'
 import './index.scss'
 
@@ -33,6 +33,9 @@ export const typeIconMap = {
 export const ItemSelectSidebar = (props) =>  {
     const { items, party, connectDropTarget = ((cmp) => cmp) } = props
     const [ filters, setFilters ] = useState(List<any>())
+    const [ showHover, setShowHover ] = useState(false)
+    const [ hoverItem, setHoverItem ] = useState(null)
+    const [ hoverY, setHoverY ] = useState(0)
     const iconSize = 35
 
     const applyFilters = (list: List<Item>, filters: List<any>): List<Item> => {
@@ -60,11 +63,21 @@ export const ItemSelectSidebar = (props) =>  {
     const classNameRarity = rarity => filters.map(f => f.value).contains(rarity) ? 'active' : ''
     const disabledType = type => items.filter(item => item.subType === type).size === 0
     const classNameType = type => filters.map(f => f.value).contains(type) ? 'active' : ''
+    const getItemBg = (i: Item): string => {
+        switch (i.rarity) {
+            case ItemRarity.Uncommon: return 'green'
+            case ItemRarity.Rare: return 'blue'
+            case ItemRarity.Masterwork: return 'purple'
+            case ItemRarity.Unique: return 'gold'
+            case ItemRarity.BlackMarket: return 'pink'
+        }
+    }
 
     const style = {
         display: 'flex',
         flexDirection: 'column',
-        width: 'calc(100% - 0px)',
+        width: '100% ',
+        height: 'calc(100vh - 224px)',
         flex: 1, padding: 0, overflowY: 'auto',
         maxHeight: '100%',
         background: 'rgba(0,0,0,0.24)'
@@ -95,12 +108,25 @@ export const ItemSelectSidebar = (props) =>  {
                     </button>
                 </div>)}
             </div>
-            <div style={style as CSSProperties}>
-                {applyFilters(items, filters).map(w => (
-                    <div key={w.__uuid} className='Item'>
-                        <ItemComponent item={w} />
-                    </div>
-                ))}
+            <div style={{ display: 'flex' }}>
+                <div style={{ width: 32, display: 'flex', flexDirection: 'column' }} onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}>
+                    {applyFilters(items, filters).map(w => (
+                        <div onMouseEnter={(event) => {
+                            setHoverItem(w)
+                            setHoverY((event.target as any).offsetTop)
+                        }} style={{ width: '100%', backgroundColor: getItemBg(w), height: '100%' }}></div>
+                    ))}
+                    { hoverY !== 0 && showHover ? <div style={{position: 'absolute', top: hoverY - 50, right: 407, width: 360, background: 'white' }}>
+                        {(hoverItem) ? <ItemComponent item={hoverItem} /> : null }
+                    </div> : null }
+                </div>
+                <div style={style as CSSProperties}>
+                    {applyFilters(items, filters).map(w => (
+                        <div key={w.__uuid} className='Item'>
+                            <ItemComponent item={w} />
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )
