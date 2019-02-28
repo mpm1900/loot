@@ -14,6 +14,7 @@ export const CANCEL_READY = PREFIX + '_CANCEL_READY'
 export const BATTLE_INIT_STATE = PREFIX + '_BATTLE_INIT_STATE'
 export const BATTLE_SET_SKILL = PREFIX + '_BATTLE_SET_SKILL'
 export const BATTLE_EXEC_MAIN = PREFIX + '_BATTLE_EXEC_MAIN'
+export const BATTLE_EXEC_UPKEEP = PREFIX + '_BATTLE_EXEC_UPKEEP'
 
 
 export const createRoom = (userId: string = null) => ({
@@ -104,5 +105,12 @@ export const battleExecuteMain = (roomId: string) => ({
     type: BATTLE_EXEC_MAIN,
     payload: {
         roomId
+    }
+})
+
+export const battleExecuteUpkeep = (roomId: string) => ({
+    type: BATTLE_EXEC_UPKEEP,
+    payload: {
+        roomId,
     }
 })

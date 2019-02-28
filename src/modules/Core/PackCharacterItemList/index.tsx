@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import ItemComponent from '../Item'
 import { EquipItemDropTarget } from './components/EquipItemDropTarget'
 import { ItemSubType, Item } from '../../../types/item'
@@ -29,9 +29,13 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
         margin: 4,
         backgroundColor: 'rgba(255,255,255,0.12)',
         border: '1px dashed rgba(255,255,255,0.24)',
-        height: 'calc(100% - 8px)', 
-        width: 'calc(100% - 8px)',
+        height: 'calc(100% - 24px)', 
+        width: 'calc(100% - 24px)',
         boxShadow: '0px 0px 2px rgba(0,0,0,1) inset',
+        padding: 8,
+        color: 'rgba(255,255,255,0.24)',
+        fontWeight: 'bold',
+        userSelect: 'none',
     }
     return (
         <div className='PackCharacterItemList'>
@@ -41,7 +45,7 @@ export const CharacterItemList = (props: CharacterItemListProps) => {
                         <div className='PackCharacterItemList__weapon'>
                             {getItem(type, character) ? 
                                 <ItemComponent item={getItem(type, character)} source={character} showDescription={true} />: 
-                                <div style={fillerStyle}></div>
+                                <div style={fillerStyle as CSSProperties}>+ {type}</div>
                             }
                         </div>
                     </EquipItemDropTarget>

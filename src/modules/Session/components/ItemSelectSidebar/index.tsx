@@ -116,7 +116,7 @@ export const ItemSelectSidebar = (props) =>  {
                         </div>
                     ))}
                 </div>
-                <div style={{ width: 32, display: 'flex', flexDirection: 'column', border: '1px solid black', boxSizing: 'border-box', height: 'calc(100% - 1px)' }} onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}>
+                <div style={{ width: 16, display: 'flex', flexDirection: 'column', border: '1px solid black', boxSizing: 'border-box', height: 'calc(100% - 1px)' }} onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}>
                     {applyFilters(items, filters).map(w => (
                         <div onMouseEnter={(event) => {
                             const bottom = window.innerHeight - ((event.target as any).offsetTop + 50)
@@ -124,7 +124,7 @@ export const ItemSelectSidebar = (props) =>  {
                             setHoverY(bottom < 0 ? 1 : bottom)
                         }} style={{ width: '100%', backgroundColor: getItemBg(w), height: '100%', border: '1px solid rgba(255,255,255,0.32)', borderBottom: 'none', boxSizing: 'border-box' }}></div>
                     ))}
-                    { hoverY !== 0 && showHover ? <div style={{position: 'absolute', bottom: hoverY, right: 32, width: 360, background: 'white' }}>
+                    { hoverY !== 0 && showHover ? <div style={{position: 'absolute', bottom: hoverY, right: 16, width: 360, background: 'white' }}>
                         {(hoverItem) ? <ItemComponent item={hoverItem} /> : null }
                     </div> : null }
                 </div>

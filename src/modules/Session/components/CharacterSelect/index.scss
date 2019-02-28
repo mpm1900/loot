@@ -18,6 +18,10 @@
         margin: 4px;
         border: 1px dashed rgba(255,255,255,0.24);
         box-sizing: border-box;
+        padding: 8px;
+        color: rgba(255,255,255,0.24);
+        font-weight: bold;
+        user-select: none;
     }
 
     .CharacterAvatar {

@@ -58,6 +58,7 @@ export default (state: SocketRoomsState = INITIAL_STATE, action: SocketReduxActi
         case Actions.BATTLE_INIT_STATE: return Core.battleInitializeState(state, action)
         case Actions.BATTLE_SET_SKILL: return Core.battleSetSkill(state, action)
         case Actions.BATTLE_EXEC_MAIN: return Core.battleExecuteMain(state, action)
+        case Actions.BATTLE_EXEC_UPKEEP: return Core.battleExecuteUpkeep(state, action)
         default: return state
     }
 }

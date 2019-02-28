@@ -57,7 +57,9 @@ const CharacterSelect = (props: CharacterSelectPropTypes) => {
                     ))}
                     {characters.size === 6 ? 
                         null : 
-                        <div className='CharacterSelect__helper'></div>
+                        <div className='CharacterSelect__helper'>
+                            + Heros to your party
+                        </div>
                     }
                 </div>
             </HeroDropTarget>

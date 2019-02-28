@@ -10,6 +10,7 @@ type iBattleState = {
     turnCount?: number,
     log?: BattleLog,
     visibility?: BattleVisibility,
+    status?: BattleStatus,
 }
 
 interface BattleLog {
@@ -20,6 +21,15 @@ interface BattleVisibility {
 
 }
 
+export enum BattleStatusValue {
+    Active,
+    Complete,
+}
+interface BattleStatus {
+    value?: BattleStatusValue,
+    winner?: string,
+}
+
 const defaultBattleState = {
     parties: Map<string, Party>(),
     partyLimit: 2,
@@ -27,6 +37,9 @@ const defaultBattleState = {
     turnCount: 0,
     log: { },
     visibility: { },
+    status: {
+        value: BattleStatusValue.Active,
+    }
 }
 
 export class BattleState extends AppRecord implements iBattleState {
@@ -83,7 +96,7 @@ export class BattleState extends AppRecord implements iBattleState {
 
     public main(): BattleState {
         return this.with({
-            parties: this.turn.executeSkills(this.parties)
+            parties: this.turn.executeSkills(this.parties),
         })
     }
 
@@ -93,6 +106,6 @@ export class BattleState extends AppRecord implements iBattleState {
 
     public exec(): BattleState {
         // TESTING METHOD ONLY
-        return this.main().cleanup().upkeep()
+        return this.main().cleanup()
     }
 }
