@@ -1,48 +1,20 @@
 import { Choose, RandInt } from '../../../types/random'
 import { List } from 'immutable'
 import { Item, ItemRarity, ItemType, ItemSubType } from '../../../types/item'
-import { ArmorUp } from '../../modifiers/armor.mod'
 import { SpeedUp } from '../../modifiers/speed.mod'
-import { HealthUp } from '../../modifiers/health.mod'
-import { PoisonResistanceUp } from '../../modifiers/status.mod'
-import { WeaponPowerUp } from '../../modifiers/weapon.mod'
 import { StrengthUp } from '../../modifiers/strength.mod'
 import { Modifier } from '../../../types/modifier'
 import { ItemStats } from '../../../types/item/item.stats'
 import { SpecialUp } from '../../modifiers/special.mod'
 import { getArmorValue } from '../../stats'
+import { RandomArmor } from '../../../objects/armor'
 
 export const MasterworkRing = (level: number) => (Choose(List.of(
-    _MasterworkRing(level),
+    RandomArmor(ItemRarity.Masterwork, ItemSubType.Ring, level),
     StrengthRing(level),
     SpecialRing(level),
     SpeedRing(level),
 ), 1)).first()
-
-export const _MasterworkRing = (level: number) => {
-    const armorRange = getArmorValue(ItemRarity.Masterwork, ItemSubType.Ring)
-    return new Item({
-        name: 'Masterwork Ring',
-        description: 'A fine ring crafted by master jewler.',
-        image: '-- IMAGE URL --',
-        level,
-        type: ItemType.Equipable,
-        subType: ItemSubType.Ring,
-        rarity: ItemRarity.Masterwork,
-        stats: new ItemStats({
-            armor: RandInt(armorRange[0], armorRange[1]),
-        }),
-        modifiers: Choose(List.of<Modifier>(
-            ArmorUp(RandInt(1, 40)),
-            SpeedUp(RandInt(1, 40)),
-            HealthUp(RandInt(1, 40)),
-            StrengthUp(RandInt(1, 40)),
-            SpecialUp(RandInt(1, 40)),
-            WeaponPowerUp(RandInt(1, 40)),
-            PoisonResistanceUp(RandInt(1, 40)),
-        ), 3)
-    })
-}
 
 export const StrengthRing = (level: number) => {
     const armorRange = getArmorValue(ItemRarity.Masterwork, ItemSubType.Ring)

@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties, DetailedReactHTMLElement } from 'react'
+import React, { useState, CSSProperties } from 'react'
 import ItemComponent, { ItemRarityColor } from '../../../Core/Item'
 import { DropTarget } from 'react-dnd'
 import { List } from 'immutable'
@@ -112,11 +112,12 @@ export const ItemSelectSidebar = (props) =>  {
                 <div style={{ width: 32, display: 'flex', flexDirection: 'column' }} onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}>
                     {applyFilters(items, filters).map(w => (
                         <div onMouseEnter={(event) => {
+                            const bottom = window.innerHeight - ((event.target as any).offsetTop + 50)
                             setHoverItem(w)
-                            setHoverY((event.target as any).offsetTop)
+                            setHoverY(bottom < 0 ? 1 : bottom)
                         }} style={{ width: '100%', backgroundColor: getItemBg(w), height: '100%' }}></div>
                     ))}
-                    { hoverY !== 0 && showHover ? <div style={{position: 'absolute', top: hoverY - 50, right: 407, width: 360, background: 'white' }}>
+                    { hoverY !== 0 && showHover ? <div style={{position: 'absolute', bottom: hoverY, right: 407, width: 360, background: 'white' }}>
                         {(hoverItem) ? <ItemComponent item={hoverItem} /> : null }
                     </div> : null }
                 </div>
