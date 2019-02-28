@@ -5,7 +5,7 @@ import { Skill } from '../skill'
 import { Character } from '../character'
 import { Item } from '../item';
 import { RandFloat } from '../random';
-import { calculateArmorDamage, getPower } from './utils';
+import { calculateArmorDamage, getPower, getElementalDamage } from './utils';
 import { TriggerType } from '../trigger';
 
 enum BattleTurnPhase {
@@ -114,52 +114,47 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
         parties.forEach((party, userId) => {
             const activeCharacter = party.activeCharacter.withStaticModifiers()
             speeds = speeds.push({ userId, speed: activeCharacter.speed })
-            activeCharacters = activeCharacters.set(userId, activeCharacter)
         })
-        speeds = speeds.sort((a, b) => {
-            return b.speed - a.speed
-        })
+        speeds = speeds.sort((a, b) => b.speed - a.speed)
         speeds.map(s => s.userId).forEach((userId, index) => {
             parties.forEach((party, userId) => {
                 const activeCharacter = party.activeCharacter.withStaticModifiers()
                 activeCharacters = activeCharacters.set(userId, activeCharacter)
             })
-            const otherUserId = index === 0 ?
-                speeds.get(1).userId :
-                speeds.get(0).userId
+            const otherUserId = index === 0 ? speeds.get(1).userId : speeds.get(0).userId
             const source = activeCharacters.get(userId)
             const target = activeCharacters.get(otherUserId)
-            if (source.health <= 0) return
-            console.log('source health:', source.health)
-            if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.WeaponAttack) {
-                const power = source.weapon ? getPower(source.weapon) : 0
-                const armor = target.getArmor()
-                const armorDamage = calculateArmorDamage(power, armor)
-                const healthDamage = power - armorDamage
-                console.log(source.name)
-                console.log('power', power)
-                console.log('armor', armor)
-                console.log('armorDamage', armorDamage)
-                console.log('healthDamage', healthDamage)
-                parties = parties.set(otherUserId, parties.get(otherUserId).updateCharacterWith(target.__uuid, {
-                    armor: parties.get(otherUserId).activeCharacter.armor - armorDamage,
-                    health: parties.get(otherUserId).activeCharacter.health - healthDamage
-                }))
-                // check on hit triggers
-                source.weapon.triggers
-                    .filter(trigger => trigger.type === TriggerType.OnHit)
-                    .forEach(trigger => {
-                        // roll for chance
-                        // run the mutation
-                    })
-            }
+            if (source.health <= 0 || target.health <= 0) return
 
+            if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.WeaponAttack) {
+                parties = this.executeWeaponAttack(parties, source, target, otherUserId)
+            }
             if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.SwapCharacters) {
                 parties = parties.set(userId, parties.get(userId).with({
                     activeCharacterId: (this.skillIds.get(userId) as BattleStaticSkill).value
                 }))
             }
         })
+        return parties
+    }
+    public executeWeaponAttack(parties: Map<string, Party>, source: Character, target: Character, otherUserId: string): Map<string, Party> {
+        const power = source.weapon ? getPower(source.weapon) : 0
+        const armor = target.getArmor()
+        const armorDamage = calculateArmorDamage(power, armor)
+        const elementalDamage = getElementalDamage(source.weapon, target.elementTypes)
+        const healthDamage = (power - armorDamage) + elementalDamage
+        parties = parties.set(otherUserId, parties.get(otherUserId).updateCharacterWith(target.__uuid, {
+            armor: parties.get(otherUserId).activeCharacter.armor - armorDamage,
+            health: parties.get(otherUserId).activeCharacter.health - healthDamage
+        }))
+        // check on hit triggers
+        source.weapon.triggers
+            .filter(trigger => trigger.type === TriggerType.OnHit)
+            .forEach(trigger => {
+                // roll for chance
+                // run the mutation
+            })
+
         return parties
     }
     public updateCooldowns(parties: List<Party>): List<Party> {

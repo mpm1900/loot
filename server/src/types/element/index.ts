@@ -80,7 +80,7 @@ const strong = 2;
 const neutral = 1;
 const weak = 0.5;
 
-export const ElementsTable = {
+export const ElementsTable: any = {
     [ElementType.Fire]: {
         [ElementType.Fire]: weak,
         [ElementType.Water]: weak,

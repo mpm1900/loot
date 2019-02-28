@@ -9,9 +9,14 @@ type iBattleState = {
     turn?: BattleTurn,
     turnCount?: number,
     log?: BattleLog,
+    visibility?: BattleVisibility,
 }
 
 interface BattleLog {
+
+}
+
+interface BattleVisibility {
 
 }
 
@@ -20,7 +25,8 @@ const defaultBattleState = {
     partyLimit: 2,
     turn: new BattleTurn(),
     turnCount: 0,
-    log: { }
+    log: { },
+    visibility: { },
 }
 
 export class BattleState extends AppRecord implements iBattleState {
@@ -29,6 +35,7 @@ export class BattleState extends AppRecord implements iBattleState {
     public readonly turn: BattleTurn
     public readonly turnCount: number
     public readonly log: BattleLog
+    public readonly visibility: BattleVisibility
 
     constructor(args?: iBattleState) {
         args ?
@@ -46,6 +53,7 @@ export class BattleState extends AppRecord implements iBattleState {
             turn: this.turn.serialize(),
             turnCount: this.turnCount,
             log: this.log,
+            visibility: this.visibility,
         }
     }
 
@@ -60,6 +68,7 @@ export class BattleState extends AppRecord implements iBattleState {
             turn: BattleTurn.deserialize(sBattleState.turn),
             turnCount: sBattleState.turnCount,
             log: sBattleState.log,
+            visibility: sBattleState.visibility,
         })
     }
 

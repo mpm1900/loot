@@ -1,5 +1,7 @@
 import { Item } from '../item'
 import { RandFloat } from '../random'
+import { ElementType, ElementsTable } from '../element';
+import { List } from 'immutable';
 
 export const calculateArmorDamage = (rawDamage: number, armor: number) => {
     if (rawDamage > armor) {
@@ -37,14 +39,22 @@ export const getPower = (weapon: Item): number => {
         console.log('CRIT', hit.roll)
         power = Math.round(weapon.stats.power * weapon.stats.criticalRatio)
     }
-    return power + getElementalDamage(weapon)
+    return power
 }
 
-export const getElementalDamage = (weapon: Item) => {
+export const getElementalMultiplier = (type: ElementType, list: List<ElementType>) => {
+    let multiplier = 1
+    list.forEach(t => {
+        multiplier *= ElementsTable[type][t]
+    })
+    return multiplier
+}
+
+export const getElementalDamage = (weapon: Item, targetElements: List<ElementType>) => {
     let damage = 0
     weapon.elements.forEach(element => {
         // TODO: Check weakness and STAB bonus
-        damage += element.power
+        damage += element.power * getElementalMultiplier(element.type, targetElements)
     })
     console.log('Elemental Damage:', damage)
     return damage

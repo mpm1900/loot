@@ -1,15 +1,10 @@
 import { Choose, RandInt } from '../../../types/random'
 import { List } from 'immutable'
 import { Item, ItemRarity, ItemType, ItemSubType } from '../../../types/item'
-import { ArmorUp } from '../../modifiers/armor.mod'
-import { SpeedUp, SpeedDown } from '../../modifiers/speed.mod'
+import {  SpeedDown } from '../../modifiers/speed.mod'
 import { HealthUp } from '../../modifiers/health.mod'
-import { PoisonResistanceUp } from '../../modifiers/status.mod'
-import { WeaponPowerUp } from '../../modifiers/weapon.mod'
 import { StrengthUp } from '../../modifiers/strength.mod'
-import { Modifier } from '../../../types/modifier'
 import { ItemStats } from '../../../types/item/item.stats'
-import { SpecialUp } from '../../modifiers/special.mod'
 import { getArmorValue } from '../../stats';
 
 export const UniqueBody = (level: number) => (Choose(List.of(
@@ -21,7 +16,6 @@ export const ArmorOfStone = (level: number) => {
     return new Item({
         name: 'Armor Of Stone',
         description: 'Armor of an ancient dragon slayer.',
-        image: '-- IMAGE URL --',
         level,
         rarity: ItemRarity.Unique,
         type: ItemType.Equipable,
@@ -30,7 +24,7 @@ export const ArmorOfStone = (level: number) => {
             armor: RandInt(range[0] + 75, range[1] + 75)
         }),
         modifiers: Choose(
-            List.of<Modifier>(
+            List.of(
                     HealthUp(RandInt(5, 40)),
                     StrengthUp(RandInt(5, 40)),
                 ),
