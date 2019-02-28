@@ -1,9 +1,7 @@
-import { ItemRarity, getRarity } from '../../types/item'
-import { UncommonHelmet } from './uncommon/helmet.item'
-import { RareHelmet } from './rare/helmet.item'
-import { MasterworkHelmet } from './masterwork/helmet.item'
-import { UniquekHelmet } from './unique'
-
+import { ItemRarity, getRarity, ItemSubType } from '../../types/item'
+import { UniqueHelmet } from './unique'
+import { RandomArmor } from '../armor'
+import { RandInt } from '../../types/random'
 
 export const Head = (level: number) => {
     let rarity;
@@ -11,10 +9,10 @@ export const Head = (level: number) => {
     while (returnValue == null) {
         rarity = getRarity();
         // if (rarity === ItemRarity.Common) returnValue = CommonHelmet(level)
-        if (rarity === ItemRarity.Uncommon) returnValue =  UncommonHelmet(level)
-        if (rarity === ItemRarity.Rare) returnValue = RareHelmet(level)
-        if (rarity === ItemRarity.Masterwork) returnValue = MasterworkHelmet(level)
-        if (rarity === ItemRarity.Unique) returnValue = UniquekHelmet(level)
+        if (rarity === ItemRarity.Uncommon) returnValue =  RandomArmor(ItemRarity.Uncommon, ItemSubType.Head, level, RandInt(0, 3) === 0)
+        if (rarity === ItemRarity.Rare) returnValue = RandomArmor(ItemRarity.Rare, ItemSubType.Head, level, RandInt(0, 3) === 0)
+        if (rarity === ItemRarity.Masterwork) returnValue = RandomArmor(ItemRarity.Masterwork, ItemSubType.Head, level, RandInt(0, 3) === 0)
+        if (rarity === ItemRarity.Unique) returnValue = UniqueHelmet(level)
         // if (rarity === ItemRarities.BlackMarket) returnValue = BlackMarketWeapon(level)
     }
     // console.log(returnValue)

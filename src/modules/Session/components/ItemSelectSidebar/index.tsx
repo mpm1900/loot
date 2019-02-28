@@ -65,11 +65,11 @@ export const ItemSelectSidebar = (props) =>  {
     const classNameType = type => filters.map(f => f.value).contains(type) ? 'active' : ''
     const getItemBg = (i: Item): string => {
         switch (i.rarity) {
-            case ItemRarity.Uncommon: return 'green'
-            case ItemRarity.Rare: return 'blue'
-            case ItemRarity.Masterwork: return 'purple'
-            case ItemRarity.Unique: return 'gold'
-            case ItemRarity.BlackMarket: return 'pink'
+            case ItemRarity.Uncommon: return 'hsl(106, 23%, 33%)'
+            case ItemRarity.Rare: return 'hsl(220, 44%, 40%)'
+            case ItemRarity.Masterwork: return 'hsl(268, 45%, 30%)'
+            case ItemRarity.Unique: return 'hsl(40, 100%, 30%)'
+            case ItemRarity.BlackMarket: return '#222'
         }
     }
 
@@ -109,24 +109,24 @@ export const ItemSelectSidebar = (props) =>  {
                 </div>)}
             </div>
             <div style={{ display: 'flex' }}>
-                <div style={{ width: 32, display: 'flex', flexDirection: 'column' }} onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}>
-                    {applyFilters(items, filters).map(w => (
-                        <div onMouseEnter={(event) => {
-                            const bottom = window.innerHeight - ((event.target as any).offsetTop + 50)
-                            setHoverItem(w)
-                            setHoverY(bottom < 0 ? 1 : bottom)
-                        }} style={{ width: '100%', backgroundColor: getItemBg(w), height: '100%' }}></div>
-                    ))}
-                    { hoverY !== 0 && showHover ? <div style={{position: 'absolute', bottom: hoverY, right: 407, width: 360, background: 'white' }}>
-                        {(hoverItem) ? <ItemComponent item={hoverItem} /> : null }
-                    </div> : null }
-                </div>
                 <div style={style as CSSProperties}>
                     {applyFilters(items, filters).map(w => (
                         <div key={w.__uuid} className='Item'>
                             <ItemComponent item={w} />
                         </div>
                     ))}
+                </div>
+                <div style={{ width: 32, display: 'flex', flexDirection: 'column', border: '1px solid black', boxSizing: 'border-box', height: 'calc(100% - 1px)' }} onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}>
+                    {applyFilters(items, filters).map(w => (
+                        <div onMouseEnter={(event) => {
+                            const bottom = window.innerHeight - ((event.target as any).offsetTop + 50)
+                            setHoverItem(w)
+                            setHoverY(bottom < 0 ? 1 : bottom)
+                        }} style={{ width: '100%', backgroundColor: getItemBg(w), height: '100%', border: '1px solid rgba(255,255,255,0.32)', borderBottom: 'none', boxSizing: 'border-box' }}></div>
+                    ))}
+                    { hoverY !== 0 && showHover ? <div style={{position: 'absolute', bottom: hoverY, right: 32, width: 360, background: 'white' }}>
+                        {(hoverItem) ? <ItemComponent item={hoverItem} /> : null }
+                    </div> : null }
                 </div>
             </div>
         </div>

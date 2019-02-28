@@ -172,7 +172,32 @@ export const randomArmorCountRanges: any = {
         [ItemSubType.Gloves]:   [3, 5],
     },
 }
-
+export const specializedArmorModifiers: any = {
+    [ItemRarity.Uncommon]: {
+        [ItemSubType.Charm]:    [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Ring]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Head]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Body]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Footwear]: [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Gloves]:   [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+    },
+    [ItemRarity.Rare]: {
+        [ItemSubType.Charm]:    [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Ring]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Head]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Body]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Footwear]: [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Gloves]:   [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+    },
+    [ItemRarity.Masterwork]: {
+        [ItemSubType.Charm]:    [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Ring]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Head]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Body]:     [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Footwear]: [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+        [ItemSubType.Gloves]:   [ SpeedUp, HealthUp, StrengthUp, SpecialUp ],
+    },
+}
 export const specializedArmorRanges: any = {
     [ItemRarity.Uncommon]: {
         [ItemSubType.Charm]:    [5, 25],
@@ -199,6 +224,32 @@ export const specializedArmorRanges: any = {
         [ItemSubType.Gloves]:   [5, 75],
     },
 }
+export const specializedArmorCountRanges: any = {
+    [ItemRarity.Uncommon]: {
+        [ItemSubType.Charm]:    [1, 1],
+        [ItemSubType.Ring]:     [1, 1],
+        [ItemSubType.Head]:     [1, 1],
+        [ItemSubType.Body]:     [1, 1],
+        [ItemSubType.Footwear]: [1, 1],
+        [ItemSubType.Gloves]:   [1, 1],
+    },
+    [ItemRarity.Rare]: {
+        [ItemSubType.Charm]:    [1, 1],
+        [ItemSubType.Ring]:     [1, 1],
+        [ItemSubType.Head]:     [1, 1],
+        [ItemSubType.Body]:     [1, 1],
+        [ItemSubType.Footwear]: [1, 1],
+        [ItemSubType.Gloves]:   [1, 1],
+    },
+    [ItemRarity.Masterwork]: {
+        [ItemSubType.Charm]:    [1, 1],
+        [ItemSubType.Ring]:     [1, 1],
+        [ItemSubType.Head]:     [1, 1],
+        [ItemSubType.Body]:     [1, 1],
+        [ItemSubType.Footwear]: [1, 1],
+        [ItemSubType.Gloves]:   [1, 1],
+    },
+}
 
 export const getWeaponModifiers = (rarity: ItemRarity, weaponType: ItemWeaponType) => {
     const randomModifiers = Choose(
@@ -213,12 +264,15 @@ export const getWeaponModifiers = (rarity: ItemRarity, weaponType: ItemWeaponTyp
     return randomModifiers.concat(staticModifiers)
 }
 
-export const getArmorModifiers = (rarity: ItemRarity, subType: ItemSubType) => {
+export const getArmorModifiers = (rarity: ItemRarity, subType: ItemSubType, specialized: boolean = false) => {
+    const mods = specialized ? specializedArmorModifiers : randomArmorModifiers
+    const ranges = specialized ? specializedArmorRanges : randomArmorRanges
+    const countRanges = specialized ? specializedArmorCountRanges : randomArmorCountRanges
     const randomModifiers = Choose(
-        List(randomArmorModifiers[rarity][subType].map((f: Function, i: number) => (
-            f(RandInt(...(randomArmorRanges[rarity][subType][i] as [number, number])))
+        List(mods[rarity][subType].map((f: Function, i: number) => (
+            f(RandInt(...((specialized ? ranges[rarity][subType] : ranges[rarity][subType][i]) as [number, number])))
         ))),
-        RandInt(...randomArmorCountRanges[rarity][subType] as [number, number])
+        RandInt(...countRanges[rarity][subType] as [number, number])
     )
     return randomModifiers
 }

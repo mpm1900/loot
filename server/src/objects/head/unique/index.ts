@@ -12,7 +12,7 @@ import { ItemStats } from '../../../types/item/item.stats'
 import { SpecialUp } from '../../modifiers/special.mod'
 import { getArmorValue } from '../../stats'
 
-export const UniquekHelmet = (level: number) => (Choose(List.of(
+export const UniqueHelmet = (level: number) => (Choose(List.of(
     MitreOfMarbas(level)
 ), 1)).first()
 

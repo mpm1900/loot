@@ -1,21 +1,19 @@
-import { CommonCharm } from "./common";
-import { UncommonCharm } from "./uncommon";
-import { ItemRarity, getRarity } from "../../types/item";
-import { RareCharm } from "./rare";
-import { MasterworkCharm } from "./masterwork";
-import { UniqueCharm } from "./unique";
+import { ItemRarity, getRarity, ItemSubType } from '../../types/item'
+import { UniqueCharm } from './unique';
+import { RandomArmor } from '../armor'
+import { RandInt } from '../../types/random'
 
-export const Charm = (level) => {
+export const Charm = (level: number) => {
     let rarity;
     let returnValue;
     while (returnValue == null) {
         rarity = getRarity();
-        //if (rarity === ItemRarity.Common) returnValue = CommonCharm(level)
-        if (rarity === ItemRarity.Uncommon) returnValue =  UncommonCharm(level)
-        if (rarity === ItemRarity.Rare) returnValue = RareCharm(level)
-        if (rarity === ItemRarity.Masterwork) returnValue = MasterworkCharm(level)
+        // if (rarity === ItemRarity.Common) returnValue = CommonCharm(level)
+        if (rarity === ItemRarity.Uncommon) returnValue = RandomArmor(ItemRarity.Uncommon, ItemSubType.Charm, level, RandInt(0, 3) === 0)
+        if (rarity === ItemRarity.Rare) returnValue = RandomArmor(ItemRarity.Rare, ItemSubType.Charm, level, RandInt(0, 3) === 0)
+        if (rarity === ItemRarity.Masterwork) returnValue = RandomArmor(ItemRarity.Masterwork, ItemSubType.Charm, level, RandInt(0, 3) === 0)
         if (rarity === ItemRarity.Unique) returnValue = UniqueCharm(level)
-        //if (rarity === ItemRarities.BlackMarket) returnValue = BlackMarketWeapon(level)
+        // if (rarity === ItemRarities.BlackMarket) returnValue = BlackMarketWeapon(level)
     }
     // console.log(returnValue)
     return returnValue;

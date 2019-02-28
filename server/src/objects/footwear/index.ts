@@ -1,8 +1,6 @@
-import { getRarity, ItemRarity } from '../../types/item'
-import { UncommonFootwear } from './uncommon'
-import { RareFootware } from './rare';
-import { MasterworkFootware } from './masterwork';
-
+import { getRarity, ItemRarity, ItemSubType } from '../../types/item'
+import { RandomArmor } from '../armor'
+import { RandInt } from '../../types/random'
 
 export const Footwear = (level: number) => {
     let rarity;
@@ -10,9 +8,9 @@ export const Footwear = (level: number) => {
     while (returnValue == null) {
         rarity = getRarity();
         // if (rarity === ItemRarity.Common) returnValue = CommonCharm(level)
-        if (rarity === ItemRarity.Uncommon) returnValue =  UncommonFootwear(level)
-        if (rarity === ItemRarity.Rare) returnValue = RareFootware(level)
-        if (rarity === ItemRarity.Masterwork) returnValue = MasterworkFootware(level)
+        if (rarity === ItemRarity.Uncommon) returnValue =  RandomArmor(ItemRarity.Uncommon, ItemSubType.Footwear, level, RandInt(0, 3) === 0)
+        if (rarity === ItemRarity.Rare) returnValue = RandomArmor(ItemRarity.Rare, ItemSubType.Footwear, level, RandInt(0, 3) === 0)
+        if (rarity === ItemRarity.Masterwork) returnValue = RandomArmor(ItemRarity.Masterwork, ItemSubType.Footwear, level, RandInt(0, 3) === 0)
         // if (rarity === ItemRarity.Unique) returnValue = UniqueCharm(level)
         // if (rarity === ItemRarities.BlackMarket) returnValue = BlackMarketWeapon(level)
     }
