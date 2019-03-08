@@ -1,6 +1,6 @@
 import { Modifier, ModifierType } from '../../types/modifier'
 import { Character } from '../../types/character'
-import { HealthMod, iCharacterModifier, HealMod } from '../../types/character/character.modifier'
+import { HealthMod, iCharacterModifier, HealMod, DamageMod, ArmorDamageMod } from '../../types/character/character.modifier'
 import { List } from 'immutable'
 
 export const HealthUp = (amount: number) => {
@@ -27,4 +27,20 @@ export const Heal = (amount: number) => new Modifier({
     buff: amount > 0,
     type: ModifierType.Mutation,
     mods: List.of<iCharacterModifier>(HealMod(amount))
+})
+
+export const Damage = (amount: number) => new Modifier({
+    name: 'Damage',
+    description: `Deal ${amount} Health Damage`,
+    buff: amount > 0,
+    type: ModifierType.Mutation,
+    mods: List.of<iCharacterModifier>(DamageMod(amount))
+})
+
+export const ArmorDamage = (amount: number) => new Modifier({
+    name: 'Damage with Armor',
+    description: `Deal ${amount} Damage with Armor`,
+    buff: amount > 0,
+    type: ModifierType.Mutation,
+    mods: List.of<iCharacterModifier>(ArmorDamageMod(amount))
 })

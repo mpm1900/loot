@@ -39,6 +39,7 @@ export const getPower = (weapon: Item): number => {
         console.log('CRIT', hit.roll)
         power = Math.round(weapon.stats.power * weapon.stats.criticalRatio)
     }
+    console.log('WEAPON POWER', power)
     return power
 }
 

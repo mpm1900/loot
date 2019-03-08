@@ -87,14 +87,15 @@ export class Party extends AppRecord implements iParty {
             characters: this.characters.filter(character => character.__uuid !== characterId)
         })
     }
-    updateCharacter(index: number, character: Character) {
+    updateCharacter(id: string, character: Character) {
+        const index = this.characters.map(c => c.__uuid).indexOf(id)
         return this.with({
             characters: this.characters.update(index, _ => character)
         })
     }
     updateCharacterWith(id: string, character: iCharacter) {
-        const index = this.characters.map(c => c.__uuid).indexOf(id)
-        return this.updateCharacter(index, this.characters.get(index).with(character))
+        const _character = this.characters.find(c => c.__uuid === id)
+        return this.updateCharacter(id, _character.with(character))
     }
     removeCharacterItem(index: number, itemSubType: ItemSubType) {
         return this.with({

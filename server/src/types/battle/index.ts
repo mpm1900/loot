@@ -95,9 +95,11 @@ export class BattleState extends AppRecord implements iBattleState {
     }
 
     public main(): BattleState {
-        return this.with({
+        const r = this.with({
             parties: this.turn.executeSkills(this.parties),
         })
+        console.log(r.parties.map((p: any) => p.activeCharacter.health).toJS())
+        return r
     }
 
     public cleanup(): BattleState {

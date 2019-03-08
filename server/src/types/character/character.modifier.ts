@@ -17,6 +17,8 @@ export const CharacterModifier = (character: Character, modifier: iCharacterModi
     switch (modifier.type) {
         case healthModType: return HEALTH_MOD(character, modifier)
         case healModType: return HEAL_MOD(character, modifier)
+        case damageModType: return DAMAGE_MOD(character, modifier)
+        case armorDamageModType: return ARMOR_DAMAGE_MOD(character, modifier)
         case armorModType: return ARMOR_MOD(character, modifier)
         case strengthModType: return STRENGTH_MOD(character, modifier)
         case specialModType: return SPECIAL_MOD(character, modifier)
@@ -52,6 +54,30 @@ export const HealMod = (amount: number, operation: CharacterModifierOperation = 
 const HEAL_MOD = (character: Character, modifier: iCharacterModifier): Character => character.with({
     health: applyOperation(character.health, modifier.payload.amount, modifier.payload.operation)
 })
+
+const damageModType = 'DAMAGE_MOD'
+export const DamageMod = (amount: number, operation: CharacterModifierOperation = CharacterModifierOperation.ADD) => ({
+    type: damageModType,
+    payload: { amount, operation }
+})
+const DAMAGE_MOD = (character: Character, modifier: iCharacterModifier): Character => character.with({
+    health: applyOperation(character.health, (modifier.payload.amount * -1), modifier.payload.operation)
+})
+
+const armorDamageModType = 'ARMOR_DAMAGE_MOD'
+export const ArmorDamageMod = (amount: number, operation: CharacterModifierOperation = CharacterModifierOperation.ADD) => ({
+    type: armorDamageModType,
+    payload: { amount, operation }
+})
+const ARMOR_DAMAGE_MOD = (character: Character, modifier: iCharacterModifier): Character => {
+    const newArmorValue = applyOperation(character.armor, (modifier.payload.amount * -1), modifier.payload.operation)
+    const overflow = newArmorValue < 0 ? newArmorValue : 0
+    return  character
+        .with({
+            armor: newArmorValue > 0 ? newArmorValue : 0,
+            health: applyOperation(character.health, overflow, CharacterModifierOperation.ADD),
+        })
+}
 
 const armorModType = 'ARMOR_MOD'
 export const ArmorMod = (amount: number, operation: CharacterModifierOperation = CharacterModifierOperation.ADD) => ({

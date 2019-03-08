@@ -7,6 +7,7 @@ import { Item } from '../item'
 import { RandFloat } from '../random'
 import { calculateArmorDamage, getPower, getElementalDamage } from './utils'
 import { TriggerType } from '../trigger'
+import { ArmorDamage, Damage } from '../../objects/modifiers/health.mod';
 
 enum BattleTurnPhase {
     Running,
@@ -138,14 +139,16 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
     }
     public executeWeaponAttack(parties: Map<string, Party>, source: Character, target: Character, userId: string, otherUserId: string): Map<string, Party> {
         const power = source.weapon ? getPower(source.weapon) : 0
-        const armor = target.getArmor()
-        const armorDamage = calculateArmorDamage(power, armor)
         const elementalDamage = getElementalDamage(source.weapon, target.elementTypes) * ((power === 0) ? 0 : 1)
-        const healthDamage = (power - armorDamage) + elementalDamage
-        parties = parties.set(otherUserId, parties.get(otherUserId).updateCharacterWith(target.__uuid, {
-            armor: parties.get(otherUserId).activeCharacter.armor - armorDamage,
-            health: parties.get(otherUserId).activeCharacter.health - healthDamage
-        }))
+        const newTarget = parties.get(otherUserId).activeCharacter
+            .applyModifier(ArmorDamage(power))
+            .applyModifier(Damage(elementalDamage))
+
+        parties = parties.set(
+            otherUserId,
+            parties.get(otherUserId).updateCharacter(target.__uuid, newTarget)
+        )
+
         // check on hit triggers
         if (source.weapon && source.weapon.triggers) {
             source.weapon.triggers
@@ -178,6 +181,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
                 })
         }
 
+        console.log('wa ret', parties.map((p: any) => p.activeCharacter.health).toJS())
         return parties
     }
     public updateCooldowns(parties: List<Party>): List<Party> {
