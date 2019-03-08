@@ -1,6 +1,6 @@
 import { Item } from '../item'
 import { RandFloat } from '../random'
-import { ElementType, ElementsTable } from '../element';
+import { Element, ElementType, ElementsTable } from '../element';
 import { List } from 'immutable';
 
 export const calculateArmorDamage = (rawDamage: number, armor: number) => {
@@ -27,34 +27,34 @@ export const didCrit = (weapon: Item) => {
 }
 export const getPower = (weapon: Item): number => {
     let power = 0
-    if (!weapon || !weapon.stats) return power
-    const crit = didCrit(weapon)
-    const hit = didHit(weapon)
-    if (!hit.value) {
-        console.log('MISSED', weapon.stats.accuracy, hit.roll)
-        return power
+    if (weapon && weapon.stats) {
+        const crit = didCrit(weapon)
+        const hit = didHit(weapon)
+        if (hit.value) {
+            power = weapon.stats.power
+            if (crit.value) {
+                console.log('CRIT', hit.roll)
+                power = Math.round(power * weapon.stats.criticalRatio)
+            }
+            console.log('WEAPON POWER', power)
+        }
+        else {
+            console.log('MISSED', weapon.stats.accuracy, hit.roll)
+        }
     }
-    power = weapon.stats.power
-    if (crit.value) {
-        console.log('CRIT', hit.roll)
-        power = Math.round(weapon.stats.power * weapon.stats.criticalRatio)
-    }
-    console.log('WEAPON POWER', power)
     return power
 }
 
 export const getElementalMultiplier = (type: ElementType, list: List<ElementType>) => {
-    let multiplier = 1
-    list.forEach(t => {
-        multiplier *= ElementsTable[type][t]
-    })
-    return multiplier
+    return list.reduce((multiplier: number, t: ElementType) => (
+        multiplier * ElementsTable[type][t]
+    ), 1)
 }
 
-export const getElementalDamage = (weapon: Item, targetElements: List<ElementType>) => {
+export const getElementalDamage = (elements: List<Element>, targetElements: List<ElementType>) => {
     let damage = 0
-    weapon.elements.forEach(element => {
-        // TODO: Check weakness and STAB bonus
+    elements.forEach(element => {
+        // TODO: Check STAB bonus
         damage += element.power * getElementalMultiplier(element.type, targetElements)
     })
     console.log('Elemental Damage:', damage)

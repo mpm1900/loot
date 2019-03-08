@@ -1,8 +1,18 @@
 import { List } from 'immutable'
 import { Guage, sGuage } from '../guage'
 import { Modifier, sModifier } from '../modifier'
-import { ElementType, Element, sElement, ElementTypes } from '../element'
+import { ElementType, Element, sElement } from '../element'
 import { AppRecord } from '..'
+
+export enum SkillPriority {
+    Plus3 = 100000,
+    Plus2 = 10000,
+    Plus1 = 1000,
+    Default = 0,
+    Minus1 = -1000,
+    Minus2 = -10000,
+    Minus3 = -100000,
+}
 
 export type sSkill = {
     __uuid: string,
@@ -14,6 +24,7 @@ export type sSkill = {
     status: sElement[],
     elements: sElement[],
     elementTypes: ElementType[],
+    priority: SkillPriority,
 }
 export type iSkill = {
     __uuid?: string,
@@ -26,6 +37,7 @@ export type iSkill = {
     status?: List<Element>,
     elements?: List<Element>,
     elementTypes?: List<ElementType>,
+    priority?: SkillPriority,
 }
 const defaultSkill: iSkill = {
     name: '',
@@ -36,7 +48,8 @@ const defaultSkill: iSkill = {
     targetModifiers: List<Modifier>(),
     status: List<Element>(),
     elements: List<Element>(),
-    elementTypes: List<ElementType>()
+    elementTypes: List<ElementType>(),
+    priority: SkillPriority.Default,
 }
 export class Skill extends AppRecord implements iSkill {
     public readonly name: string
@@ -47,6 +60,7 @@ export class Skill extends AppRecord implements iSkill {
     public readonly status: List<Element>
     public readonly elements: List<Element>
     public readonly elementTypes: List<ElementType>
+    public readonly priority: SkillPriority
 
     public get text(): string {
         let returnText = ''
@@ -80,6 +94,7 @@ export class Skill extends AppRecord implements iSkill {
             status: this.status.map(element => element.serialize()).toArray(),
             elements: this.elements.map(element => element.serialize()).toArray(),
             elementTypes: this.elementTypes.toArray(),
+            priority: this.priority,
         }
     }
 
@@ -94,6 +109,7 @@ export class Skill extends AppRecord implements iSkill {
             status: List<Element>(sSkill.status.map(sElement => Element.deserialize(sElement))),
             elements: List<Element>(sSkill.elements.map(sElement => Element.deserialize(sElement))),
             elementTypes: List<ElementType>(sSkill.elementTypes),
+            priority: sSkill.priority,
         })
     }
 }

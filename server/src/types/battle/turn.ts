@@ -1,13 +1,12 @@
 import { List, Map } from 'immutable'
 import { Party } from '../party'
 import { AppRecord } from '..'
-import { Skill } from '../skill'
+import { Skill, SkillPriority } from '../skill'
 import { Character } from '../character'
-import { Item } from '../item'
 import { RandFloat } from '../random'
-import { calculateArmorDamage, getPower, getElementalDamage } from './utils'
-import { TriggerType } from '../trigger'
-import { ArmorDamage, Damage } from '../../objects/modifiers/health.mod';
+import { getPower } from './utils'
+import { TriggerType, Trigger } from '../trigger'
+import { ArmorDamage, Damage, ElementalDamage } from '../../objects/modifiers/health.mod';
 
 enum BattleTurnPhase {
     Running,
@@ -21,7 +20,8 @@ enum BattleStaticSkillType {
 
 type BattleStaticSkill = {
     type: BattleStaticSkillType,
-    value: any
+    value: any,
+    priority?: SkillPriority,
 }
 
 export type sBattleTurn = {
@@ -86,6 +86,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             return this.with({
                 skillIds: this.skillIds.set(userId, {
                     type: BattleStaticSkillType.WeaponAttack,
+                    priority: SkillPriority.Default,
                     value: null,
                 })
             })
@@ -94,6 +95,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             return this.with({
                 skillIds: this.skillIds.set(userId, {
                     type: BattleStaticSkillType.SwapCharacters,
+                    priority: SkillPriority.Plus3,
                     value: characterId,
                 })
             })
@@ -127,7 +129,7 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
             if (source.health <= 0 || target.health <= 0) return
 
             if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.WeaponAttack) {
-                parties = this.executeWeaponAttack(parties, source, target, userId, otherUserId)
+                parties = this.executeWeaponAttack(parties, userId, otherUserId)
             }
             if (this.skillIds.get(userId) && (this.skillIds.get(userId) as BattleStaticSkill).type === BattleStaticSkillType.SwapCharacters) {
                 parties = parties.set(userId, parties.get(userId).with({
@@ -137,51 +139,50 @@ export class BattleTurn extends AppRecord implements iBattleTurn {
         })
         return parties
     }
-    public executeWeaponAttack(parties: Map<string, Party>, source: Character, target: Character, userId: string, otherUserId: string): Map<string, Party> {
-        const power = source.weapon ? getPower(source.weapon) : 0
-        const elementalDamage = getElementalDamage(source.weapon, target.elementTypes) * ((power === 0) ? 0 : 1)
-        const newTarget = parties.get(otherUserId).activeCharacter
-            .applyModifier(ArmorDamage(power))
-            .applyModifier(Damage(elementalDamage))
+    public executeWeaponAttack(parties: Map<string, Party>, userId: string, otherUserId: string): Map<string, Party> {
+        const source = parties.get(userId).activeCharacter
+        const target = parties.get(otherUserId).activeCharacter
+        const weapon = source.weapon
+        const power = weapon ? getPower(weapon) : 0
+        if (power > 0) {
+            const newTarget = target
+                .applyModifier(ArmorDamage(power))
+                .applyModifier(ElementalDamage(weapon.elements, target.elementTypes))
 
-        parties = parties.set(
-            otherUserId,
-            parties.get(otherUserId).updateCharacter(target.__uuid, newTarget)
-        )
+            parties = parties.set(otherUserId, parties.get(otherUserId).updateCharacter(newTarget.__uuid, newTarget))
 
-        // check on hit triggers
-        if (source.weapon && source.weapon.triggers) {
-            source.weapon.triggers
+            weapon.triggers
                 .filter(trigger => trigger.type === TriggerType.OnHit)
                 .forEach(trigger => {
-                    // TODO: roll for chance
-                    const roll = RandFloat(0, 1)
-                    if (roll <= trigger.chance) {
-                        // run the mutation
-                        trigger.modifiers.forEach(mod => {
-                            parties = parties
-                                .set(otherUserId, parties.get(otherUserId)
-                                    .updateCharacter(
-                                        target.__uuid,
-                                        parties.get(otherUserId).characters.find(c => c.__uuid === target.__uuid).applyModifier(mod)
-                                    )
-                                )
-                        })
-
-                        trigger.targetModifiers.forEach(mod => {
-                            parties = parties
-                                .set(userId, parties.get(userId)
-                                    .updateCharacter(
-                                        source.__uuid,
-                                        parties.get(userId).characters.find(c => c.__uuid === source.__uuid).applyModifier(mod)
-                                    )
-                                )
-                        })
-                    }
+                    parties = this.executeTrigger(parties, trigger, userId, otherUserId)
                 })
         }
 
-        console.log('wa ret', parties.map((p: any) => p.activeCharacter.health).toJS())
+        return parties
+    }
+
+    public executeTrigger(parties: Map<string, Party>, trigger: Trigger, userId: string, otherUserId: string): Map<string, Party> {
+        const roll = RandFloat(0, 1)
+        const source = parties.get(userId).activeCharacter
+        const target = parties.get(otherUserId).activeCharacter
+        if (roll <= trigger.chance) {
+            trigger.modifiers.forEach(mod => {
+                parties = parties.set(otherUserId, parties.get(otherUserId)
+                    .updateCharacter(
+                        target.__uuid,
+                        parties.get(otherUserId).characters.find(c => c.__uuid === target.__uuid).applyModifier(mod)
+                    )
+                )
+            })
+            trigger.targetModifiers.forEach(mod => {
+                parties = parties.set(userId, parties.get(userId)
+                    .updateCharacter(
+                        source.__uuid,
+                        parties.get(userId).characters.find(c => c.__uuid === source.__uuid).applyModifier(mod)
+                    )
+                )
+            })
+        }
         return parties
     }
     public updateCooldowns(parties: List<Party>): List<Party> {

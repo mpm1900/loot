@@ -1,4 +1,4 @@
-import { List } from 'immutable'
+import { List, Map, fromJS } from 'immutable'
 import { SocketSession, sSocketSession } from '../state/reducers/sessions.state'
 import { Character } from '../../../types/character'
 import { Item } from '../../../types/item'
@@ -82,6 +82,7 @@ export const populateRoom = async (room: SocketRoom, sessions: List<SocketSessio
         messages: room.messages,
         settings: room.settings,
         battle: room.battle,
+        userRequests: room.userRequests,
     }
 }
 
@@ -98,6 +99,7 @@ export const serializeRoom = (room: PopulatedSocketRoom): any => {
         messages: room.messages.toArray(),
         settings: room.settings,
         battle: room.battle ? room.battle.serialize() : null,
+        userRequests: room.userRequests.toJS(),
     }
 }
 
@@ -114,5 +116,6 @@ export const deserializeRoom = async (room: any): Promise<SocketRoom> => {
         messages: List(room.messages),
         settings: room.settings,
         battle: BattleState.deserialize(room.battle),
+        userRequests: Map<string, List<any>>(fromJS(room.userRequests)),
     }
 }

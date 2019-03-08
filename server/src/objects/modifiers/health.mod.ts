@@ -1,7 +1,8 @@
 import { Modifier, ModifierType } from '../../types/modifier'
 import { Character } from '../../types/character'
-import { HealthMod, iCharacterModifier, HealMod, DamageMod, ArmorDamageMod } from '../../types/character/character.modifier'
+import { HealthMod, iCharacterModifier, HealMod, DamageMod, ArmorDamageMod, ElementalDamageMod } from '../../types/character/character.modifier'
 import { List } from 'immutable'
+import { Element, ElementType } from '../../types/element';
 
 export const HealthUp = (amount: number) => {
     return new Modifier({
@@ -43,4 +44,12 @@ export const ArmorDamage = (amount: number) => new Modifier({
     buff: amount > 0,
     type: ModifierType.Mutation,
     mods: List.of<iCharacterModifier>(ArmorDamageMod(amount))
+})
+
+export const ElementalDamage = (elements: List<Element>, targetElements: List<ElementType>) => new Modifier({
+    name: 'Elemental Damage',
+    description: 'not available',
+    buff: true,
+    type: ModifierType.Mutation,
+    mods: List.of<iCharacterModifier>(ElementalDamageMod(elements, targetElements))
 })

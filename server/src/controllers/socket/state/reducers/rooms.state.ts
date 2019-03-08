@@ -1,4 +1,4 @@
-import { List } from 'immutable'
+import { List, Map } from 'immutable'
 import * as Actions from '../actions/rooms.actions'
 import * as Core from '../core/rooms.core'
 import { SocketReduxAction } from '../actions'
@@ -15,6 +15,12 @@ export interface SocketRoomSettings {
     visibility: SocketRoomPublicVisibility
 }
 
+export interface SocketUserRequest {
+    type: string,
+    userId: string,
+    payload: any,
+}
+
 export interface SocketRoom {
     id: string
     creatorId: string,
@@ -26,6 +32,7 @@ export interface SocketRoom {
     messages: List<any>,
     settings: SocketRoomSettings,
     battle: BattleState,
+    userRequests: Map<string, List<SocketUserRequest>>,
 }
 export interface PopulatedSocketRoom {
     id: string,
@@ -38,6 +45,7 @@ export interface PopulatedSocketRoom {
     messages: List<any>,
     settings: SocketRoomSettings,
     battle: BattleState,
+    userRequests: Map<string, List<SocketUserRequest>>,
 }
 
 export type SocketRoomsState = List<SocketRoom>

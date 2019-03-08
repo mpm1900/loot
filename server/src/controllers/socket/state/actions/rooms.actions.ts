@@ -9,6 +9,7 @@ export const LEAVE_ALL_ROOMS = PREFIX + '_LEAVE_ALL_ROOMS'
 export const REMOVE_SESSION_FROM_ROOMS = PREFIX + '_REMOVE_SESSION_FROM_ROOMS'
 export const REMOVE_EMPTY_ROOMS = PREFIX + '_REMOVE_EMPTY_ROOMS'
 export const SEND_MESSAGE = PREFIX + '_SEND_MESSAGE'
+export const ADD_USER_REQUEST = PREFIX + '_ADD_USER_REQUEST'
 export const READY_USER = PREFIX + '_READY_USER'
 export const CANCEL_READY = PREFIX + '_CANCEL_READY'
 export const BATTLE_INIT_STATE = PREFIX + '_BATTLE_INIT_STATE'
@@ -64,6 +65,16 @@ export const sendMessage = (message: string, userId: string, roomId: string) => 
         message,
         userId,
         roomId,
+    }
+})
+
+export const addUserRequest = (type: string, userId: string, roomId: string, payload: any) => ({
+    type: ADD_USER_REQUEST,
+    payload: {
+        type,
+        userId,
+        roomId,
+        payload,
     }
 })
 

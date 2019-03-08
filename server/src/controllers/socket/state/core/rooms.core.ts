@@ -1,5 +1,5 @@
 import { List, Map } from 'immutable'
-import { SocketRoomsState, SocketRoom, SocketRoomPublicVisibility } from '../reducers/rooms.state'
+import { SocketRoomsState, SocketRoom, SocketRoomPublicVisibility, SocketUserRequest } from '../reducers/rooms.state'
 import { SocketReduxAction } from '../actions'
 import shortid from 'shortid'
 import { BattleState } from '../../../../types/battle'
@@ -20,6 +20,7 @@ export const createRoom = (state: SocketRoomsState, action: SocketReduxAction): 
             visibility: SocketRoomPublicVisibility.Open,
         },
         battle: null,
+        userRequests: Map<string, List<SocketUserRequest>>(),
     })
 }
 

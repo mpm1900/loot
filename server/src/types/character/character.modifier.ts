@@ -1,4 +1,7 @@
 import { Character } from '.'
+import { List } from 'immutable';
+import { Element, ElementType } from '../element';
+import { getElementalDamage } from '../battle/utils';
 
 export enum CharacterModifierOperation {
     ADD = 'ADD',
@@ -8,6 +11,8 @@ export enum CharacterModifierOperation {
 export type iCharacterModifierPayload = {
     amount?: number,
     operation?: CharacterModifierOperation,
+    elements?: List<Element>,
+    targetElements?: List<ElementType>,
 }
 export type iCharacterModifier = {
     type: string,
@@ -19,6 +24,7 @@ export const CharacterModifier = (character: Character, modifier: iCharacterModi
         case healModType: return HEAL_MOD(character, modifier)
         case damageModType: return DAMAGE_MOD(character, modifier)
         case armorDamageModType: return ARMOR_DAMAGE_MOD(character, modifier)
+        case elementalDamageModType: return ELEMENTAL_DAMAGE_MOD(character, modifier)
         case armorModType: return ARMOR_MOD(character, modifier)
         case strengthModType: return STRENGTH_MOD(character, modifier)
         case specialModType: return SPECIAL_MOD(character, modifier)
@@ -70,13 +76,27 @@ export const ArmorDamageMod = (amount: number, operation: CharacterModifierOpera
     payload: { amount, operation }
 })
 const ARMOR_DAMAGE_MOD = (character: Character, modifier: iCharacterModifier): Character => {
-    const newArmorValue = applyOperation(character.armor, (modifier.payload.amount * -1), modifier.payload.operation)
-    const overflow = newArmorValue < 0 ? newArmorValue : 0
+    const armor = character.withStaticModifiers().getArmor()
+    const damage = modifier.payload.amount
+    const armorDamage = armor > damage ? damage : armor
+    const overflow = damage - armorDamage
     return  character
         .with({
-            armor: newArmorValue > 0 ? newArmorValue : 0,
-            health: applyOperation(character.health, overflow, CharacterModifierOperation.ADD),
+            armor: applyOperation(character.armor, (armorDamage * -1), CharacterModifierOperation.ADD),
+            health: applyOperation(character.health, (overflow * -1), CharacterModifierOperation.ADD),
         })
+}
+
+const elementalDamageModType = 'ELEMENTAL_DAMAGE_MOD'
+export const ElementalDamageMod = (elements: List<Element>, targetElements: List<ElementType>) => ({
+    type: elementalDamageModType,
+    payload: { elements, targetElements }
+})
+const ELEMENTAL_DAMAGE_MOD = (character: Character, modifier: iCharacterModifier): Character => {
+    const elements = modifier.payload.elements
+    const targetElements = modifier.payload.targetElements
+    const damage = getElementalDamage(elements, targetElements)
+    return DAMAGE_MOD(character, DamageMod(damage))
 }
 
 const armorModType = 'ARMOR_MOD'

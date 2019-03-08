@@ -3,7 +3,7 @@ import { Store } from 'redux'
 import { SocketRoom, SocketRoomPublicVisibility } from '../state/reducers/rooms.state'
 import * as Utils from '../util'
 import { SocketErrors } from '../types'
-import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady, battleInitializeState, battleSetSkill, battleExecuteMain, battleExecuteUpkeep } from '../state/actions/rooms.actions'
+import { createRoom, joinRoom, removeSessionFromRooms, leaveRooms, removeEmptyRooms, sendMessage, readyUser, cancelReady, battleInitializeState, battleSetSkill, battleExecuteMain, battleExecuteUpkeep, addUserRequest } from '../state/actions/rooms.actions'
 import { partyUpdateActiveCharacterId } from '../state/actions/sessions.actions'
 import { blastSession } from './session'
 
@@ -21,12 +21,14 @@ export const Events = {
     BATTLE_SET_SKILL: 'room__request-battle-set-skill',
 }
 
-export const blastRoom = async (roomId: string, socket: Socket, store: Store) => {
+export const blastRoom = async (roomId: string, socket: Socket, store: Store, userId: string = null) => {
     const room = store.getState().rooms.filter((r: SocketRoom) => r.id === roomId).first()
     if (room) {
         const state = Utils.serializeRoom(await Utils.populateRoom(room, store.getState().sessions))
-        socket.emit(Events.SET_STATE, { state })
-        socket.to(room.id).emit(Events.SET_STATE, { state })
+        if (!userId) {
+            socket.to(room.id).emit(Events.SET_STATE, { state })
+            socket.emit(Events.SET_STATE, { state })
+        }
     }
 }
 
@@ -48,10 +50,10 @@ export const handleLeaveRooms = async (socket: Socket, store: Store, userId: str
     store.dispatch(removeSessionFromRooms(Utils.findSessionIdByUser(store.getState().sessions, userId)))
     const sessions = store.getState().sessions
     rooms = rooms.map(room => Utils.findRoomById(store.getState().rooms, room.id))
-    rooms.forEach(async r => {
-        if (!r) return
-        socket.to(r.id).emit(Events.SET_STATE, {
-            state: Utils.serializeRoom(await Utils.populateRoom(r, sessions))
+    rooms.forEach(async room => {
+        if (!room) return
+        socket.to(room.id).emit(Events.SET_STATE, {
+            state: Utils.serializeRoom(await Utils.populateRoom(room, sessions))
         })
     })
 }
@@ -143,13 +145,18 @@ export const registerRoomSocketEvents = async (socket: Socket, store: Store) => 
                 room = store.getState().rooms.find((r: SocketRoom) => r.id === roomId)
                 const usersToRequestNewHero = room.battle.turn.checkActiveCharacters(room.battle.parties)
                 if (usersToRequestNewHero.size > 0) {
-                    // send a new blast
+                    // send a new emit to each user asking for a new active character to sub in
+                    usersToRequestNewHero.forEach(async userId => {
+                        // TODO: set some request data onto the room somewhere
+                        store.dispatch(addUserRequest('NEW_ACTIVE_CHARACTER', userId, roomId, {}))
+                        await blastRoom(roomId, socket, store, userId)
+                    })
                 }
                 else {
                     store.dispatch(battleExecuteUpkeep(roomId))
+                    await blastRoom(roomId, socket, store)
                 }
             }
-            await blastRoom(roomId, socket, store)
         }
     })
 }
